@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MusicStore.WebApp.Data.Migrations
+namespace MusicStore.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
