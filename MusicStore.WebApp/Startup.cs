@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MusicStore.Data;
+using MusicStore.Data.Interfaces;
+using MusicStore.Data.Repositories;
+using MusicStore.WebApp.Areas;
 
 namespace MusicStore.WebApp
 {
@@ -22,44 +25,7 @@ namespace MusicStore.WebApp
         {
             Configuration = configuration;
         }
-        private async Task CreateRoles(IServiceProvider serviceProvider)
-        {
-            //initializing custom roles 
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin", "Member" };
-            IdentityResult roleResult;
-
-            foreach (var roleName in roleNames)
-            {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
-                {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
-                }
-            }
-
-            //Here you could create a super user who will maintain the web app
-            var poweruser = new ApplicationUser
-            {
-
-                UserName = "admin@mail.ru",
-                Email = "admin@mail.ru"
-            };
-            string userPWD = "Admin1*";
-            var _user = await UserManager.FindByEmailAsync("admin@mail.ru");
-
-            if(_user == null)
-            {
-                var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
-                if (createPowerUser.Succeeded)
-                {
-                    
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
-
-                }
-            }
-        }
+       
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -74,8 +40,8 @@ namespace MusicStore.WebApp
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-           
-    
+            services.AddTransient<IItems, ItemsRepository>();
+
         }
 
       
@@ -108,7 +74,7 @@ namespace MusicStore.WebApp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            CreateRoles(serviceProvider).Wait();
+            RoleInitializer.CreateRoles(serviceProvider).Wait();
         }
     }
 }

@@ -28,4 +28,8 @@
       <ProjectReference Include="..\MusicStore.Data\MusicStore.Data.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Items\AddItem.cshtml" />
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,25 @@
+﻿@model MusicStore.Data.Models.Item
+@{ 
+    ViewData["Title"] = "AddUsers";
+}
+<form action="/item/AddItem" method="post">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input type="text" class="form-control" placeholder="Enter name" asp-for="Name">
+        <span asp-validation-for="Name"></span>
+
+    </div>
+    <div class="form-group">
+        <label for="examplePrice">Price</label>
+        <input type="Text" class="form-control" placeholder="Enter price" asp-for="Price">
+        <span asp-validation-for="Price"></span>
+    </div>
+    <div class="form-group">
+        <label for="exampleDescription">Description</label>
+        <textarea asp-for="Description" placeholder="Enter description"> </textarea>
+        <span asp-validation-for="Description"></span>
+
+    </div>
+   
+    <button type="submit"  class="btn btn-primary" >Submit</button>
+</form>

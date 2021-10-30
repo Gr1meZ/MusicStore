@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Data;
+using MusicStore.Data.Models;
 
 namespace MusicStore.Data
 {
@@ -9,9 +10,9 @@ namespace MusicStore.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            
         }
-        
+        public DbSet<Item> Items { get; set; }
         
     }
 }

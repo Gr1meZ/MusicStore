@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "DisplayItems";
+}
+
+@using MusicStore.WebApp.Models
+@model PaginatedList<MusicStore.Data.Models.Item>
+
+<form action="/Item/Items">
+    <h2>List of items</h2>
+
+    <table class="table">
+
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col"> Description</th>
+            <th scope="col">Edit</th>
+            <th scope="col"> Delete</th>
+   
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Price</td>
+                <td>@item.Description</td>
+            
+                <td>@Html.ActionLink("Edit", "EditItem", "Item", new { itemId = item.Id }, new { })</td>
+                <td>@Html.ActionLink("Delete", "DeleteItem", "Item", new { itemId = item.Id }, new { })</td>
+            </tr>
+        }
+
+
+    </table>
+    @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <a asp-action="Items"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">Previous
+    </a>
+     <a asp-action="Items"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">Next
+            </a>
+  
+</form>
