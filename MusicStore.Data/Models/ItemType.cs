@@ -6,7 +6,6 @@ namespace MusicStore.Data.Models
     {
         [Key]
         public int Id { get; set; }
-        [DataType(DataType.Text)]
         [Required]
         public string Type { get; set; }
     }

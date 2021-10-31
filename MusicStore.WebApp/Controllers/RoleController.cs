@@ -20,7 +20,27 @@ namespace MusicStore.WebApp.Controllers
         }
         public IActionResult Index() => View(_roleManager.Roles.ToList());
  
-       
+        public IActionResult Create() => View();
+        [HttpPost]
+        public async Task<IActionResult> Create(string name)
+        {
+            if (!string.IsNullOrEmpty(name))
+            {
+                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
+            return View(name);
+        }
          
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
@@ -37,11 +57,11 @@ namespace MusicStore.WebApp.Controllers
  
         public async Task<IActionResult> Edit(string userId)
         {
-            // получаем пользователя
+         
             ApplicationUser user = await _userManager.FindByIdAsync(userId);
             if(user!=null)
             {
-                // получем список ролей пользователя
+              
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
                 ChangeRoleViewModel model = new ChangeRoleViewModel
@@ -59,17 +79,17 @@ namespace MusicStore.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
-            // получаем пользователя
+          
             ApplicationUser user = await _userManager.FindByIdAsync(userId);
             if(user!=null)
             {
-                // получем список ролей пользователя
+            
                 var userRoles = await _userManager.GetRolesAsync(user);
-                // получаем все роли
+              
                 var allRoles = _roleManager.Roles.ToList();
-                // получаем список ролей, которые были добавлены
+              
                 var addedRoles = roles.Except(userRoles);
-                // получаем роли, которые были удалены
+              
                 var removedRoles = userRoles.Except(roles);
  
                 await _userManager.AddToRolesAsync(user, addedRoles);

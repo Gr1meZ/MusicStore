@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace MusicStore.Data.Models
 {
@@ -20,6 +21,10 @@ namespace MusicStore.Data.Models
         public string Description { get; set; }
         public int TypeId { get; set; }
         public ItemType type { get; set; }
+        
+        public string ImageName { get; set; }
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
 
     }
 }

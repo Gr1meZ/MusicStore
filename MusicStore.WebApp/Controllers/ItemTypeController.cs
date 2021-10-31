@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
+using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Models;
 
 
@@ -37,14 +39,16 @@ namespace MusicStore.WebApp.Controllers
         }
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddType(ItemType type)
+       
+        public async Task<IActionResult> AddType(ItemType typeDTO)
         {
             if (ModelState.IsValid)
             {
-                await _type.Create(type);
+                await _type.Create(typeDTO);
+                return Redirect("/ItemType/Types");
                 
             }
-            return View("AddType");
+            return View();
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]

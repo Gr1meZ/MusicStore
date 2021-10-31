@@ -15,6 +15,7 @@ namespace MusicStore.Data.Repositories
         public ItemsRepository(ApplicationDbContext context)
         {
             _context = context;
+          
         }
 
         public async Task<Item> Get(int id)
@@ -35,6 +36,7 @@ namespace MusicStore.Data.Repositories
             item.Price = itemDTO.Price;
             item.Description = itemDTO.Description;
             item.type = itemDTO.type;
+            item.ImageName = itemDTO.ImageName;
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
         }

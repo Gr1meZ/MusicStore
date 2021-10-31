@@ -1,12 +1,11 @@
 ﻿@model MusicStore.Data.Models.ItemType
+ 
 
-<form method="post">
+ 
+<form asp-action="AddType" method="post">
     <div class="form-group">
-        <label for="exampleInputEmail1">Name</label>
-        <input type="text" class="form-control" placeholder="Enter name" asp-for="Type">
-        <span asp-validation-for="Type"></span>
-
+        <label for="Type">New Type</label>
+        <input name="Type" class="form-control" asp-for="Type"/>
     </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary">Add</button>
 </form>

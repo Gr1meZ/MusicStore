@@ -11,6 +11,8 @@
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0" />
+      <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="8.1.0" />
+      <PackageReference Include="X.PagedList.Mvc.Core" Version="8.1.0" />
     </ItemGroup>
 
 </Project>

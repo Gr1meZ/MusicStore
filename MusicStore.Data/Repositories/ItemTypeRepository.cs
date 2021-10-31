@@ -25,7 +25,6 @@ namespace MusicStore.Data.Repositories
         {
             await  _context.ItemTypes.AddAsync(typeDTO);
              await _context.SaveChangesAsync();
-            
         }
 
         public async Task Update(ItemType typeDTO)

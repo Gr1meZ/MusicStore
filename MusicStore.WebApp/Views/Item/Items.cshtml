@@ -1,9 +1,11 @@
-﻿@{
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Bootstrap4.Core
+@model X.PagedList.IPagedList<MusicStore.Data.Models.Item>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
     ViewBag.Title = "DisplayItems";
 }
 
-@using MusicStore.WebApp.Models
-@model PaginatedList<MusicStore.Data.Models.Item>
 <form action="/Item/Items">
       <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                     <div class="container">
@@ -25,14 +27,21 @@
    
     <h2>List of items</h2>
 
+    @using (Html.BeginForm("Items", "Item", FormMethod.Get))
+    {
+        <p>
+            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
     <table class="table">
 
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col"> Description</th>
-              <th scope="col"> Type</th>
+            <th scope="col">@Html.ActionLink("ID", "Items", new { sortOrder = ViewBag.IdParam, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">  @Html.ActionLink("Name", "Items", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">@Html.ActionLink("Price", "Items", new { sortOrder = ViewBag.PriceSortParam, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col"> @Html.ActionLink("Description", "Items", new { sortOrder = ViewBag.DescriptionParam,currentFilter=ViewBag.CurrentFilter })</th>
+              <th scope="col"> @Html.ActionLink("Type", "Items", new { sortOrder = ViewBag.TypeParam, currentFilter=ViewBag.CurrentFilter })</th>
             <th scope="col">Edit</th>
             <th scope="col"> Delete</th>
 
@@ -52,17 +61,10 @@
 
 
     </table>
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
-    <a asp-action="Items"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
-       class="btn btn-default @prevDisabled">Previous
-    </a>
-    <a asp-action="Items"
-       asp-route-pageNumber="@(Model.PageIndex + 1)"
-       class="btn btn-default @nextDisabled">Next
-    </a>
+    <br />
+   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    
+   @Html.PagedListPager(Model, page => Url.Action("Items", 
+       new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
 
 </form>

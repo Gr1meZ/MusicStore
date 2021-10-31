@@ -15,6 +15,7 @@ using MusicStore.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Repositories;
 using MusicStore.WebApp.Areas;
+using MusicStore.WebApp.Helpers;
 
 namespace MusicStore.WebApp
 {
@@ -42,6 +43,10 @@ namespace MusicStore.WebApp
             services.AddControllersWithViews();
             services.AddTransient<IItems, ItemsRepository>();
             services.AddTransient<IItemType, ItemTypeRepository>();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(CheckRequiredModelAttribute));
+            });
         }
 
       

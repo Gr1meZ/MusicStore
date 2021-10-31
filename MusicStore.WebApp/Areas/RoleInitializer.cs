@@ -10,10 +10,10 @@ namespace MusicStore.WebApp.Areas
     {
         public static async Task CreateRoles(IServiceProvider serviceProvider)
         {
-            //initializing custom roles 
+           
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            string[] roleNames = { "Admin", "Member" };
+            string[] roleNames = { "Admin"};
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
