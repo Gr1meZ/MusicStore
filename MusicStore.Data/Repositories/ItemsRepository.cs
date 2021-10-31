@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +22,10 @@ namespace MusicStore.Data.Repositories
             return await _context.Items.FindAsync(id);
         }
 
-        public async Task<Item> Create(Item item)
+        public async Task Create(Item item)
         {
             await  _context.Items.AddAsync(item);
-            item.Id = await _context.SaveChangesAsync();
-            return item;
+            await _context.SaveChangesAsync();
         }
 
         public async Task Update(Item itemDTO)
@@ -34,6 +34,7 @@ namespace MusicStore.Data.Repositories
             item.Name = itemDTO.Name;
             item.Price = itemDTO.Price;
             item.Description = itemDTO.Description;
+            item.type = itemDTO.type;
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
         }
@@ -52,6 +53,16 @@ namespace MusicStore.Data.Repositories
         public  IQueryable<Item> GetAll()
         {
             return  _context.Items;
+        }
+
+        public IQueryable<ItemType> GetTypes()
+        {
+            return _context.ItemTypes;
+        }
+
+        public IQueryable<Item> GetBind()
+        {
+            return _context.Items.Include(t => t.type);
         }
     }
 }

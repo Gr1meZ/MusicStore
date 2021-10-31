@@ -41,7 +41,7 @@ namespace MusicStore.WebApp
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddTransient<IItems, ItemsRepository>();
-
+            services.AddTransient<IItemType, ItemTypeRepository>();
         }
 
       

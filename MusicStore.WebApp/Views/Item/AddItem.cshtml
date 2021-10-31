@@ -1,8 +1,8 @@
 ﻿@model MusicStore.Data.Models.Item
 @{ 
-    ViewData["Title"] = "AddUsers";
+    ViewData["Title"] = "AddItem";
 }
-<form action="/item/AddItem" method="post">
+<form   method="post">
     <div class="form-group">
         <label for="exampleInputEmail1">Name</label>
         <input type="text" class="form-control" placeholder="Enter name" asp-for="Name">
@@ -14,12 +14,19 @@
         <input type="Text" class="form-control" placeholder="Enter price" asp-for="Price">
         <span asp-validation-for="Price"></span>
     </div>
-    <div class="form-group">
-        <label for="exampleDescription">Description</label>
-        <textarea asp-for="Description" placeholder="Enter description"> </textarea>
-        <span asp-validation-for="Description"></span>
-
-    </div>
+     <div class="form-group">
+            <label for="examplePrice">Price</label>
+          @Html.DropDownListFor(model => model.TypeId, ViewBag.Types as SelectList, "Select", new { @class = "form-control" } )  
+            <span asp-validation-for="TypeId"></span>
+        </div>
+  <div class="form-group">
+       <div class="form-group">
+          <label for="exampleFormControlTextarea1">Description</label>
+           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="Description"></textarea>
+           <span asp-validation-for="Description"></span>
+        </div>
+  
+  </div>
    
     <button type="submit"  class="btn btn-primary" >Submit</button>
 </form>

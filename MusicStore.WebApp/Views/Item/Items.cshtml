@@ -1,12 +1,28 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "DisplayItems";
 }
 
 @using MusicStore.WebApp.Models
 @model PaginatedList<MusicStore.Data.Models.Item>
-
 <form action="/Item/Items">
+      <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                    <div class="container">
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                   <a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="AddItem">Add Item</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ItemType" asp-action="Types">Types</a>
+                                </li>
+                                 <li class="nav-item">
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="ItemType" asp-action="AddType">Add type</a>
+                                     </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+   
     <h2>List of items</h2>
 
     <table class="table">
@@ -16,9 +32,10 @@
             <th scope="col">Name</th>
             <th scope="col">Price</th>
             <th scope="col"> Description</th>
+              <th scope="col"> Type</th>
             <th scope="col">Edit</th>
             <th scope="col"> Delete</th>
-   
+
         </tr>
         @foreach (var item in Model)
         {
@@ -27,9 +44,9 @@
                 <td>@item.Name</td>
                 <td>@item.Price</td>
                 <td>@item.Description</td>
-            
-                <td>@Html.ActionLink("Edit", "EditItem", "Item", new { itemId = item.Id }, new { })</td>
-                <td>@Html.ActionLink("Delete", "DeleteItem", "Item", new { itemId = item.Id }, new { })</td>
+                <td>@item.type.Type</td>
+                <td>@Html.ActionLink("Edit", "EditItem", "Item", new {itemId = item.Id}, new {})</td>
+                <td>@Html.ActionLink("Delete", "DeleteItem", "Item", new {itemId = item.Id}, new {})</td>
             </tr>
         }
 
@@ -43,9 +60,9 @@
        asp-route-pageNumber="@(Model.PageIndex - 1)"
        class="btn btn-default @prevDisabled">Previous
     </a>
-     <a asp-action="Items"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
-           class="btn btn-default @nextDisabled">Next
-            </a>
-  
+    <a asp-action="Items"
+       asp-route-pageNumber="@(Model.PageIndex + 1)"
+       class="btn btn-default @nextDisabled">Next
+    </a>
+
 </form>
