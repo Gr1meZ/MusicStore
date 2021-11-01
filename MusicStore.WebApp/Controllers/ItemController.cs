@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
+using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Models;
 using X.PagedList;
 
@@ -18,6 +19,7 @@ namespace MusicStore.WebApp.Controllers
     {
         private IItems _item;
         private readonly IWebHostEnvironment _webHostEnvironment;
+   
 
         public ItemController(IItems item, IWebHostEnvironment webHostEnvironment)
         {
@@ -99,6 +101,7 @@ namespace MusicStore.WebApp.Controllers
             ViewBag.Types = selectList;
             return View();
         }
+        
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddItem(Item item)
@@ -109,7 +112,7 @@ namespace MusicStore.WebApp.Controllers
                 string fileName = Path.GetFileNameWithoutExtension(item.ImageFile.FileName);
                 string extension = Path.GetExtension(item.ImageFile.FileName);
                 item.ImageName = fileName + extension;
-                string path = Path.Combine(wwwRoothPath + "/Image/", fileName);
+                string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await item.ImageFile.CopyToAsync(fileStream);
@@ -136,6 +139,15 @@ namespace MusicStore.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
+                string wwwRoothPath = _webHostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(itemDTO.ImageFile.FileName);
+                string extension = Path.GetExtension(itemDTO.ImageFile.FileName);
+                itemDTO.ImageName = fileName + extension;
+                string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await itemDTO.ImageFile.CopyToAsync(fileStream);
+                }
                 await _item.Update(itemDTO);
                 var list = _item.GetAll();
                 return Redirect("/Item/Items");
