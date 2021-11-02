@@ -1,0 +1,31 @@
+﻿@model PaginatedList<MusicStore.Data.Models.Order>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using (Html.BeginForm("GetOrders", "Order", FormMethod.Get, new {enctype = "multipart/form-data"}))
+{
+    <div class="card-deck">
+        @foreach (var item in Model)
+        {
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p class="card-text"></p>
+                    <p class="card-text"><small class="text-muted"></small></p>
+                </div>
+            </div>   
+        }
+        
+    </div>
+    
+}
+ @{
+        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    }
+    <a asp-action="GetOrders"
+       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       class="btn btn-default @prevDisabled">Previous
+    </a>
+     <a asp-action="GetOrders"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">Next
+            </a>

@@ -1,10 +1,13 @@
-﻿@model MusicStore.Data.Models.Item
+﻿@using Microsoft.EntityFrameworkCore
+@model MusicStore.Data.Models.Item
 @{ 
     ViewData["Title"] = "EditItem";
 }
 <h2>Edit Item</h2>
+
 @using (Html.BeginForm("EditItem", "Item", FormMethod.Post,  new { enctype = "multipart/form-data" }))
 {
+
     <form asp-action="EditItem" method="post">
 
         <div class="form-group">
@@ -29,8 +32,8 @@
         <div class="form-group">
             <div class="form-group">
                 <img src="@("~/image/" + @Model.ImageName)" asp-append-version="true" width="500" height="600"/>
-                <input asp-for="ImageFile" class="form-control" accept="image/*"> 
-                <span asp-validation-for="ImageFile"></span>
+                <input asp-for="ImageFile"  class="form-control" accept="image/*" required> 
+                <span asp-validation-for="ImageFile"></span> 
             </div>
              
         </div>

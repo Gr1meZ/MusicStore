@@ -1,0 +1,19 @@
+﻿@model MusicStore.Data.Models.Item
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            <dt>Название модели:</dt>
+            <dd>@Html.DisplayFor(model => model.Name)</dd>
+ 
+            <dt>Цена:</dt>
+            <dd>@Html.DisplayFor(model => model.Price)</dd>
+ 
+            <dt>Описание</dt>
+            <dd>@Html.DisplayFor(model => model.Description)</dd>
+        </dl>
+    </div>
+</div>

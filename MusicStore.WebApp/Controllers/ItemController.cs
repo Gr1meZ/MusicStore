@@ -104,20 +104,20 @@ namespace MusicStore.WebApp.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddItem(Item item)
+        public async Task<IActionResult> AddItem(Item itemDTO)
         {
             if (ModelState.IsValid)
             {
                 string wwwRoothPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(item.ImageFile.FileName);
-                string extension = Path.GetExtension(item.ImageFile.FileName);
-                item.ImageName = fileName + extension;
+                string fileName = Path.GetFileNameWithoutExtension(itemDTO.ImageFile.FileName);
+                string extension = Path.GetExtension(itemDTO.ImageFile.FileName);
+                itemDTO.ImageName = fileName + extension;
                 string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    await item.ImageFile.CopyToAsync(fileStream);
+                    await itemDTO.ImageFile.CopyToAsync(fileStream);
                 }
-                await _item.Create(item);
+                await _item.Create(itemDTO);
                 return Redirect("/Item/Items");
             }
             return View();
@@ -156,6 +156,7 @@ namespace MusicStore.WebApp.Controllers
             // return RedirectToAction("EditPerson", new { personid = obj.id });
             return View();
         }
+        
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteItem(int itemId, int pageNumber=1)

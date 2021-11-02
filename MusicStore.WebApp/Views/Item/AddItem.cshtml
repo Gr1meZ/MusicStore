@@ -18,11 +18,6 @@
             <span asp-validation-for="Price"></span>
         </div>
         <div class="form-group">
-            <label for="examplePrice">Price</label>
-            @Html.DropDownListFor(model => model.TypeId, ViewBag.Types as SelectList, "Select", new {@class = "form-control"})
-            <span asp-validation-for="TypeId"></span>
-        </div>
-        <div class="form-group">
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Description</label>
                 <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="Description"></textarea>
@@ -30,13 +25,17 @@
             </div>
         </div>
         <div class="form-group">
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Image</label>
-                <input id="input_img" asp-for="ImageFile"  class="form-control" accept="image/*"> 
-                <span asp-validation-for="ImageFile"></span>
-   
-            </div >
+            <label for="examplePrice">Type</label>
+            @Html.DropDownListFor(model => model.TypeId, ViewBag.Types as SelectList, new {@class = "form-control"})
+            <span asp-validation-for="TypeId"></span>
         </div>
+        <div class="form-group">
+                   <div class="form-group">
+                       <input asp-for="ImageFile"  class="form-control" accept="image/*" required> 
+                       <span asp-validation-for="ImageFile"></span> 
+                   </div>
+                    
+               </div>
         <button type = "submit"class="btn btn-primary" id="btnSave"> Submit </button>
     </form>
 }

@@ -1,0 +1,65 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Bootstrap4.Core
+@model PaginatedList<MusicStore.Data.Models.Cart>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using (Html.BeginForm("GetCart", "Cart", FormMethod.Get, new {enctype = "multipart/form-data"}))
+{
+    <div class="cart_section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <div class="cart_container">
+                        <div class="cart_title">Shopping Cart</div>
+                        <div class="cart_items">
+                            <ul class="cart_list">
+                                @{
+                                    decimal total = 0;
+                                }
+                                @foreach (var item in Model)
+                                {
+                                    {
+                                        total += item.item.Price;
+                                    }
+                                    <li class="cart_item clearfix">
+                                        <div class="cart_item_image"><img src="@("~/image/" + @item.item.ImageName)" asp-append-version="true" alt=""></div>
+                                        <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
+                                            <div class="cart_item_name cart_info_col">
+                                                <div class="cart_item_title">Name</div>
+                                                <div class="cart_item_text">@item.item.Name</div>
+                                            </div>
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_title">Price</div>
+                                                <div class="cart_item_text" id="total">@item.item.Price$</div>
+                                            </div>
+                                            <div class="cart_item_price cart_info_col">
+                                                <div class="cart_item_text"> 
+                                                    @Html.ActionLink("Delete", "RemoveCartItem", "Cart", new {cartId = item.Id}, new {})
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+
+                            </ul>
+                        </div>
+                        <div class="cart_buttons"> <button type="submit" class="button cart_button_clear" asp-action="">  Continue Shopping </button> 
+                            <button type="submit" class="button cart_button_checkout" asp-action="AddOrder">Submit</button> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         @{
+               var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+               var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+         }
+          <a asp-action="GetCart"
+                asp-route-pageNumber="@(Model.PageIndex - 1)"
+                class="btn btn-default @prevDisabled">Previous
+             </a>
+              <a asp-action="GetCart"
+                    asp-route-pageNumber="@(Model.PageIndex + 1)"
+                    class="btn btn-default @nextDisabled">Next
+                     </a>
+    </div>
+}
