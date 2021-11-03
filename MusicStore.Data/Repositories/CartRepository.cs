@@ -27,7 +27,6 @@ namespace MusicStore.Data.Repositories
 
         public  IQueryable<Cart> GetCart(string id)
         {
-           
             
             return _context.GetCartExtension(id);
         }
@@ -46,6 +45,14 @@ namespace MusicStore.Data.Repositories
                 _context.Cart.Remove(cart);
                 await _context.SaveChangesAsync();
             }
+        }
+
+
+        public async Task RemoveRange(string userIdDto)
+        {
+            var list = _context.Cart.Where(i => i.UserId == userIdDto).ToList();
+            _context.Cart.RemoveRange(list);
+            await _context.SaveChangesAsync();
         }
     }
 }

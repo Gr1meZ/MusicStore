@@ -1,0 +1,18 @@
+﻿@using MusicStore.Data.Models
+@model MusicStore.Data.Models.UsersOrders
+@{ 
+    ViewData["Title"] = "Status";
+}
+@using (Html.BeginForm("ChangeStatus", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    
+    <form method="post" asp-action="ChangeStatus">
+         <div class="form-group">
+                    <label for="examplePrice">Type</label>
+                      @Html.DropDownListFor(m => m.status, Model.status.ToSelectList(), new {@class = "form-control"})
+                   
+                </div>
+        <button type="submit"class="btn btn-primary" id="btnSave"> Submit </button>
+         @Html.HiddenFor(model => model.id)
+    </form>
+}

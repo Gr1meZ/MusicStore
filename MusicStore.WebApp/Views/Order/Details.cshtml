@@ -1,0 +1,25 @@
+﻿@model IEnumerable<MusicStore.Data.Models.Order>
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+            @{
+                decimal total = 0;
+            }
+            @foreach (var item in Model)
+            {
+                {
+                    total += item.Price.Price;
+                }
+                <dt>Model: @item.Item.Name</dt>
+                <dd>Price: @item.Item.Price</dd>
+            }
+              <dt>Total price: @total</dt>
+        </dl>
+    </div>
+</div>
+
+}

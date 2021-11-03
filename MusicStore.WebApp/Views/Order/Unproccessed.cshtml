@@ -1,0 +1,51 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Bootstrap4.Core
+@model X.PagedList.IPagedList<MusicStore.Data.Models.UsersOrders>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "GetUnproccessed";
+}
+
+<form >
+    
+    <h2>Unproccessed orders</h2>
+
+    @using (Html.BeginForm("GetUnproccessed", "Order", FormMethod.Get))
+    {
+        <p>
+            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+    <table class="table">
+
+        <tr>
+            <th scope="col">@Html.ActionLink("ID", "GetUnproccessed", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">  @Html.ActionLink("User", "GetUnproccessed", new { sortOrder = ViewBag.UserId, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">@Html.ActionLink("Order", "GetUnproccessed", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col"> @Html.ActionLink("Status", "GetUnproccessed", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
+              <th scope="col"> @Html.ActionLink("Date", "GetUnproccessed", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">Edit</th>
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.User.Email</td>
+                <td>@item.OrderId</td>
+                <td>@item.status</td>
+                <td>@item.Date</td>
+                <td>@Html.ActionLink("Status", "ChangeStatus", "Order", new {itemId = item.id}, new {})</td>
+            </tr>
+        }
+
+
+    </table>
+    <br />
+   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    
+   @Html.PagedListPager(Model, page => Url.Action("GetUnproccessed", 
+       new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+</form>

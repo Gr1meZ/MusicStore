@@ -25,7 +25,7 @@ namespace MusicStore.WebApp.Controllers
             _item = items;
             _order = order;
         }
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
          public async Task<ActionResult> Items(string sortOrder,string searchString,string currentFilter, int? page)
         {
@@ -123,25 +123,25 @@ namespace MusicStore.WebApp.Controllers
                  var usersCart = _cart.GetCart(userId);
                  Order Order;
                  var list = new List<Order>();
-                 var Date = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                  var Guid = System.Guid.NewGuid();
                  foreach (var item in usersCart)
                  {
                      Order = new Order();
                      Order.Id = item.Id;
                      Order.ItemId = item.ItemId;
-                     Order.Price = item.ItemId;
+                     Order.PriceId = item.ItemId;
                      Order.OrderId = Guid;
                      list.Add(Order);
                  }
 
-                 var count = list.Count;
+                 decimal total = 0;
                  await _order.SubmitOrder(list, userId);
-                 return Redirect("");
+                 await _cart.RemoveRange(userId);
+                 return Redirect("/Order/GetOrders");
              }
              return Redirect("/Item/Items");
          }
-         [Authorize]
+         [AllowAnonymous]
          [HttpGet]
          public IActionResult Details(int id)
          {

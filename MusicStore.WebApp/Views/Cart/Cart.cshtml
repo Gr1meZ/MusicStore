@@ -12,14 +12,9 @@
                         <div class="cart_title">Shopping Cart</div>
                         <div class="cart_items">
                             <ul class="cart_list">
-                                @{
-                                    decimal total = 0;
-                                }
+                                
                                 @foreach (var item in Model)
                                 {
-                                    {
-                                        total += item.item.Price;
-                                    }
                                     <li class="cart_item clearfix">
                                         <div class="cart_item_image"><img src="@("~/image/" + @item.item.ImageName)" asp-append-version="true" alt=""></div>
                                         <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
@@ -42,8 +37,8 @@
 
                             </ul>
                         </div>
-                        <div class="cart_buttons"> <button type="submit" class="button cart_button_clear" asp-action="">  Continue Shopping </button> 
-                            <button type="submit" class="button cart_button_checkout" asp-action="AddOrder">Submit</button> </div>
+                        <div class="cart_buttons"> <button type="submit" class="button cart_button_clear" asp-action="Items">  Continue Shopping </button> 
+                            <button type="submit" class="button cart_button_checkout"  asp-action="AddOrder" >Submit</button> </div>
                     </div>
                 </div>
             </div>

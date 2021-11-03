@@ -11,6 +11,7 @@ namespace MusicStore.Data.Interfaces
         IQueryable<Cart> GetCart(string id);
         Task<Cart> Submit(int id);
         Task Remove(int id);
+        Task RemoveRange(string userIdDto);
         
     }
 }

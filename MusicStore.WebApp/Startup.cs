@@ -45,6 +45,7 @@ namespace MusicStore.WebApp
             services.AddTransient<IItemType, ItemTypeRepository>();
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(CheckRequiredModelAttribute));
