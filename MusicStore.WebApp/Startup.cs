@@ -1,4 +1,5 @@
 using System;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -30,7 +31,7 @@ namespace MusicStore.WebApp
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
@@ -39,7 +40,22 @@ namespace MusicStore.WebApp
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
-         
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                { 
+                    options.ClientId = "938510314641-e898mt5jjciglv4825qidbns7toop53e.apps.googleusercontent.com";
+                    options.ClientSecret = "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";
+                })
+                .AddFacebook(options =>
+                {
+                    options.AppId = "873904849961648";
+                    options.ClientSecret = "75a4ba4ffac6df7bc120511264ad5ee3";
+                })
+                .AddYandex(options =>
+                {
+                    options.ClientId = "359e3e40f30d4a49a3dba035aaa1d437";
+                    options.ClientSecret = "7c8f2e57af7a4ea6b35bfc16910d8fd3";
+                });
         }
 
       
