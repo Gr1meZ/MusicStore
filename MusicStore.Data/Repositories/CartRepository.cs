@@ -31,10 +31,7 @@ namespace MusicStore.Data.Repositories
             return _context.GetCartExtension(id);
         }
 
-        public Task<Cart> Submit(int id)
-        {
-            throw new System.NotImplementedException();
-        }
+    
 
         public async Task Remove(int id)
         {

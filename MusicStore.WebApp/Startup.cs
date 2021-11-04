@@ -15,7 +15,6 @@ using MusicStore.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Repositories;
 using MusicStore.WebApp.Areas;
-using MusicStore.WebApp.Helpers;
 
 namespace MusicStore.WebApp
 {
@@ -41,15 +40,12 @@ namespace MusicStore.WebApp
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
-            services.AddTransient<IItems, ItemsRepository>();
-            services.AddTransient<IItemType, ItemTypeRepository>();
+            services.AddTransient<IItemsRepository, ItemsRepository>();
+            services.AddTransient<IItemTypeRepository, ItemTypeRepository>();
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(CheckRequiredModelAttribute));
-            });
+         
         }
 
       
@@ -82,7 +78,6 @@ namespace MusicStore.WebApp
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            RoleInitializer.CreateRoles(serviceProvider).Wait();
         }
     }
 }

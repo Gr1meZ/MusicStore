@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
-using MusicStore.WebApp.Helpers;
-using MusicStore.WebApp.Models;
 using X.PagedList;
 
 
@@ -17,18 +15,18 @@ namespace MusicStore.WebApp.Controllers
 {
     public class ItemController : Controller
     {
-        private IItems _item;
+        private readonly IItemsRepository _item;
         private readonly IWebHostEnvironment _webHostEnvironment;
    
 
-        public ItemController(IItems item, IWebHostEnvironment webHostEnvironment)
+        public ItemController(IItemsRepository item, IWebHostEnvironment webHostEnvironment)
         {
             _item = item;
             _webHostEnvironment = webHostEnvironment;
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult> Items(string sortOrder,string searchString,string currentFilter, int? page)
+        public ActionResult Items(string sortOrder,string searchString,string currentFilter, int? page)
         {
             var items =   _item.GetBind();
             ViewBag.CurrentSort = sortOrder;
@@ -87,7 +85,7 @@ namespace MusicStore.WebApp.Controllers
                     break;
             }
            
-            int pageSize = 8;
+            int pageSize = 4;
             int pageNumber = (page ?? 1);
             return View(items.ToPagedList(pageNumber, pageSize));
             
@@ -97,8 +95,8 @@ namespace MusicStore.WebApp.Controllers
         public  IActionResult AddItem()
         {
            var types =  _item.GetTypes().ToList();
-            SelectList selectList = new SelectList(types, "Id", "Type");
-            ViewBag.Types = selectList;
+           SelectList selectList = new SelectList(types, "Id", "Type");
+           ViewBag.Types = selectList;
             return View();
         }
         
@@ -106,6 +104,9 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddItem(Item itemDTO)
         {
+            var types =  _item.GetTypes().ToList();
+            SelectList selectList = new SelectList(types, "Id", "Type");
+            ViewBag.Types = selectList;
             if (ModelState.IsValid)
             {
                 string wwwRoothPath = _webHostEnvironment.WebRootPath;
@@ -127,9 +128,6 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> EditItem(int itemId)
         {
             var item = await _item.Get(itemId);
-            var types =  _item.GetTypes().ToList();
-            SelectList selectList = new SelectList(types, "Id", "Name", item.TypeId);
-            ViewBag.Types = selectList;
             return View("EditItem", item);
         }
         
@@ -151,10 +149,10 @@ namespace MusicStore.WebApp.Controllers
                 await _item.Update(itemDTO);
                 var list = _item.GetAll();
                 return Redirect("/Item/Items");
-            }
+            }   
             ViewBag.Message = string.Format("Input error!");
-            // return RedirectToAction("EditPerson", new { personid = obj.id });
-            return View();
+            return View(itemDTO);
+
         }
         
         [HttpGet]

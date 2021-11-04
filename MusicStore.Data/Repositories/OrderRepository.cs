@@ -71,7 +71,9 @@ namespace MusicStore.Data.Repositories
 
         public IQueryable<UsersOrders> GetLogs()
         {
-            return _context.UsersOrders.Where( i =>
+            return _context.UsersOrders
+                .Include(i => i.User)
+                .Where( i =>
                 i.status == OrderStatus.Finished);
         }
 

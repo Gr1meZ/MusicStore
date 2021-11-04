@@ -2,8 +2,16 @@
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model X.PagedList.IPagedList<MusicStore.Data.Models.Item>
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-@using (Html.BeginForm("AddToCart", "Cart", FormMethod.Post, new {enctype = "multipart/form-data"}))
-{
+
+    @using (Html.BeginForm("Items", "Cart", FormMethod.Get))
+    {
+        <p>
+            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+        @Html.DropDownList("type", ViewBag.Types as SelectList, "All",new {@class = "form-control"})
+        <input type="submit" value="Search" />
+    }
     <div id="modDialog" class="modal fade" >
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
@@ -28,7 +36,7 @@
         </div>
     </div>
 </main>
-}
+
 @section scripts
 {
     <script type="text/javascript">

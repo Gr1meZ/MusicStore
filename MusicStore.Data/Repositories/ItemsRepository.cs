@@ -8,7 +8,7 @@ using MusicStore.Data.Models;
 
 namespace MusicStore.Data.Repositories
 {
-    public class ItemsRepository : IItems
+    public class ItemsRepository : IItemsRepository
     {
         private readonly ApplicationDbContext _context;
 

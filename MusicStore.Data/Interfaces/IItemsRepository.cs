@@ -6,7 +6,7 @@ using MusicStore.Data.Models;
 
 namespace MusicStore.Data.Interfaces
 {
-    public interface IItems : IRepository<Item> 
+    public interface IItemsRepository : IRepository<Item> 
     {
         IQueryable<ItemType> GetTypes();
        IQueryable<Item> GetBind();

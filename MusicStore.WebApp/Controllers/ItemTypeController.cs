@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
-using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Models;
 
 
@@ -14,9 +13,9 @@ namespace MusicStore.WebApp.Controllers
 {
     public class ItemTypeController : Controller
     {
-        private IItemType _type;
+        private readonly IItemTypeRepository _type;
 
-        public ItemTypeController(IItemType type)
+        public ItemTypeController(IItemTypeRepository type)
         {
             _type = type;
         }

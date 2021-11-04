@@ -16,12 +16,12 @@ namespace MusicStore.Data.Configuration
                 builder.HasOne(item => item.price)
                 .WithMany()
                 .HasForeignKey(item => item.priceId)
-                .OnDelete(DeleteBehavior.Cascade);;
-                
+                .OnDelete(DeleteBehavior.Cascade);
+
                 builder.HasOne(item => item.user)
                     .WithMany()
                     .HasForeignKey(item => item.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);;
+                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

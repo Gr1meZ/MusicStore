@@ -1,0 +1,50 @@
+﻿@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Bootstrap4.Core
+@model X.PagedList.IPagedList<MusicStore.Data.Models.UsersOrders>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Finished";
+}
+
+<form >
+    
+    <h2>Unproccessed orders</h2>
+
+    @using (Html.BeginForm("Finished", "Order", FormMethod.Get))
+    {
+        <p>
+            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+    }
+    <table class="table">
+
+        <tr>
+            <th scope="col">@Html.ActionLink("ID", "Finished", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">  @Html.ActionLink("User", "Finished", new { sortOrder = ViewBag.UserId, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">@Html.ActionLink("Order", "Finished", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col"> @Html.ActionLink("Status", "Finished", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
+              <th scope="col"> @Html.ActionLink("Date", "Finished", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
+       
+
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>@item.User.Email</td>
+                <td>@item.OrderId</td>
+                <td>@item.status</td>
+                <td>@item.Date</td>
+            </tr>
+        }
+
+
+    </table>
+    <br />
+   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    
+   @Html.PagedListPager(Model, page => Url.Action("Finished", 
+       new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+</form>

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MusicStore.Data;
 using MusicStore.Data.Configuration;
 using MusicStore.Data.Models;
 

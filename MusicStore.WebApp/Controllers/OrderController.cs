@@ -68,8 +68,10 @@ namespace MusicStore.WebApp.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 orders = orders.Where(s => s.Date.ToString().Contains(searchString)
-                                           || s.OrderId.ToString().Contains(searchString) 
-                                           || s.User.Email.Contains(searchString));
+                                           || s.OrderId.ToString().Contains(searchString)
+                                           || s.User.Email.Contains(searchString)
+                                           || s.id.ToString().Contains(searchString));
+                
             }
             switch (sortOrder)
             {
@@ -104,6 +106,69 @@ namespace MusicStore.WebApp.Controllers
             int pageSize = 8;
             int pageNumber = (page ?? 1);
             return View("Unproccessed",orders.ToPagedList(pageNumber, pageSize));
+        }
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IActionResult Finished(string sortOrder,string searchString,string currentFilter, int? page)
+        {
+            var orders =   _order.GetLogs();
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "date" : "";
+            ViewBag.Status = sortOrder == "Status" ? "StatusDesc" : "Status";
+            ViewBag.OrderId = sortOrder == "OrderId"? "OrderIdDesc" : "OrderId";
+            ViewBag.UserId = sortOrder == "UserId" ? "UserIdDesc" : "UserId";
+            ViewBag.Id = sortOrder == "Id" ? "IdDesc" : "Id";
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            int count = orders.Count();
+            ViewBag.CurrentFilter = searchString;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(s => s.Date.ToString().Contains(searchString)
+                                           || s.OrderId.ToString().Contains(searchString) 
+                                           || s.User.Email.Contains(searchString)
+                                           || s.id.ToString().Contains(searchString));;
+            }
+            switch (sortOrder)
+            {
+                case "IdDesc":
+                    orders = orders.OrderByDescending(s => s.id);
+                    break;
+                case "Id":
+                    orders = orders.OrderBy(s => s.id);
+                    break;
+                case "UserIdDesc":
+                    orders = orders.OrderByDescending(s => s.UserId);
+                    break;
+                case "UserId":
+                    orders = orders.OrderBy(s => s.UserId);
+                    break;
+                case "OrderIdDesc":
+                    orders = orders.OrderByDescending(s => s.OrderId);
+                    break;
+                case "OrderId":
+                    orders = orders.OrderBy(s => s.OrderId);
+                    break;
+                case "StatusDesc":
+                    orders = orders.OrderByDescending(s => s.status);
+                    break;
+                case "Status":
+                    orders = orders.OrderBy(s => s.status);
+                    break;
+                default:
+                    orders = orders.OrderBy(s => s.Date);
+                    break;
+            }
+            int pageSize = 8;
+            int pageNumber = (page ?? 1);
+            return View("Finished",orders.ToPagedList(pageNumber, pageSize));
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]

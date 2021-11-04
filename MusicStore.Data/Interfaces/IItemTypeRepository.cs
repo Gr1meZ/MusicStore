@@ -4,7 +4,7 @@ using MusicStore.Data.Models;
 
 namespace MusicStore.Data.Interfaces
 {
-    public interface IItemType : IRepository<ItemType>
+    public interface IItemTypeRepository : IRepository<ItemType>
     {
         
     }

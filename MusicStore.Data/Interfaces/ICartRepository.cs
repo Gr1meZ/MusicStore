@@ -9,7 +9,6 @@ namespace MusicStore.Data.Interfaces
     {
         Task AddToCart(Cart cartDTO);
         IQueryable<Cart> GetCart(string id);
-        Task<Cart> Submit(int id);
         Task Remove(int id);
         Task RemoveRange(string userIdDto);
         

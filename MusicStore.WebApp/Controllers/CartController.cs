@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
@@ -15,11 +16,11 @@ namespace MusicStore.WebApp.Controllers
 {
     public class CartController : Controller
     {
-        private ICartRepository _cart;
-        private IItems _item;
+        private readonly ICartRepository _cart;
+        private readonly IItemsRepository _item;
         private readonly IOrderRepository _order;
 
-        public CartController(ICartRepository cart ,IItems items, IOrderRepository order)
+        public CartController(ICartRepository cart ,IItemsRepository items, IOrderRepository order)
         {
             _cart = cart;
             _item = items;
@@ -27,15 +28,12 @@ namespace MusicStore.WebApp.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-         public async Task<ActionResult> Items(string sortOrder,string searchString,string currentFilter, int? page)
+         public ActionResult Items(string type, string searchString,string currentFilter, int? page)
         {
             var items =   _item.GetBind();
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.PriceSortParam = sortOrder == "Price" ? "Price_desc" : "Price";
-            ViewBag.DescriptionParam = sortOrder == "Description" ? "Description_desc" : "Description";
-            ViewBag.TypeParam = sortOrder == "Type" ? "Type_desc" : "Type";
-            ViewBag.IdParam = sortOrder == "Id" ? "Id_desc" : "Id";
+            var types =  _item.GetTypes().ToList();
+            SelectList selectList = new SelectList(types, "Id", "Type");
+            ViewBag.Types = selectList;
             if (searchString != null)
             {
                 page = 1;
@@ -52,40 +50,11 @@ namespace MusicStore.WebApp.Controllers
                                                || s.Price.ToString().Contains(searchString)
                                                || s.type.Type.Contains(searchString));
             }
-            switch (sortOrder)
+            if (!string.IsNullOrEmpty(type))
             {
-                case "name_desc":
-                    items = items.OrderByDescending(s => s.Name);
-                    break;
-                case "Price":
-                    items = items.OrderBy(s => s.Price);
-                    break;
-                case "Price_desc":
-                    items = items.OrderByDescending(s => s.Price);
-                    break;
-                case "Description":
-                    items = items.OrderBy(s => s.Description);
-                    break;
-                case "Description_desc":
-                    items = items.OrderByDescending(s => s.Description);
-                    break;
-                case "Type":
-                    items = items.OrderBy(s => s.type.Type);
-                    break;
-                case "Type_desc":
-                    items = items.OrderByDescending(s => s.type.Type);
-                    break;
-                case "Id":
-                    items = items.OrderBy(s => s.Id);
-                    break;
-                case "Id_desc":
-                    items = items.OrderByDescending(s => s.Id);
-                    break;
-                default:
-                    items = items.OrderBy(s => s.Name);
-                    break;
+                items = items.Where(x => x.TypeId.ToString() == type);
             }
-           
+
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(items.ToPagedList(pageNumber, pageSize));
@@ -133,8 +102,7 @@ namespace MusicStore.WebApp.Controllers
                      Order.OrderId = Guid;
                      list.Add(Order);
                  }
-
-                 decimal total = 0;
+                 
                  await _order.SubmitOrder(list, userId);
                  await _cart.RemoveRange(userId);
                  return Redirect("/Order/GetOrders");
