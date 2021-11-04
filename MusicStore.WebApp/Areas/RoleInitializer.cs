@@ -11,17 +11,17 @@ namespace MusicStore.WebApp.Areas
         public static async Task CreateRoles(IServiceProvider serviceProvider)
         {
            
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             string[] roleNames = { "Admin"};
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
             {
-                var roleExist = await RoleManager.RoleExistsAsync(roleName);
+                var roleExist = await roleManager.RoleExistsAsync(roleName);
                 if (!roleExist)
                 {
-                    roleResult = await RoleManager.CreateAsync(new IdentityRole(roleName));
+                    roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 
@@ -35,15 +35,15 @@ namespace MusicStore.WebApp.Areas
                 
             };
             string userPWD = "Admin1*";
-            var _user = await UserManager.FindByEmailAsync("admin@mail.ru");
+            var user = await userManager.FindByEmailAsync("admin@mail.ru");
 
-            if(_user == null)
+            if(user == null)
             {
-                var createPowerUser = await UserManager.CreateAsync(poweruser, userPWD);
+                var createPowerUser = await userManager.CreateAsync(poweruser, userPWD);
                 if (createPowerUser.Succeeded)
                 {
                     
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                    await userManager.AddToRoleAsync(poweruser, "Admin");
 
                 }
             }

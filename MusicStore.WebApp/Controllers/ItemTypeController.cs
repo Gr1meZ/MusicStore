@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicStore.Data.Interfaces;
@@ -39,11 +36,11 @@ namespace MusicStore.WebApp.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
        
-        public async Task<IActionResult> AddType(ItemType typeDTO)
+        public async Task<IActionResult> AddType(ItemType typeDto)
         {
             if (ModelState.IsValid)
             {
-                await _type.Create(typeDTO);
+                await _type.Create(typeDto);
                 return Redirect("/ItemType/Types");
                 
             }
@@ -59,11 +56,11 @@ namespace MusicStore.WebApp.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditType(ItemType typeDTO, int pageNumber=1)
+        public async Task<IActionResult> EditType(ItemType typeDto, int pageNumber=1)
         {
             if (ModelState.IsValid)
             {
-                await _type.Update(typeDTO);
+                await _type.Update(typeDto);
                 var list = _type.GetAll();
                 return View("Types",  await PaginatedList<ItemType>.CreateAsync(list, pageNumber, 5));
             }

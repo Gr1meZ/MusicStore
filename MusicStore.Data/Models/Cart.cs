@@ -8,10 +8,10 @@ namespace MusicStore.Data.Models
         [Required]
         public int Id { get; set; }
         public int ItemId { get; set; }
-        public Item item { get; set; }
-        public int priceId { get; set; }
-        public Item price { get; set; }
+        public Item Item { get; set; }
+        public int PriceId { get; set; }
+        public Item Price { get; set; }
         public string UserId { get; set; }
-        public ApplicationUser user { get; set; }
+        public ApplicationUser User { get; set; }
     }
 }

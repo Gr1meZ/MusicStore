@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MusicStore.Data.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 
@@ -29,14 +28,14 @@ namespace MusicStore.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Update(Item itemDTO)
+        public async Task Update(Item itemDto)
         {
-            Item item = await Get(itemDTO.Id);
-            item.Name = itemDTO.Name;
-            item.Price = itemDTO.Price;
-            item.Description = itemDTO.Description;
-            item.type = itemDTO.type;
-            item.ImageName = itemDTO.ImageName;
+            Item item = await Get(itemDto.Id);
+            item.Name = itemDto.Name;
+            item.Price = itemDto.Price;
+            item.Description = itemDto.Description;
+            item.Type = itemDto.Type;
+            item.ImageName = itemDto.ImageName;
             _context.Items.Update(item);
             await _context.SaveChangesAsync();
         }
@@ -64,7 +63,7 @@ namespace MusicStore.Data.Repositories
 
         public IQueryable<Item> GetBind()
         {
-            return _context.Items.Include(t => t.type);
+            return _context.Items.Include(t => t.Type);
         }
     }
 }

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Models;
@@ -48,7 +47,7 @@ namespace MusicStore.WebApp.Controllers
             {
                 items = items.Where(s => s.Name.Contains(searchString)
                                                || s.Price.ToString().Contains(searchString)
-                                               || s.type.Type.Contains(searchString));
+                                               || s.Type.Type.Contains(searchString));
             }
             if (!string.IsNullOrEmpty(type))
             {
@@ -65,11 +64,11 @@ namespace MusicStore.WebApp.Controllers
          public async Task<IActionResult> AddToCart(int id)
          {
                  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                 var cartDTO = new Cart();
-                 cartDTO.priceId = id;
-                 cartDTO.ItemId = id;
-                 cartDTO.UserId = userId;
-                 await _cart.AddToCart(cartDTO);
+                 var cartDto = new Cart();
+                 cartDto.PriceId = id;
+                 cartDto.ItemId = id;
+                 cartDto.UserId = userId;
+                 await _cart.AddToCart(cartDto);
                  return Redirect("/Cart/GetCart");
          }
          [Authorize]
@@ -92,14 +91,14 @@ namespace MusicStore.WebApp.Controllers
                  var usersCart = _cart.GetCart(userId);
                  Order Order;
                  var list = new List<Order>();
-                 var Guid = System.Guid.NewGuid();
+                 var guid = System.Guid.NewGuid();
                  foreach (var item in usersCart)
                  {
                      Order = new Order();
                      Order.Id = item.Id;
                      Order.ItemId = item.ItemId;
                      Order.PriceId = item.ItemId;
-                     Order.OrderId = Guid;
+                     Order.OrderId = guid;
                      list.Add(Order);
                  }
                  

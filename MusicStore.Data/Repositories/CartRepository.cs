@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using MusicStore.Data.Data;
 using MusicStore.Data.Extensions;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
@@ -18,9 +18,9 @@ namespace MusicStore.Data.Repositories
           
         }
 
-        public async Task AddToCart(Cart cartDTO)
+        public async Task AddToCart(Cart cartDto)
         {
-            await  _context.Cart.AddAsync(cartDTO);
+            await  _context.Cart.AddAsync(cartDto);
             
             await _context.SaveChangesAsync();
         }

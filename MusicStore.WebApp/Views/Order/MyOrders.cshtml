@@ -1,5 +1,4 @@
 ﻿@model PaginatedList<MusicStore.Data.Models.UsersOrders>
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @using (Html.BeginForm("GetOrders", "Order", FormMethod.Get, new {enctype = "multipart/form-data"}))
 {
     <div id="modDialog" class="modal fade" >
@@ -13,7 +12,7 @@
             <div class="col-lg-3 col-sm-6 mb-30 pb-2">
                 <div class="team-card-style-3 mx-auto">
                     <h4 class="team-name">Order №@item.OrderId</h4>
-                    <div>Status : @item.status</div>
+                    <div>Status : @item.Status</div>
                     <div>Date : @item.Date</div>
                       @Html.ActionLink("Details", "Details", 
                           new { id = item.OrderId }, new { @class = "compItem" })

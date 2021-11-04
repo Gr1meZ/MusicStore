@@ -49,7 +49,7 @@ namespace MusicStore.WebApp.Controllers
             {
                 items = items.Where(s => s.Name.Contains(searchString)
                                                || s.Price.ToString().Contains(searchString)
-                                               || s.type.Type.Contains(searchString));
+                                               || s.Type.Type.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -69,10 +69,10 @@ namespace MusicStore.WebApp.Controllers
                     items = items.OrderByDescending(s => s.Description);
                     break;
                 case "Type":
-                    items = items.OrderBy(s => s.type.Type);
+                    items = items.OrderBy(s => s.Type.Type);
                     break;
                 case "Type_desc":
-                    items = items.OrderByDescending(s => s.type.Type);
+                    items = items.OrderByDescending(s => s.Type.Type);
                     break;
                 case "Id":
                     items = items.OrderBy(s => s.Id);
@@ -102,7 +102,7 @@ namespace MusicStore.WebApp.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddItem(Item itemDTO)
+        public async Task<IActionResult> AddItem(Item itemDto)
         {
             var types =  _item.GetTypes().ToList();
             SelectList selectList = new SelectList(types, "Id", "Type");
@@ -110,15 +110,15 @@ namespace MusicStore.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 string wwwRoothPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(itemDTO.ImageFile.FileName);
-                string extension = Path.GetExtension(itemDTO.ImageFile.FileName);
-                itemDTO.ImageName = fileName + extension;
+                string fileName = Path.GetFileNameWithoutExtension(itemDto.ImageFile.FileName);
+                string extension = Path.GetExtension(itemDto.ImageFile.FileName);
+                itemDto.ImageName = fileName + extension;
                 string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    await itemDTO.ImageFile.CopyToAsync(fileStream);
+                    await itemDto.ImageFile.CopyToAsync(fileStream);
                 }
-                await _item.Create(itemDTO);
+                await _item.Create(itemDto);
                 return Redirect("/Item/Items");
             }
             return View();
@@ -133,25 +133,24 @@ namespace MusicStore.WebApp.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditItem(Item itemDTO, int pageNumber=1)
+        public async Task<IActionResult> EditItem(Item itemDto, int pageNumber=1)
         {
             if (ModelState.IsValid)
             {
                 string wwwRoothPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(itemDTO.ImageFile.FileName);
-                string extension = Path.GetExtension(itemDTO.ImageFile.FileName);
-                itemDTO.ImageName = fileName + extension;
+                string fileName = Path.GetFileNameWithoutExtension(itemDto.ImageFile.FileName);
+                string extension = Path.GetExtension(itemDto.ImageFile.FileName);
+                itemDto.ImageName = fileName + extension;
                 string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    await itemDTO.ImageFile.CopyToAsync(fileStream);
+                    await itemDto.ImageFile.CopyToAsync(fileStream);
                 }
-                await _item.Update(itemDTO);
-                var list = _item.GetAll();
+                await _item.Update(itemDto);
                 return Redirect("/Item/Items");
             }   
             ViewBag.Message = string.Format("Input error!");
-            return View(itemDTO);
+            return View(itemDto);
 
         }
         

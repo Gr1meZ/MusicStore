@@ -1,12 +1,11 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model X.PagedList.IPagedList<MusicStore.Data.Models.Item>
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "DisplayItems";
 }
 
-<form action="/Item/Items">
+<form>
       <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                     <div class="container">
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -53,7 +52,7 @@
                 <td>@item.Name</td>
                 <td>@item.Price</td>
                 <td>@item.Description</td>
-                <td>@item.type.Type</td>
+                <td>@item.Type.Type</td>
                 <td>@Html.ActionLink("Edit", "EditItem", "Item", new {itemId = item.Id}, new {})</td>
                 <td>@Html.ActionLink("Delete", "DeleteItem", "Item", new {itemId = item.Id}, new {})</td>
             </tr>

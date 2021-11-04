@@ -1,7 +1,4 @@
-﻿@using X.PagedList.Mvc.Core;
-@using X.PagedList.Mvc.Bootstrap4.Core
-@model PaginatedList<MusicStore.Data.Models.Cart>
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+﻿@model PaginatedList<MusicStore.Data.Models.Cart>
 @using (Html.BeginForm("GetCart", "Cart", FormMethod.Get, new {enctype = "multipart/form-data"}))
 {
     <div class="cart_section">
@@ -16,15 +13,15 @@
                                 @foreach (var item in Model)
                                 {
                                     <li class="cart_item clearfix">
-                                        <div class="cart_item_image"><img src="@("~/image/" + @item.item.ImageName)" asp-append-version="true" alt=""></div>
+                                        <div class="cart_item_image"><img src="@("~/image/" + @item.Item.ImageName)" asp-append-version="true" alt=""></div>
                                         <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
                                             <div class="cart_item_name cart_info_col">
                                                 <div class="cart_item_title">Name</div>
-                                                <div class="cart_item_text">@item.item.Name</div>
+                                                <div class="cart_item_text">@item.Item.Name</div>
                                             </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_title">Price</div>
-                                                <div class="cart_item_text" id="total">@item.item.Price</div>
+                                                <div class="cart_item_text" id="total">@item.Item.Price</div>
                                             </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_text"> 

@@ -8,17 +8,17 @@ namespace MusicStore.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
-            builder.HasOne(item => item.item)
+            builder.HasOne(item => item.Item)
                 .WithMany()
                 .HasForeignKey(item => item.ItemId)
                 .OnDelete(DeleteBehavior.Cascade);
                 
-                builder.HasOne(item => item.price)
+                builder.HasOne(item => item.Price)
                 .WithMany()
-                .HasForeignKey(item => item.priceId)
+                .HasForeignKey(item => item.PriceId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-                builder.HasOne(item => item.user)
+                builder.HasOne(item => item.User)
                     .WithMany()
                     .HasForeignKey(item => item.UserId)
                     .OnDelete(DeleteBehavior.Cascade);

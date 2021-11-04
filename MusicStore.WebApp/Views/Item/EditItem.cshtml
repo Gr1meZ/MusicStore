@@ -1,5 +1,4 @@
-﻿@using Microsoft.EntityFrameworkCore
-@model MusicStore.Data.Models.Item
+﻿@model MusicStore.Data.Models.Item
 @{ 
     ViewData["Title"] = "EditItem";
 }
@@ -11,14 +10,14 @@
         <form asp-action="EditItem" method="post">
 
             <div class="form-group">
-                <label for="exampleInputEmail1">Name</label>
-                <input type="text" class="form-control" placeholder="Enter name" asp-for="Name">
+                <label for="exampleInputName">Name</label>
+                <input type="text" class="form-control" id="exampleInputName" placeholder="Enter name" asp-for="Name">
                 <span asp-validation-for="Name"></span>
 
             </div>
             <div class="form-group">
                 <label for="examplePrice">Price</label>
-                <input type="Text" class="form-control" placeholder="Enter price" asp-for="Price">
+                <input type="Text" class="form-control" id="examplePrice" placeholder="Enter price" asp-for="Price">
                 <span asp-validation-for="Price"></span>
             </div>
 

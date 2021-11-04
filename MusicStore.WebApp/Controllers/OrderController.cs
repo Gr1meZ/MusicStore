@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Models;
@@ -39,8 +38,8 @@ namespace MusicStore.WebApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userOrder = _order.GetUsersOrders(userId).FirstOrDefault(i => i.OrderId == id);
-            var OrderIdKey = _order.GetOrderId(userOrder.OrderId);
-            var items = _order.OrderDetails(OrderIdKey);
+            var orderIdKey = _order.GetOrderId(userOrder.OrderId);
+            var items = _order.OrderDetails(orderIdKey);
             return PartialView(items);
         }
         [Authorize(Roles = "Admin")]
@@ -62,24 +61,23 @@ namespace MusicStore.WebApp.Controllers
             {
                 searchString = currentFilter;
             }
-
-            int count = orders.Count();
+            
             ViewBag.CurrentFilter = searchString;
             if (!String.IsNullOrEmpty(searchString))
             {
                 orders = orders.Where(s => s.Date.ToString().Contains(searchString)
                                            || s.OrderId.ToString().Contains(searchString)
                                            || s.User.Email.Contains(searchString)
-                                           || s.id.ToString().Contains(searchString));
+                                           || s.Id.ToString().Contains(searchString));
                 
             }
             switch (sortOrder)
             {
                 case "IdDesc":
-                    orders = orders.OrderByDescending(s => s.id);
+                    orders = orders.OrderByDescending(s => s.Id);
                     break;
                 case "Id":
-                    orders = orders.OrderBy(s => s.id);
+                    orders = orders.OrderBy(s => s.Id);
                     break;
                 case "UserIdDesc":
                     orders = orders.OrderByDescending(s => s.UserId);
@@ -94,10 +92,10 @@ namespace MusicStore.WebApp.Controllers
                     orders = orders.OrderBy(s => s.OrderId);
                     break;
                 case "StatusDesc":
-                    orders = orders.OrderByDescending(s => s.status);
+                    orders = orders.OrderByDescending(s => s.Status);
                     break;
                 case "Status":
-                    orders = orders.OrderBy(s => s.status);
+                    orders = orders.OrderBy(s => s.Status);
                     break;
                 default:
                     orders = orders.OrderBy(s => s.Date);
@@ -126,23 +124,22 @@ namespace MusicStore.WebApp.Controllers
             {
                 searchString = currentFilter;
             }
-
-            int count = orders.Count();
+            
             ViewBag.CurrentFilter = searchString;
             if (!String.IsNullOrEmpty(searchString))
             {
                 orders = orders.Where(s => s.Date.ToString().Contains(searchString)
                                            || s.OrderId.ToString().Contains(searchString) 
                                            || s.User.Email.Contains(searchString)
-                                           || s.id.ToString().Contains(searchString));;
+                                           || s.Id.ToString().Contains(searchString));;
             }
             switch (sortOrder)
             {
                 case "IdDesc":
-                    orders = orders.OrderByDescending(s => s.id);
+                    orders = orders.OrderByDescending(s => s.Id);
                     break;
                 case "Id":
-                    orders = orders.OrderBy(s => s.id);
+                    orders = orders.OrderBy(s => s.Id);
                     break;
                 case "UserIdDesc":
                     orders = orders.OrderByDescending(s => s.UserId);
@@ -157,10 +154,10 @@ namespace MusicStore.WebApp.Controllers
                     orders = orders.OrderBy(s => s.OrderId);
                     break;
                 case "StatusDesc":
-                    orders = orders.OrderByDescending(s => s.status);
+                    orders = orders.OrderByDescending(s => s.Status);
                     break;
                 case "Status":
-                    orders = orders.OrderBy(s => s.status);
+                    orders = orders.OrderBy(s => s.Status);
                     break;
                 default:
                     orders = orders.OrderBy(s => s.Date);
@@ -181,9 +178,9 @@ namespace MusicStore.WebApp.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ChangeStatus(UsersOrders orderDTO)
+        public async Task<IActionResult> ChangeStatus(UsersOrders orderDto)
         {
-            await _order.ChangeOrderStatus(orderDTO);
+            await _order.ChangeOrderStatus(orderDto);
             return Redirect("/Order/GetUnproccessed");
         }
         }

@@ -1,5 +1,4 @@
-﻿@using System.Collections
-@model MusicStore.Data.Models.Item
+﻿@model MusicStore.Data.Models.Item
 @{ 
     ViewData["Title"] = "AddItem";
 }
@@ -9,13 +8,13 @@
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
-            <input type="text" class="form-control" placeholder="Enter name" asp-for="Name">
+            <input type="text" id="exampleInputEmail1" class="form-control" placeholder="Enter name" asp-for="Name">
             <span asp-validation-for="Name"></span>
 
         </div>
         <div class="form-group">
              <label for="examplePrice">Price</label>
-            <input type="Text" class="form-control" placeholder="Enter price" asp-for="Price">
+            <input type="Text" id="examplePrice" class="form-control" placeholder="Enter price" asp-for="Price">
             <span asp-validation-for="Price"></span>
         </div>
         <div class="form-group">
@@ -26,7 +25,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="exampleType">Type</label>
+            <label>Type</label>
             @Html.DropDownListFor(model => model.TypeId,  ViewBag.Types as SelectList , new {@class = "form-control"})
             <span asp-validation-for="TypeId"></span>
         </div>

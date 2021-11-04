@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicStore.Data.Configuration;
 using MusicStore.Data.Models;
 
-namespace MusicStore.Data
+namespace MusicStore.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

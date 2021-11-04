@@ -8,7 +8,7 @@ namespace MusicStore.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Item> builder)
         {
-            builder.HasOne(item => item.type)
+            builder.HasOne(item => item.Type)
                 .WithMany()
                 .HasForeignKey(item => item.TypeId)
                 .OnDelete(DeleteBehavior.Cascade);

@@ -1,9 +1,8 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model X.PagedList.IPagedList<MusicStore.Data.Models.Item>
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-    @using (Html.BeginForm("Items", "Cart", FormMethod.Get))
+@using (Html.BeginForm("Items", "Cart", FormMethod.Get))
     {
         <p>
             Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
@@ -25,7 +24,7 @@
                                         <div class="card-body">
                                             <div class="clearfix mb-3"> <span class="float-start badge rounded-pill bg-primary">@item.Name</span> <br/>
                                                 <span class="float-end price-hp">@item.Price₽</span> </div>
-                                            <p class="card-title">@item.type.Type </p>
+                                            <p class="card-title">@item.Type.Type </p>
                                             <div class="text-center my-4"> <a class="btn btn-warning"  asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id"  >Add to cart</a> </div>
                                             @Html.ActionLink("Details", "Details", 
                                                             new { id = item.Id }, new { @class = "compItem" })

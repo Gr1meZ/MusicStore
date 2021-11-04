@@ -1,7 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model X.PagedList.IPagedList<MusicStore.Data.Models.UsersOrders>
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Finished";
 }
@@ -31,10 +30,10 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.id</td>
+                <td>@item.Id</td>
                 <td>@item.User.Email</td>
                 <td>@item.OrderId</td>
-                <td>@item.status</td>
+                <td>@item.Status</td>
                 <td>@item.Date</td>
             </tr>
         }

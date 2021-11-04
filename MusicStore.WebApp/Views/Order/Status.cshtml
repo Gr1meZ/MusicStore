@@ -1,5 +1,4 @@
-﻿@using MusicStore.Data.Models
-@model MusicStore.Data.Models.UsersOrders
+﻿@model MusicStore.Data.Models.UsersOrders
 @{ 
     ViewData["Title"] = "Status";
 }
@@ -8,11 +7,11 @@
     
     <form method="post" asp-action="ChangeStatus">
          <div class="form-group">
-                    <label for="examplePrice">Type</label>
-                      @Html.DropDownListFor(m => m.status, Model.status.ToSelectList(), new {@class = "form-control"})
+                    <label>Type</label>
+                      @Html.DropDownListFor(m => m.Status, Model.Status.ToSelectList(), new {@class = "form-control"})
                    
                 </div>
         <button type="submit"class="btn btn-primary" id="btnSave"> Submit </button>
-         @Html.HiddenFor(model => model.id)
+         @Html.HiddenFor(model => model.Id)
     </form>
 }

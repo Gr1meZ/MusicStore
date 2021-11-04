@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using MusicStore.Data.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 
@@ -21,16 +20,16 @@ namespace MusicStore.Data.Repositories
             return await _context.ItemTypes.FindAsync(id);
         }
 
-        public async Task Create(ItemType typeDTO)
+        public async Task Create(ItemType typeDto)
         {
-            await  _context.ItemTypes.AddAsync(typeDTO);
+            await  _context.ItemTypes.AddAsync(typeDto);
              await _context.SaveChangesAsync();
         }
 
-        public async Task Update(ItemType typeDTO)
+        public async Task Update(ItemType typeDto)
         {
-            ItemType type = await Get(typeDTO.Id);
-            type.Type = typeDTO.Type;
+            ItemType type = await Get(typeDto.Id);
+            type.Type = typeDto.Type;
             _context.ItemTypes.Update(type);
             await _context.SaveChangesAsync();
         }
