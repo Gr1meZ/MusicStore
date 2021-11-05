@@ -1,12 +1,10 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace MusicStore.Data.Models
 {
     public class Order
     {
-        [Key]
         public int Id { get; set; }
 
         public int ItemId { get; set; }

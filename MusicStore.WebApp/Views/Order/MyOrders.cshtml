@@ -1,4 +1,4 @@
-﻿@model PaginatedList<MusicStore.Data.Models.UsersOrders>
+﻿@model IndexViewModel
 @using (Html.BeginForm("GetOrders", "Order", FormMethod.Get, new {enctype = "multipart/form-data"}))
 {
     <div id="modDialog" class="modal fade" >
@@ -7,7 +7,7 @@
     <section class="container py-5">
         <div class="row pt-3">
         <!-- Author-->
-        @foreach (var item in Model)
+        @foreach (var item in Model.UsersOrders)
         {
             <div class="col-lg-3 col-sm-6 mb-30 pb-2">
                 <div class="team-card-style-3 mx-auto">
@@ -26,15 +26,15 @@
     
 }
  @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var prevDisabled = !Model.UsersOrders.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.UsersOrders.HasNextPage ? "disabled" : "";
     }
     <a asp-action="GetOrders"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-pageNumber="@(Model.UsersOrders.PageIndex - 1)"
        class="btn btn-default @prevDisabled">Previous
     </a>
      <a asp-action="GetOrders"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-pageNumber="@(Model.UsersOrders.PageIndex + 1)"
            class="btn btn-default @nextDisabled">Next
             </a>
 @section scripts

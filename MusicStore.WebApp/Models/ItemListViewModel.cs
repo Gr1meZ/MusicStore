@@ -7,6 +7,7 @@ namespace MusicStore.WebApp.Models
     public class ItemListViewModel
     {
         public IEnumerable<Item> Items { get; set; }
+        public PaginatedList<Item> ItemsPaged { get; set; }
         public SelectList Types { get; set; }
         public string Type { get; set; }
     }

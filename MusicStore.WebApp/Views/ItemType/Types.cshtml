@@ -2,7 +2,7 @@
     ViewBag.Title = "DisplayTypes";
 }
 
-@model PaginatedList<MusicStore.Data.Models.ItemType>
+@model IndexViewModel
 
 <form >
     <h2>List of items</h2>
@@ -16,7 +16,7 @@
             <th scope="col"> Delete</th>
    
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Types)
         {
             <tr>
                 <td>@item.Id</td>
@@ -30,15 +30,15 @@
 
     </table>
     @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        var prevDisabled = !Model.Types.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.Types.HasNextPage ? "disabled" : "";
     }
     <a asp-action="Types"
-       asp-route-pageNumber="@(Model.PageIndex - 1)"
+       asp-route-pageNumber="@(Model.Types.PageIndex - 1)"
        class="btn btn-default @prevDisabled">Previous
     </a>
      <a asp-action="Types"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-pageNumber="@(Model.Types.PageIndex + 1)"
            class="btn btn-default @nextDisabled">Next
             </a>
   

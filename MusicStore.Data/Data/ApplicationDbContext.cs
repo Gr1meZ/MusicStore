@@ -20,10 +20,11 @@ namespace MusicStore.Data.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ItemEntityConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CartEntityConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(OrderEntityConfiguration).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsersOrdersEntityConfiguration).Assembly);
+            modelBuilder.ApplyConfiguration(new ItemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CartEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new UsersOrdersEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ItemTypeEntityConfiguration());
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
+using MusicStore.WebApp.Models;
 using X.PagedList;
 
 
@@ -87,7 +88,9 @@ namespace MusicStore.WebApp.Controllers
            
             int pageSize = 4;
             int pageNumber = (page ?? 1);
-            return View(items.ToPagedList(pageNumber, pageSize));
+            var pagedList = new IndexViewModel();
+            pagedList.Items = items.ToPagedList(pageNumber, pageSize);
+            return View(pagedList);
             
         }
         
@@ -102,7 +105,7 @@ namespace MusicStore.WebApp.Controllers
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> AddItem(Item itemDto)
+        public async Task<IActionResult> AddItem(ItemViewModel itemDto)
         {
             var types =  _item.GetTypes().ToList();
             SelectList selectList = new SelectList(types, "Id", "Type");
@@ -118,7 +121,15 @@ namespace MusicStore.WebApp.Controllers
                 {
                     await itemDto.ImageFile.CopyToAsync(fileStream);
                 }
-                await _item.Create(itemDto);
+                var item = new Item
+                {
+                    Name = itemDto.Name,
+                    Price = itemDto.Price,
+                    Description = itemDto.Description,
+                    ImageName = itemDto.ImageName,
+                    TypeId = itemDto.TypeId
+                };
+                await _item.Create(item);
                 return Redirect("/Item/Items");
             }
             return View();
@@ -128,12 +139,21 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> EditItem(int itemId)
         {
             var item = await _item.Get(itemId);
-            return View("EditItem", item);
+            var itemViewModel = new ItemViewModel()
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Price = item.Price,
+                Description = item.Description,
+                ImageName = item.ImageName,
+                TypeId = item.TypeId
+            };
+            return View("EditItem", itemViewModel);
         }
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditItem(Item itemDto, int pageNumber=1)
+        public async Task<IActionResult> EditItem(ItemViewModel itemDto, int pageNumber=1)
         {
             if (ModelState.IsValid)
             {
@@ -146,7 +166,16 @@ namespace MusicStore.WebApp.Controllers
                 {
                     await itemDto.ImageFile.CopyToAsync(fileStream);
                 }
-                await _item.Update(itemDto);
+                var item = new Item
+                {
+                    Id = itemDto.Id,
+                    Name = itemDto.Name,
+                    Price = itemDto.Price,
+                    Description = itemDto.Description,
+                    ImageName = itemDto.ImageName,
+                    TypeId = itemDto.TypeId
+                };
+                await _item.Update(item);
                 return Redirect("/Item/Items");
             }   
             ViewBag.Message = string.Format("Input error!");

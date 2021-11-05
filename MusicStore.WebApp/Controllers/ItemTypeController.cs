@@ -23,8 +23,9 @@ namespace MusicStore.WebApp.Controllers
 
             var types =  _type.GetAll();
             var paginatedList = await PaginatedList<ItemType>.CreateAsync(types, pageNumber, 5);
-           
-            return View(paginatedList);
+            var pagedList = new IndexViewModel();
+            pagedList.Types = await PaginatedList<ItemType>.CreateAsync(types, pageNumber, 5);
+            return View(pagedList);
             
         }
         
@@ -36,11 +37,15 @@ namespace MusicStore.WebApp.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
        
-        public async Task<IActionResult> AddType(ItemType typeDto)
+        public async Task<IActionResult> AddType(ItemTypeViewModel typeDto)
         {
             if (ModelState.IsValid)
             {
-                await _type.Create(typeDto);
+                var type = new ItemType()
+                {
+                    Type = typeDto.Type
+                };
+                await _type.Create(type);
                 return Redirect("/ItemType/Types");
                 
             }
@@ -51,21 +56,30 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> EditType(int typeId)
         {
             var type = await _type.Get(typeId);
-            return View("EditType", type);
+            var itemView = new ItemTypeViewModel()
+            {
+                Id = type.Id,
+                Type = type.Type
+            };
+            return View("EditType", itemView);
         }
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditType(ItemType typeDto, int pageNumber=1)
+        public async Task<IActionResult> EditType(ItemTypeViewModel typeDto, int pageNumber=1)
         {
             if (ModelState.IsValid)
             {
-                await _type.Update(typeDto);
+                var type = new ItemType()
+                {
+                    Id = typeDto.Id,
+                    Type = typeDto.Type
+                };
+                await _type.Update(type);
                 var list = _type.GetAll();
-                return View("Types",  await PaginatedList<ItemType>.CreateAsync(list, pageNumber, 5));
+                return Redirect("/ItemType/Types");
             }
             ViewBag.Message = string.Format("Input error!");
-            // return RedirectToAction("EditPerson", new { personid = obj.id });
             return View();
         }
         [HttpGet]
@@ -73,7 +87,7 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> DeleteType(int typeId, int pageNumber=1)
         {
             await _type.Remove(typeId);
-            return View("Types",  await PaginatedList<ItemType>.CreateAsync(_type.GetAll(), pageNumber, 5));
+            return Redirect("/ItemType/Types");
         }
     }
 }

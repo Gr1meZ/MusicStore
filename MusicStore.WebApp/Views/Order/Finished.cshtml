@@ -1,6 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
-@model X.PagedList.IPagedList<MusicStore.Data.Models.UsersOrders>
+@model IndexViewModel
 @{
     ViewBag.Title = "Finished";
 }
@@ -27,7 +27,7 @@
        
 
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.UsersOrders)
         {
             <tr>
                 <td>@item.Id</td>
@@ -41,9 +41,17 @@
 
     </table>
     <br />
-   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-    
-   @Html.PagedListPager(Model, page => Url.Action("Finished", 
-       new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
+   @{
+          var prevDisabled = !Model.UsersOrders.HasPreviousPage ? "disabled" : "";
+          var nextDisabled = !Model.UsersOrders.HasNextPage ? "disabled" : "";
+      }
+      <a asp-action="Finished"
+         asp-route-pageNumber="@(Model.UsersOrders.PageIndex - 1)"
+         class="btn btn-default @prevDisabled">Previous
+      </a>
+       <a asp-action="Finished"
+             asp-route-pageNumber="@(Model.UsersOrders.PageIndex + 1)"
+             class="btn btn-default @nextDisabled">Next
+              </a>
 
 </form>

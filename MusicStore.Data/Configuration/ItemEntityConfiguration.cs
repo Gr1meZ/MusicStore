@@ -12,6 +12,9 @@ namespace MusicStore.Data.Configuration
                 .WithMany()
                 .HasForeignKey(item => item.TypeId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasKey(k => k.Id);
+            builder.Ignore(p => p.ImageFile);
         }
     }
 }

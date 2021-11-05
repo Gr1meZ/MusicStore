@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MusicStore.Data.Models.Order>
+﻿@model OrderViewModel
 
 <div class="modal-content">
     <div class="modal-header">
@@ -9,7 +9,7 @@
             @{
                 decimal total = 0;
             }
-            @foreach (var item in Model)
+            @foreach (var item in Model.Orders)
             {
                 {
                     total += item.Price.Price;

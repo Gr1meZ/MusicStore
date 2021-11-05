@@ -1,6 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
-@model X.PagedList.IPagedList<MusicStore.Data.Models.UsersOrders>
+@model IndexViewModel
 @{
     ViewBag.Title = "GetUnproccessed";
 }
@@ -27,7 +27,7 @@
             <th scope="col">Edit</th>
 
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.BootstrapUsersOrders)
         {
             <tr>
                 <td>@item.Id</td>
@@ -42,9 +42,9 @@
 
     </table>
     <br />
-   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+   Page @(Model.BootstrapUsersOrders.PageCount < Model.BootstrapUsersOrders.PageNumber ? 0 : Model.BootstrapUsersOrders.PageNumber) of @Model.BootstrapUsersOrders.PageCount
     
-   @Html.PagedListPager(Model, page => Url.Action("GetUnproccessed", 
+   @Html.PagedListPager(Model.BootstrapUsersOrders, page => Url.Action("GetUnproccessed", 
        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
 
 </form>

@@ -16,6 +16,7 @@ namespace MusicStore.Data.Configuration
                 .WithMany()
                 .HasForeignKey(item => item.PriceId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasKey(k => k.Id);
         }
     }
 }

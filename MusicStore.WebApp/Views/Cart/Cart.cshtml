@@ -1,4 +1,4 @@
-﻿@model PaginatedList<MusicStore.Data.Models.Cart>
+﻿@model IndexViewModel
 @using (Html.BeginForm("GetCart", "Cart", FormMethod.Get, new {enctype = "multipart/form-data"}))
 {
     <div class="cart_section">
@@ -10,7 +10,7 @@
                         <div class="cart_items">
                             <ul class="cart_list">
                                 
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Cart)
                                 {
                                     <li class="cart_item clearfix">
                                         <div class="cart_item_image"><img src="@("~/image/" + @item.Item.ImageName)" asp-append-version="true" alt=""></div>
@@ -42,15 +42,15 @@
         </div>
 
          @{
-               var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-               var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+               var prevDisabled = !Model.Cart.HasPreviousPage ? "disabled" : "";
+               var nextDisabled = !Model.Cart.HasNextPage ? "disabled" : "";
          }
           <a asp-action="GetCart"
-                asp-route-pageNumber="@(Model.PageIndex - 1)"
+                asp-route-pageNumber="@(Model.Cart.PageIndex - 1)"
                 class="btn btn-default @prevDisabled">Previous
              </a>
               <a asp-action="GetCart"
-                    asp-route-pageNumber="@(Model.PageIndex + 1)"
+                    asp-route-pageNumber="@(Model.Cart.PageIndex + 1)"
                     class="btn btn-default @nextDisabled">Next
                      </a>
     </div>

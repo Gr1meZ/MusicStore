@@ -1,6 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
-@model X.PagedList.IPagedList<MusicStore.Data.Models.Item>
+@model IndexViewModel
 
 @using (Html.BeginForm("Items", "Cart", FormMethod.Get))
     {
@@ -17,7 +17,7 @@
 <main>
     <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
         <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-            @foreach (var item in Model)
+            @foreach (var item in Model.Items)
                             {
                                 <div class="col">
                                     <div class="card h-100 shadow-sm">    <img src="@("~/image/" + @item.ImageName)" asp-append-version="true" class="card-img-top" alt="..." >
@@ -53,7 +53,7 @@
         })
     </script>
 }
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
     
-@Html.PagedListPager(Model, page => Url.Action("Items", 
+@Html.PagedListPager(Model.Items, page => Url.Action("Items", 
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)

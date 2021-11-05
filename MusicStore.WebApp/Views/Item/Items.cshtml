@@ -1,6 +1,6 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
-@model X.PagedList.IPagedList<MusicStore.Data.Models.Item>
+@model IndexViewModel
 @{
     ViewBag.Title = "DisplayItems";
 }
@@ -45,7 +45,7 @@
             <th scope="col"> Delete</th>
 
         </tr>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Items)
         {
             <tr>
                 <td>@item.Id</td>
@@ -61,9 +61,9 @@
 
     </table>
     <br />
-   Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+   Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
     
-   @Html.PagedListPager(Model, page => Url.Action("Items", 
+   @Html.PagedListPager(Model.Items, page => Url.Action("Items", 
        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
 
 </form>

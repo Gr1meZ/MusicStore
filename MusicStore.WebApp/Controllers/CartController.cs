@@ -56,7 +56,9 @@ namespace MusicStore.WebApp.Controllers
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            return View(items.ToPagedList(pageNumber, pageSize));
+            var pagedList = new IndexViewModel();
+            pagedList.Items = items.ToPagedList(pageNumber, pageSize);
+            return View(pagedList);
             
         }
          [HttpGet]
@@ -77,8 +79,9 @@ namespace MusicStore.WebApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var cart =   _cart.GetCart(userId);
-            var paginatedList = await PaginatedList<Cart>.CreateAsync(cart, pageNumber, 5);
-            return View("Cart",paginatedList);
+            var pagedList = new IndexViewModel();
+            pagedList.Cart = await PaginatedList<Cart>.CreateAsync(cart, pageNumber, 5);
+            return View("Cart",pagedList);
             
         }
          [HttpGet]
@@ -113,7 +116,16 @@ namespace MusicStore.WebApp.Controllers
          public IActionResult Details(int id)
          {
              var cart = _item.GetAll().FirstOrDefault(com => com.Id == id);
-             return PartialView(cart);
+             var itemViewModel = new ItemViewModel()
+             {
+                 Id = cart.Id,
+                 Name = cart.Name,
+                 Price = cart.Price,
+                 Description = cart.Description,
+                 ImageName = cart.ImageName,
+                 TypeId = cart.TypeId
+             };
+             return PartialView(itemViewModel);
             
          }
          [HttpGet]

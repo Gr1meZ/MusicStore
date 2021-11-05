@@ -28,8 +28,9 @@ namespace MusicStore.WebApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var orders = _order.GetUsersOrders(userId);
-            var paginatedList = await PaginatedList<UsersOrders>.CreateAsync(orders, pageNumber, 5);
-            return View("MyOrders",paginatedList);
+            var pagedList = new IndexViewModel();
+            pagedList.UsersOrders = await PaginatedList<UsersOrders>.CreateAsync(orders, pageNumber, 5);
+            return View("MyOrders",pagedList);
 
         }
         [Authorize]
@@ -40,7 +41,10 @@ namespace MusicStore.WebApp.Controllers
             var userOrder = _order.GetUsersOrders(userId).FirstOrDefault(i => i.OrderId == id);
             var orderIdKey = _order.GetOrderId(userOrder.OrderId);
             var items = _order.OrderDetails(orderIdKey);
-            return PartialView(items);
+            return PartialView(new OrderViewModel
+            {
+                Orders = items
+            });
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -103,11 +107,13 @@ namespace MusicStore.WebApp.Controllers
             }
             int pageSize = 8;
             int pageNumber = (page ?? 1);
-            return View("Unproccessed",orders.ToPagedList(pageNumber, pageSize));
+            var pagedList = new IndexViewModel();
+            pagedList.BootstrapUsersOrders = orders.ToPagedList(pageNumber, pageSize);
+            return View("Unproccessed",pagedList);
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IActionResult Finished(string sortOrder,string searchString,string currentFilter, int? page)
+        public async Task<IActionResult> Finished(string sortOrder,string searchString,string currentFilter, int? page)
         {
             var orders =   _order.GetLogs();
             ViewBag.CurrentSort = sortOrder;
@@ -163,24 +169,37 @@ namespace MusicStore.WebApp.Controllers
                     orders = orders.OrderBy(s => s.Date);
                     break;
             }
-            int pageSize = 8;
             int pageNumber = (page ?? 1);
-            return View("Finished",orders.ToPagedList(pageNumber, pageSize));
+            var pagedList = new IndexViewModel();
+            pagedList.UsersOrders = await PaginatedList<UsersOrders>.CreateAsync(orders, pageNumber, 5);
+            return View("Finished",pagedList);
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeStatus(int itemId)
         {
             var order = await _order.GetOrder(itemId);
-       
-            return View("Status", order);
+            var OrderView = new OrderViewModel()
+            {
+                Id = itemId,
+                Status = order.Status
+            };
+            return View("Status", OrderView);
         }
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeStatus(UsersOrders orderDto)
         {
-            await _order.ChangeOrderStatus(orderDto);
+            var order = new UsersOrders()
+            {
+                Id = orderDto.Id,
+                Date = orderDto.Date,
+                Status = orderDto.Status,
+                OrderId = orderDto.OrderId,
+                UserId = orderDto.UserId
+            };
+            await _order.ChangeOrderStatus(order);
             return Redirect("/Order/GetUnproccessed");
         }
         }
