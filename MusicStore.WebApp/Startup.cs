@@ -55,6 +55,7 @@ namespace MusicStore.WebApp
                     options.ClientId = "359e3e40f30d4a49a3dba035aaa1d437";
                     options.ClientSecret = "7c8f2e57af7a4ea6b35bfc16910d8fd3";
                 });
+            
         }
 
       

@@ -12,10 +12,11 @@
             @foreach (var item in Model.Orders)
             {
                 {
-                    total += item.Price.Price;
+                    total += item.Price.Price * item.Count;
                 }
                 <dt>Model: @item.Item.Name</dt>
                 <dd>Price: @item.Item.Price</dd>
+                <dd>Quantity: @item.Count</dd>
             }
               <dt>Total price: @total</dt>
         </dl>

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
+using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Models;
 using X.PagedList;
 
@@ -66,28 +67,41 @@ namespace MusicStore.WebApp.Controllers
          [Authorize]
          public async Task<IActionResult> AddToCart(int id)
          {
+            
                  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                 var cartDto = new Cart();
-                 cartDto.PriceId = id;
-                 cartDto.ItemId = id;
-                 cartDto.UserId = userId;
-                 await _cart.AddToCart(cartDto);
-                 return Redirect("/Cart/GetCart");
+                 var usersCart = await _cart.GetCart(userId).ToListAsync();
+                 var index = usersCart.FindIndex(item => item.ItemId == id);
+                 if (index >= 0)
+                 {
+                     return Redirect("/Cart/GetCart");
+                 }
+                 else
+                 {
+                     var cartDto = new Cart();
+                     cartDto.PriceId = id;
+                     cartDto.ItemId = id;
+                     cartDto.UserId = userId;
+                     await _cart.AddToCart(cartDto);
+                     return Redirect("/Cart/GetCart");
+                 }
          }
          [Authorize]
-        [HttpGet]
+         [HttpGet]
          public async Task<ActionResult> GetCart(int pageNumber=1)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var cart =   _cart.GetCart(userId);
             var pagedList = new IndexViewModel();
             pagedList.Cart = await PaginatedList<Cart>.CreateAsync(cart, pageNumber, 5);
+            pagedList.ItemsQuantities = new List<int>();
+            foreach (var item in cart)
+                pagedList.ItemsQuantities.Add(1);
             return View("Cart",pagedList);
             
         }
          [HttpGet]
          [Authorize]
-         public async Task<IActionResult> AddOrder()
+         public async Task<IActionResult> AddOrder(IndexViewModel model)
          {
              if (ModelState.IsValid)
              {
@@ -97,6 +111,7 @@ namespace MusicStore.WebApp.Controllers
                  Order Order;
                  var list = new List<Order>();
                  var guid = System.Guid.NewGuid();
+                 var itemsQuantities = model.ItemsQuantities;
                  foreach (var item in usersCart)
                  {
                      Order = new Order();
@@ -104,8 +119,11 @@ namespace MusicStore.WebApp.Controllers
                      Order.ItemId = item.ItemId;
                      Order.PriceId = item.ItemId;
                      Order.OrderId = guid;
-                     list.Add(Order);
+                     list.Add(Order); 
                  }
+                 
+                 for (int i = 0; i < list.Count(); i++)
+                     list[i].Count = itemsQuantities[i];
                  
                  await _order.SubmitOrder(list, userId);
                  await _cart.RemoveRange(userId);

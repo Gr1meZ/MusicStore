@@ -52,7 +52,9 @@
             });
         })
     </script>
+
 }
+
 Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
     
 @Html.PagedListPager(Model.Items, page => Url.Action("Items", 

@@ -10,22 +10,29 @@
                         <div class="cart_items">
                             <ul class="cart_list">
                                 
-                                @foreach (var item in Model.Cart)
+                                @for (int i = 0; i < Model.Cart.Count; i++)
                                 {
                                     <li class="cart_item clearfix">
-                                        <div class="cart_item_image"><img src="@("~/image/" + @item.Item.ImageName)" asp-append-version="true" alt=""></div>
+                                        <div class="cart_item_image"><img src="@("~/image/" + Model.Cart[i].Item.ImageName)" asp-append-version="true" alt=""></div>
                                         <div class="cart_item_info d-flex flex-md-row flex-column justify-content-between">
                                             <div class="cart_item_name cart_info_col">
                                                 <div class="cart_item_title">Name</div>
-                                                <div class="cart_item_text">@item.Item.Name</div>
+                                                <div class="cart_item_text">@Model.Cart[i].Item.Name</div>
                                             </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_title">Price</div>
-                                                <div class="cart_item_text" id="total">@item.Item.Price</div>
+                                                <div class="cart_item_text" id="total">@Model.Cart[i].Item.Price</div>
                                             </div>
+                                              <div class="cart_item_price cart_info_col">
+                                                  <div class="cart_item_title">Count</div>
+                                                  <div class="cart_item_text" id="total"> 
+                                                    @Html.TextBoxFor(m => m.ItemsQuantities[i], 
+                                                        new { @min = "1", @max = "10", @type = "number", @id = "Items", @name = "Items",  @class="form-control"}) <br/>
+                                                      </div>
+                                                  </div>
                                             <div class="cart_item_price cart_info_col">
                                                 <div class="cart_item_text"> 
-                                                    @Html.ActionLink("Delete", "RemoveCartItem", "Cart", new {cartId = item.Id}, new {})
+                                                    @Html.ActionLink("Delete", "RemoveCartItem", "Cart", new {cartId = Model.Cart[i].Id}, new {})
                                                 </div>
                                             </div>
                                         </div>
