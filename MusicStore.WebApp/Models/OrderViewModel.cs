@@ -8,5 +8,7 @@ namespace MusicStore.WebApp.Models
         public int Id { get; set; }
         public IEnumerable<Order> Orders { get; set; }
         public OrderStatus Status { get; set; }
+        public string UserId { get; set; }
+        public int orderId { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicStore.Data.Interfaces;
@@ -91,6 +92,7 @@ namespace MusicStore.WebApp.Controllers
              if (ModelState.IsValid)
              {
                  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                 var userEmail = User.FindFirstValue(ClaimTypes.Email);
                  var usersCart = _cart.GetCart(userId);
                  Order Order;
                  var list = new List<Order>();
@@ -107,6 +109,8 @@ namespace MusicStore.WebApp.Controllers
                  
                  await _order.SubmitOrder(list, userId);
                  await _cart.RemoveRange(userId);
+                 await SendEmail.Send(userEmail, "Order",
+                     $"Your order №{list.First().Id.ToString()} has been submitted. Wait for status change in few days");
                  return Redirect("/Order/GetOrders");
              }
              return Redirect("/Item/Items");

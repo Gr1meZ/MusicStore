@@ -3,7 +3,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicStore.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Models;
@@ -15,11 +17,13 @@ namespace MusicStore.WebApp.Controllers
     {
         private readonly IOrderRepository _order;
         private readonly ICartRepository _cart;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(IOrderRepository order, ICartRepository cart)
+        public OrderController(IOrderRepository order, ICartRepository cart, UserManager<ApplicationUser> userManager)
         {
             _order = order;
             _cart = cart;
+            _userManager = userManager;
         }
     
         [HttpGet]
@@ -182,7 +186,9 @@ namespace MusicStore.WebApp.Controllers
             var OrderView = new OrderViewModel()
             {
                 Id = itemId,
-                Status = order.Status
+                Status = order.Status,
+                UserId = order.UserId,
+                orderId = order.OrderId
             };
             return View("Status", OrderView);
         }
@@ -199,7 +205,11 @@ namespace MusicStore.WebApp.Controllers
                 OrderId = orderDto.OrderId,
                 UserId = orderDto.UserId
             };
+            var user = await _userManager.FindByIdAsync(order.UserId);
+            var email = user.Email;
             await _order.ChangeOrderStatus(order);
+            await SendEmail.Send(email, "Status change",
+                $"Your order №{order.OrderId} has been changed to status {order.Status}");
             return Redirect("/Order/GetUnproccessed");
         }
         }
