@@ -91,8 +91,9 @@ namespace MusicStore.WebApp.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var cart =   _cart.GetCart(userId);
+            var count = _cart.GetCart(userId).ToList().Count;
             var pagedList = new IndexViewModel();
-            pagedList.Cart = await PaginatedList<Cart>.CreateAsync(cart, pageNumber, 5);
+            pagedList.Cart = await PaginatedList<Cart>.CreateAsync(cart, pageNumber, count);
             pagedList.ItemsQuantities = new List<int>();
             foreach (var item in cart)
                 pagedList.ItemsQuantities.Add(1);

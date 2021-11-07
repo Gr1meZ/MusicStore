@@ -47,18 +47,5 @@
                 </div>
             </div>
         </div>
-
-         @{
-               var prevDisabled = !Model.Cart.HasPreviousPage ? "disabled" : "";
-               var nextDisabled = !Model.Cart.HasNextPage ? "disabled" : "";
-         }
-          <a asp-action="GetCart"
-                asp-route-pageNumber="@(Model.Cart.PageIndex - 1)"
-                class="btn btn-default @prevDisabled">Previous
-             </a>
-              <a asp-action="GetCart"
-                    asp-route-pageNumber="@(Model.Cart.PageIndex + 1)"
-                    class="btn btn-default @nextDisabled">Next
-                     </a>
     </div>
 }
