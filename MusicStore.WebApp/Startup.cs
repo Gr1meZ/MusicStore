@@ -29,6 +29,7 @@ namespace MusicStore.WebApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
+            services.AddCoreAdmin("Admin");
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
@@ -55,7 +56,8 @@ namespace MusicStore.WebApp
                     options.ClientId = "359e3e40f30d4a49a3dba035aaa1d437";
                     options.ClientSecret = "7c8f2e57af7a4ea6b35bfc16910d8fd3";
                 });
-            
+                services.AddSession();
+               
         }
 
       
@@ -72,7 +74,7 @@ namespace MusicStore.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -80,12 +82,12 @@ namespace MusicStore.WebApp
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCoreAdminCustomUrl("adminpanel");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Cart}/{action=Items}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

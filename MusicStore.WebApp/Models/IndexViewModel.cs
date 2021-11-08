@@ -8,7 +8,7 @@ namespace MusicStore.WebApp.Models
     public class IndexViewModel
     {
         public IPagedList<Item> Items {get; set;}
-        public PaginatedList<Cart> Cart {get; set;}
+        public List<Cart> Cart {get; set;}
         public PaginatedList<ItemType> Types {get; set;}
         public IPagedList<Order> Orders {get; set;}
         public IPagedList<UsersOrders> BootstrapUsersOrders {get; set;}

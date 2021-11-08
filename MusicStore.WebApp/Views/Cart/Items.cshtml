@@ -2,14 +2,15 @@
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model IndexViewModel
 
-@using (Html.BeginForm("Items", "Cart", FormMethod.Get))
+@using (Html.BeginForm("Items", "Cart", FormMethod.Get, new {@class="form-inline"}))
     {
-        <p>
-            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
-        </p>
+        <div class="mx-auto p-4">
+            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class="form-control"})
+            <input type="submit" value="Search" class="btn btn-primary btn-sm"/>
+        
         @Html.DropDownList("type", ViewBag.Types as SelectList, "All",new {@class = "form-control"})
-        <input type="submit" value="Search" />
+            <input type="submit" value="Search" class="btn btn-primary btn-sm"/>
+            </div>
     }
     <div id="modDialog" class="modal fade" >
         <div id="dialogContent" class="modal-dialog"></div>

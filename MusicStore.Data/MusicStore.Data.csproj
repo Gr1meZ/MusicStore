@@ -5,11 +5,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="CoreAdmin" Version="1.8.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         <PrivateAssets>all</PrivateAssets>
       </PackageReference>
+      <PackageReference Include="MockQueryable.Core" Version="5.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.0" />
       <PackageReference Include="X.PagedList.Mvc.Bootstrap4" Version="8.1.0" />
