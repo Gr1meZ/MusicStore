@@ -4,7 +4,6 @@
 }
 @using (Html.BeginForm("AddItem", "Item", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    
     <form method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
@@ -31,11 +30,12 @@
         </div>
         <div class="form-group">
                    <div class="form-group">
-                       <input asp-for="ImageFile"  class="form-control" accept="image/*" required> 
+                       <input asp-for="ImageFile" id="input_img"  class="form-control" accept="image/*" required> 
                        <span asp-validation-for="ImageName"></span> 
                    </div>
                     
                </div>
-        <button type = "submit"class="btn btn-primary" id="btnSave"> Submit </button>
+        <button type = "submit"class="btn btn-primary"  id="btnSave"> Submit </button>
     </form>
 }
+

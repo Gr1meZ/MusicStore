@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicStore.Data.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211109150306_ItemsData")]
+    partial class ItemsData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -277,7 +279,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 1,
                             Description = "Classic american fender guitar",
-                            ImageName = "img_197352.jpg",
+                            ImageName = "https://www.kombik.com/resources/img/000/001/973/img_197352.jpg",
                             Name = "Fender Sqiuer Bullet",
                             Price = 600m,
                             TypeId = 2
@@ -286,7 +288,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 2,
                             Description = "Classic cheap guitar",
-                            ImageName = "YAMAHA F310 (TBS).jpg",
+                            ImageName = "https://dommuzyki.ua/img/cms/YAMAHA%20F310%20(TBS).jpg",
                             Name = "Yamaha f-310",
                             Price = 300m,
                             TypeId = 1
@@ -295,7 +297,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 3,
                             Description = "This model is suitable for use in broadcast, high-res film close-up, advertising, design visualization, forensic presentation, etc",
-                            ImageName = "cello.jpg",
+                            ImageName = "https://static.turbosquid.com/Preview/2016/03/04__11_43_48/1_Basic.jpga2882106-ea2f-4c1b-9344-abe7da315485Large.jpg",
                             Name = "TurboSmooth",
                             Price = 500m,
                             TypeId = 4
@@ -304,7 +306,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 4,
                             Description = "Four-string, five-string, active and passive pickups, fretted, fretless... as we know that all of these terms can be confusing for beginning bass players, we have put together the following advice for choosing your bass guitar.",
-                            ImageName = "fender-american-ultra-jazz-bass-mn-txt.jpg",
+                            ImageName = "https://img.kytary.com/eshop_ie/velky_v2/na/637084818221100000/6244ea3a/64698345/fender-american-ultra-jazz-bass-mn-txt.jpg",
                             Name = "Fender Jazz",
                             Price = 650m,
                             TypeId = 5
@@ -313,7 +315,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 5,
                             Description = "The T5 is our entry level TAMBURO galaxy option. But that’s not to say it’s a basic kit, because this set-up still boasts plenty of style and quality.",
-                            ImageName = "drums.jpg",
+                            ImageName = "https://www.phasersintegrated.com/wp-content/uploads/2021/07/drums.jpg",
                             Name = "TBT5S22GR SK",
                             Price = 650m,
                             TypeId = 3
@@ -322,7 +324,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 6,
                             Description = "Playing drums is not just about playing the drums themselves - the look of the kit also plays an important role, especially in the genres of Rock, Blues, Country or Jazz. With its familiar acoustic look, Roland's V-Drums Acoustic Design marks the center of any stage.",
-                            ImageName = "roland-vad506.jpg",
+                            ImageName = "https://sc1.musik-produktiv.com/pic-010119430xxl/roland-vad506.jpg",
                             Name = "Roland VAD506",
                             Price = 1020m,
                             TypeId = 3
@@ -331,7 +333,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 7,
                             Description = "The Kohala KG75S 3/4 guitar is an all new student sized Steel string featuring an Adjustable Truss Rod for maximum playability, Properly Cured Woods and Bracing for increased durability, Special Fret Installation and Pressurized Gluing methods for enhanced performance. Each Kohala guitar comes with a 5mm Padded Gig Bag and a Limited Lifetime Warranty.",
-                            ImageName = "kohala-3-4-size-steel-string-acoustic-guitar.jpg",
+                            ImageName = "https://img.kytary.com/eshop_ie/velky_v2/na/637298488625630000/9df4c7ec/64762517/kohala-3-4-size-steel-string-acoustic-guitar.jpg",
                             Name = "Kohala 3/4",
                             Price = 540m,
                             TypeId = 1
@@ -340,7 +342,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 8,
                             Description = "From the expanded Builder’s Edition Collection to the compact GT body shape and the American Dream Series, there are plenty of fresh faces at Taylor this year.",
-                            ImageName = "Taylor-K24ce-Koa-fr-v-class-2018.jpg",
+                            ImageName = "https://www.taylorguitars.com/sites/default/files/styles/multi_column_guitar_dark/public/responsive-guitar-detail/Taylor-K24ce-Koa-fr-v-class-2018.png?itok=i4UaojWg",
                             Name = "Taylor 54-G",
                             Price = 540m,
                             TypeId = 1
@@ -349,7 +351,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 9,
                             Description = "Designed with Ben Burnley, founder of Breaking Benjamin, to be one of the most versatile signature models ever made by ESP",
-                            ImageName = "original_0.jpg",
+                            ImageName = "https://www.espguitars.ru/netcat_files/707/926/original_0.png",
                             Name = "ESP LTD BB-600",
                             Price = 610m,
                             TypeId = 2
@@ -358,7 +360,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 10,
                             Description = "Awesome guitar that was played by John Frusciante",
-                            ImageName = "esp-vintage-plus-maple-137801.jpeg",
+                            ImageName = "https://img.audiofanzine.com/images/u/product/normal/esp-vintage-plus-maple-137801.jpeg",
                             Name = "Fender Stratocaster",
                             Price = 500m,
                             TypeId = 2
@@ -367,7 +369,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 11,
                             Description = "Affordable but loaded with quality materials, components and craftsmanship, the Action Series basses define value for the aspiring bass player",
-                            ImageName = "cort-action-plus-tr.jpg",
+                            ImageName = "https://img.kytary.com/eshop_ie/velky_v2/na/637511426172030000/ffbf0ffb/64833141/cort-action-plus-tr.jpg",
                             Name = "Cort Action Plus TR",
                             Price = 500m,
                             TypeId = 5
@@ -376,7 +378,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 12,
                             Description = "With features like Washburn’s reverse headstock, 80’s inspired body shape, and offset position markers, the Sonamaster SB1P is an instant classic aimed at the bass player beginning their musical journey",
-                            ImageName = "cort-action-plus-tr.jpg",
+                            ImageName = "https://www.washburn.com/wp-content/uploads/2018/06/SB1PB.jpg",
                             Name = "WashBurn",
                             Price = 800m,
                             TypeId = 5
@@ -385,7 +387,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 13,
                             Description = "The tone of these celli is rich, resonant and full, with wonderfully deep bass registers and a strong and vibrant upper register. ",
-                            ImageName = "MaestroCelloTop_400x1040_84cb4427-ca2b-4c9f-b40a-5621ad795ebb_800x.jpg",
+                            ImageName = "https://cdn.shopify.com/s/files/1/0182/0563/products/MaestroCelloTop_400x1040_84cb4427-ca2b-4c9f-b40a-5621ad795ebb_800x.JPG?v=1569187496",
                             Name = "WashBurn",
                             Price = 800m,
                             TypeId = 5
@@ -394,7 +396,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 14,
                             Description = "Improved once again, with even higher quality woods and varnish! One of the most popular cellos available today for the adult amateur and advanced cello student",
-                            ImageName = "Strumenti-105-cello-3-PNG.jpg",
+                            ImageName = "https://cdn.shopify.com/s/files/1/0182/0563/products/MaestroCelloTop_400x1040_84cb4427-ca2b-4c9f-b40a-5621ad795ebb_800x.JPG?v=1569187496",
                             Name = "STRINGWORKS MAESTRO",
                             Price = 500m,
                             TypeId = 4
@@ -403,7 +405,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 15,
                             Description = "The Stagg VNC-4/4 is a fully carved cello with a solid spruce top and a solid maple body. The neck and bridge are also made of maple, while the fingerboard and pegs are made of stained plywood.",
-                            ImageName = "stagg-vnc44-cello.jpg",
+                            ImageName = "https://static.keymusic.com/products/86616/340/stagg-vnc44-cello.jpg",
                             Name = "Stagg VNC44",
                             Price = 700m,
                             TypeId = 4

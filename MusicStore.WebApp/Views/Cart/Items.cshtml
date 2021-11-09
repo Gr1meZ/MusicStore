@@ -21,7 +21,7 @@
             @foreach (var item in Model.Items)
                             {
                                 <div class="col">
-                                    <div class="card h-100 shadow-sm">    <img src="@("~/image/" + @item.ImageName)" asp-append-version="true" class="card-img-top" alt="..." >
+                                    <div class="card h-100 shadow-sm">    <img src="@("~/image/" + @item.ImageName)" asp-append-version="true" style=" max-width: 100%;   height: auto;"  class="card-img-top" alt="..." >
                                         <div class="card-body">
                                             <div class="clearfix mb-3"> <span class="float-start badge rounded-pill bg-primary">@item.Name</span> <br/>
                                                 <span class="float-end price-hp">@item.Price₽</span> </div>

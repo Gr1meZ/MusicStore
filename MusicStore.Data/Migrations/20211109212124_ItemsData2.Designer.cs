@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicStore.Data.Data;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -9,9 +10,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MusicStore.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211109212124_ItemsData2")]
+    partial class ItemsData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -367,7 +369,7 @@ namespace MusicStore.Data.Migrations
                         {
                             Id = 11,
                             Description = "Affordable but loaded with quality materials, components and craftsmanship, the Action Series basses define value for the aspiring bass player",
-                            ImageName = "cort-action-plus-tr.jpg",
+                            ImageName = "https://img.kytary.com/eshop_ie/velky_v2/na/637511426172030000/ffbf0ffb/64833141/cort-action-plus-tr.jpg",
                             Name = "Cort Action Plus TR",
                             Price = 500m,
                             TypeId = 5
