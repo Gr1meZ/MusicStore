@@ -15,6 +15,7 @@
             Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
             <input type="submit" value="Search" />
         </p>
+        <a   asp-controller="Order" asp-action="GetUnproccessedAnonymous">Anonymous orders</a>
     }
     <table class="table">
 
@@ -35,7 +36,7 @@
                 <td>@item.OrderId</td>
                 <td>@item.Status</td>
                 <td>@item.Date</td>
-                <td>@Html.ActionLink("Status", "ChangeStatus", "Order", new {itemId = item.Id}, new {})</td>
+                <td>@Html.ActionLink("Status", "ChangeStatus", "Order", new {itemId = item.Id, type = OrderType.Authorized}, new {})</td>
             </tr>
         }
 

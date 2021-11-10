@@ -1,0 +1,56 @@
+﻿@model IndexViewModel
+@{
+    ViewBag.Title = "Finished";
+}
+
+<form >
+    
+    <h2>Anonymous orders logs</h2>
+
+    @using (Html.BeginForm("FinishedAnonymous", "Order", FormMethod.Get))
+    {
+        <p>
+            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+        <a   asp-controller="Order" asp-action="Finished">Back</a>
+    }
+    <table class="table">
+
+        <tr>
+            <th scope="col">@Html.ActionLink("ID", "FinishedAnonymous", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">  @Html.ActionLink("User", "FinishedAnonymous", new { sortOrder = ViewBag.Email, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">@Html.ActionLink("Order", "FinishedAnonymous", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col"> @Html.ActionLink("Status", "FinishedAnonymous", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
+              <th scope="col"> @Html.ActionLink("Date", "FinishedAnonymous", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
+       
+
+        </tr>
+        @foreach (var item in Model.AnonymousOrders)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Email</td>
+                <td>@item.OrderId</td>
+                <td>@item.Status</td>
+                <td>@item.Date</td>
+            </tr>
+        }
+
+
+    </table>
+    <br />
+   @{
+          var prevDisabled = !Model.AnonymousOrders.HasPreviousPage ? "disabled" : "";
+          var nextDisabled = !Model.AnonymousOrders.HasNextPage ? "disabled" : "";
+      }
+      <a asp-action="Finished"
+         asp-route-pageNumber="@(Model.AnonymousOrders.PageIndex - 1)"
+         class="btn btn-default @prevDisabled">Previous
+      </a>
+       <a asp-action="Finished"
+             asp-route-pageNumber="@(Model.AnonymousOrders.PageIndex + 1)"
+             class="btn btn-default @nextDisabled">Next
+              </a>
+
+</form>

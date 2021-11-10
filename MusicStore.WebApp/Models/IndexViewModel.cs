@@ -11,7 +11,9 @@ namespace MusicStore.WebApp.Models
         public PaginatedList<ItemType> Types {get; set;}
         public IPagedList<Order> Orders {get; set;}
         public IPagedList<UsersOrders> BootstrapUsersOrders {get; set;}
+        public IPagedList<AnonymousOrders> BootstrapAnonymousOrders {get; set;}
         public PaginatedList<UsersOrders> UsersOrders {get; set;}
+        public PaginatedList<AnonymousOrders> AnonymousOrders {get; set;}
         public List<int> ItemsQuantities { get; set; }
     }
 }

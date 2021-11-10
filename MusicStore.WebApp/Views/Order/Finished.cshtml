@@ -13,6 +13,7 @@
             Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
             <input type="submit" value="Search" />
         </p>
+        <a   asp-controller="Order" asp-action="FinishedAnonymous">Anonymous orders logs</a>
     }
     <table class="table">
 

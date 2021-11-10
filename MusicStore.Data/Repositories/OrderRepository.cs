@@ -59,6 +59,13 @@ namespace MusicStore.Data.Repositories
             _context.UsersOrders.Update(order);
             await _context.SaveChangesAsync();
         }
+        public async Task ChangeAnonymousOrderStatus(AnonymousOrders orderDto)
+        {
+            AnonymousOrders order = await GetAnonymousOrder(orderDto.Id);
+            order.Status = orderDto.Status;
+            _context.AnonymousOrders.Update(order);
+            await _context.SaveChangesAsync();
+        }
 
 
         public  Guid GetOrderId(int id)
@@ -70,6 +77,11 @@ namespace MusicStore.Data.Repositories
         public async Task<UsersOrders> GetOrder(int id)
         {
             var orderIdKey =  await _context.UsersOrders.FirstAsync(i => i.Id == id);
+            return orderIdKey;
+        }
+        public async Task<AnonymousOrders> GetAnonymousOrder(int id)
+        {
+            var orderIdKey =  await _context.AnonymousOrders.FirstAsync(i => i.Id == id);
             return orderIdKey;
         }
 
@@ -87,6 +99,11 @@ namespace MusicStore.Data.Repositories
 
 
         }
+        public IQueryable<AnonymousOrders> GetUnproccessedAnonymous()
+        {
+            return _context.AnonymousOrders
+                .Where(i => i.Status == OrderStatus.Sended || i.Status == OrderStatus.Accepted);
+        }
 
         public IQueryable<UsersOrders> GetLogs()
         {
@@ -94,6 +111,12 @@ namespace MusicStore.Data.Repositories
                 .Include(i => i.User)
                 .Where( i =>
                 i.Status == OrderStatus.Finished);
+        }
+        public IQueryable<AnonymousOrders> GetLogsAnonymous()
+        {
+            return _context.AnonymousOrders
+                .Where( i =>
+                    i.Status == OrderStatus.Finished);
         }
 
         public   IEnumerable<Order> OrderDetails(Guid orderIdDto)

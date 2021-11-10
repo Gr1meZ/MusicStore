@@ -14,6 +14,8 @@
         <button type="submit"class="btn btn-primary" id="btnSave"> Submit </button>
          @Html.HiddenFor(model => model.Id)
          @Html.HiddenFor(model => model.UserId)
-              @Html.HiddenFor(model => model.OrderId)
+         @Html.HiddenFor(model => model.Type)
+         @Html.HiddenFor(model => model.Email)
+         @Html.HiddenFor(model => model.OrderId)
     </form>
 }

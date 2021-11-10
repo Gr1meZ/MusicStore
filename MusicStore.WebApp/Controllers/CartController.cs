@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Helpers;
@@ -169,7 +168,6 @@ namespace MusicStore.WebApp.Controllers
              if (ModelState.IsValid)
              {
                  List<Order> orders = Session.GetObjectFromJson<List<Order>>(HttpContext.Session, "orders");
-                 List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
                  var orderId =  await _order.SubmitAnonymousOrder(orders, model.Email);
                  HttpContext.Session.Clear();
                  await SendEmail.Send(model.Email, "Order",
