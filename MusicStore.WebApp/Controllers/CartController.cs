@@ -4,9 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Helpers;
@@ -88,7 +88,7 @@ namespace MusicStore.WebApp.Controllers
                      else
                      {
                          List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-                         int ind = isExist(id);
+                         int ind = IsItemExist(id);
                          if (ind != -1)
                          {
                              return Redirect("/Cart/GetCart");
@@ -110,7 +110,7 @@ namespace MusicStore.WebApp.Controllers
                  }
                  else
                  {
-                     var usersCart = await _cart.GetCart(userId).ToListAsync();
+                     var usersCart = await PagedListExtensions.ToListAsync(_cart.GetCart(userId));
                      var index = usersCart.FindIndex(item => item.ItemId == id);
                      if (index >= 0)
                      {
@@ -147,33 +147,69 @@ namespace MusicStore.WebApp.Controllers
                 }
                 else
                 {
-                    pagedList.Cart = await _cart.GetCart("0").ToListAsync();
+                    pagedList.Cart = await PagedListExtensions.ToListAsync(_cart.GetCart("0"));
                     return View("Cart", pagedList);
                 }
             }
             else
             {
                 var cart = _cart.GetCart(userId);
-                var count = _cart.GetCart(userId).ToList().Count;
-                pagedList.Cart = await cart.ToListAsync();
+                pagedList.Cart = await PagedListExtensions.ToListAsync(cart);
                 pagedList.ItemsQuantities = new List<int>();
                 foreach (var item in cart)
                     pagedList.ItemsQuantities.Add(1);
                 return View("Cart", pagedList);
             }
         }
+
+         [HttpPost]
+         [AllowAnonymous]
+         public async Task<IActionResult> AnonymousSubmit(AnonymousViewModel model)
+         {
+             if (ModelState.IsValid)
+             {
+                 List<Order> orders = Session.GetObjectFromJson<List<Order>>(HttpContext.Session, "orders");
+                 List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
+                 var orderId =  await _order.SubmitAnonymousOrder(orders, model.Email);
+                 HttpContext.Session.Clear();
+                 await SendEmail.Send(model.Email, "Order",
+                     $"Your order №{orderId} has been submitted. Wait for status change in few days");
+                 return Redirect("/");
+             }
+
+             return View("AnonymousSubmit");
+         }
          [HttpGet]
          [AllowAnonymous]
          public async Task<IActionResult> AddOrder(IndexViewModel model)
          {
+             Order Order;
+             var guid = Guid.NewGuid();
              if (ModelState.IsValid)
              {
                  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                 if (userId == null)
+                 {
+                     List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
+                     List<Order> orders = new List<Order>();
+                     foreach (var item in cart)
+                     {
+                         Order = new Order();
+                         Order.Id = item.Id;
+                         Order.ItemId = item.ItemId;
+                         Order.PriceId = item.ItemId;
+                         Order.OrderId = guid;
+                         orders.Add(Order); 
+                     }
+                 
+                     for (int i = 0; i < orders.Count(); i++)
+                         orders[i].Count = model.ItemsQuantities[i];
+                     Session.SetObjectAsJson(HttpContext.Session, "orders", orders);
+                     return View("AnonymousSubmit");
+                 }
                  var userEmail = User.FindFirstValue(ClaimTypes.Email);
                  var usersCart = _cart.GetCart(userId);
-                 Order Order;
                  var list = new List<Order>();
-                 var guid = System.Guid.NewGuid();
                  var itemsQuantities = model.ItemsQuantities;
                  foreach (var item in usersCart)
                  {
@@ -221,7 +257,7 @@ namespace MusicStore.WebApp.Controllers
              if (userId == null)
              {
                  List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-                 int index = isExist(cartId);
+                 int index = IsExist(cartId);
                  cart.RemoveAt(index);
                  Session.SetObjectAsJson(HttpContext.Session, "cart", cart);
                  return Redirect("/Cart/GetCart");
@@ -232,12 +268,24 @@ namespace MusicStore.WebApp.Controllers
                  return Redirect("/Cart/GetCart");
              }
          }
-         private int isExist(int id)
+         private int IsExist(int id)
          {
              List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
              for (int i = 0; i < cart.Count; i++)
              {
                  if (cart[i].Id.Equals(id))
+                 {
+                     return i;
+                 }
+             }
+             return -1;
+         }
+         private int IsItemExist(int id)
+         {
+             List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
+             for (int i = 0; i < cart.Count; i++)
+             {
+                 if (cart[i].ItemId.Equals(id))
                  {
                      return i;
                  }

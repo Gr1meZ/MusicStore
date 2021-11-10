@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
-using MusicStore.Data.Models;
+
 
 namespace MusicStore.WebApp.Models
 {

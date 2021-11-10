@@ -22,7 +22,6 @@ namespace MusicStore.WebApp.Controllers
         {
 
             var types =  _type.GetAll();
-            var paginatedList = await PaginatedList<ItemType>.CreateAsync(types, pageNumber, 5);
             var pagedList = new IndexViewModel();
             pagedList.Types = await PaginatedList<ItemType>.CreateAsync(types, pageNumber, 5);
             return View(pagedList);
@@ -76,7 +75,6 @@ namespace MusicStore.WebApp.Controllers
                     Type = typeDto.Type
                 };
                 await _type.Update(type);
-                var list = _type.GetAll();
                 return Redirect("/ItemType/Types");
             }
             ViewBag.Message = string.Format("Input error!");

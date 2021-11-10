@@ -1,0 +1,29 @@
+﻿@model AnonymousViewModel
+
+@using (Html.BeginForm("AnonymousSubmit", "Cart", FormMethod.Post))
+{
+    <div class="container-fluid h-100 bg-light text-dark">
+        <div class="row justify-content-center align-items-center">
+            <h1>Personal data</h1>
+        </div>
+        <hr/>
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-md-4 col-md-offset-4">
+                <form action="">
+                    <div class="form-group">
+                        <input asp-for="Email" class="form-control" placeholder="Email" type="email"/>
+                        <span asp-validation-for="Email"></span>
+                    </div>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col text-center">
+                                <button class="btn btn-primary" type="submit">Submit</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

@@ -17,6 +17,7 @@ namespace MusicStore.Data.Data
         public DbSet<Cart> Cart { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<UsersOrders> UsersOrders { get; set; }
+        public DbSet<AnonymousOrders> AnonymousOrders { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -25,7 +26,7 @@ namespace MusicStore.Data.Data
             modelBuilder.ApplyConfiguration(new CartEntityConfiguration());
             modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
             modelBuilder.ApplyConfiguration(new UsersOrdersEntityConfiguration());
-        
+            modelBuilder.ApplyConfiguration(new AnonymousOrdersEntityConfiguration());
         }
     }
 }

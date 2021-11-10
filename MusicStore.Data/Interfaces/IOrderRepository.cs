@@ -16,5 +16,6 @@ namespace MusicStore.Data.Interfaces
         IQueryable<UsersOrders> GetUnproccessed();
         IQueryable<UsersOrders> GetLogs();
         IEnumerable<Order> OrderDetails(Guid orderId);
+        Task<int> SubmitAnonymousOrder(List<Order> orderList, string email);
     }
 }

@@ -33,6 +33,25 @@ namespace MusicStore.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Order> GetSessionOrder(List<Order> orderList)
+        {
+            orderList.ForEach(i => _context.Orders.AddAsync(i));
+            await _context.SaveChangesAsync();
+            return await _context.Orders.FirstOrDefaultAsync(key => key.OrderId == orderList.First().OrderId);
+        }
+        public async Task<int> SubmitAnonymousOrder(List<Order> orderList, string email)
+        {
+            var order = await GetSessionOrder(orderList);
+            var anonymousOrders = new AnonymousOrders();
+            var date = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+            anonymousOrders.OrderId = order.Id;
+            anonymousOrders.Email = email;
+            anonymousOrders.Status = OrderStatus.Sended;
+            anonymousOrders.Date = Convert.ToDateTime(date);
+            await _context.AnonymousOrders.AddAsync(anonymousOrders);
+            await _context.SaveChangesAsync();
+            return order.Id;
+        }
         public async Task ChangeOrderStatus(UsersOrders orderDto)
         {
             UsersOrders order = await GetOrder(orderDto.Id);

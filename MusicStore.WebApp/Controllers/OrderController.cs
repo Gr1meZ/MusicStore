@@ -183,14 +183,14 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> ChangeStatus(int itemId)
         {
             var order = await _order.GetOrder(itemId);
-            var OrderView = new OrderViewModel()
+            var orderView = new OrderViewModel()
             {
                 Id = itemId,
                 Status = order.Status,
                 UserId = order.UserId,
-                orderId = order.OrderId
+                OrderId = order.OrderId
             };
-            return View("Status", OrderView);
+            return View("Status", orderView);
         }
         
         [HttpPost]
