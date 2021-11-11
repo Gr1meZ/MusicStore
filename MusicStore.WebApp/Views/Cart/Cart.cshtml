@@ -1,14 +1,15 @@
 ﻿
 @model IndexViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using (Html.BeginForm("GetCart", "Cart", FormMethod.Get, new {enctype = "multipart/form-data"}))
 {
   <div class="container">
     <table id="cart" class="table table-hover table-condensed">
       <thead>
       <tr>
-        <th style="width:50%">Product</th>
-        <th style="width:10%">Price</th>
-        <th style="width:8%">Quantity</th>
+        <th style="width:50%">@Localizer["Product"]</th>
+        <th style="width:10%">@Localizer["Price"]</th>
+        <th style="width:8%">@Localizer["Quantity"]</th>
         <th style="width:10%"></th>
       </tr>
       </thead>
@@ -31,16 +32,16 @@
                           new { @min = "1", @max = "10", @type = "number", @id = "Items", @name = "Items",  @class="form-control text-center"}) 
           </td>
           <td class="actions" data-th="">
-           <a asp-controller="cart" asp-action="RemoveCartItem" asp-route-cartId="@Model.Cart[i].Id">Remove</a>
+           <a asp-controller="cart" asp-action="RemoveCartItem" asp-route-cartId="@Model.Cart[i].Id">@Localizer["Remove"]</a>
           </td>
         </tr>
       }
       </tbody>
       <tfoot>
       <tr>
-        <td><button class="btn btn-warning" type="submit"  asp-action="Items"> <i class="fa fa-angle-left" ></i> Continue Shopping</button></td>
+        <td><button class="btn btn-warning" type="submit"  asp-action="Items"> <i class="fa fa-angle-left" ></i> @Localizer["Continue shopping"]</button></td>
         <td colspan="2" class="hidden-xs"></td>
-        <td><button type="submit" class="btn btn-success btn-block" asp-action="AddOrder">Checkout <i class="fa fa-angle-right"></i></button></td>
+        <td><button type="submit" class="btn btn-success btn-block" asp-action="AddOrder">@Localizer["Checkout"] <i class="fa fa-angle-right"></i></button></td>
       </tr>
       </tfoot>
     </table>

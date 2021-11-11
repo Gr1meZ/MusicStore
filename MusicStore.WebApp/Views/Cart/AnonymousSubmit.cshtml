@@ -1,10 +1,11 @@
 ﻿@model AnonymousViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
 @using (Html.BeginForm("AnonymousSubmit", "Cart", FormMethod.Post))
 {
     <div class="container-fluid h-100 bg-light text-dark">
         <div class="row justify-content-center align-items-center">
-            <h1>Personal data</h1>
+            <h1>@Localizer["Personal data"]</h1>
         </div>
         <hr/>
         <div class="row justify-content-center align-items-center h-100">
@@ -17,7 +18,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col text-center">
-                                <button class="btn btn-primary" type="submit">Submit</button>
+                                <button class="btn btn-primary" type="submit">@Localizer["Submit"]</button>
                             </div>
                             
                         </div>

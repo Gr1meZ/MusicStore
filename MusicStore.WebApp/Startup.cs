@@ -1,15 +1,22 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using MusicStore.Data;
 using MusicStore.Data.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Repositories;
+using MusicStore.WebApp.Helpers;
+using MusicStore.WebApp.Middlewares;
 
 namespace MusicStore.WebApp
 {
@@ -26,6 +33,23 @@ namespace MusicStore.WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
+            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                {
+                    new CultureInfo("en"),
+                    new CultureInfo("ru")
+                };
+                options.DefaultRequestCulture = new RequestCulture("en");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -57,7 +81,10 @@ namespace MusicStore.WebApp
                     options.ClientSecret = "7c8f2e57af7a4ea6b35bfc16910d8fd3";
                 });
                 services.AddSession();
-               
+                services
+                    .AddRazorPages()
+                    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+
         }
 
       
@@ -74,6 +101,7 @@ namespace MusicStore.WebApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -82,6 +110,10 @@ namespace MusicStore.WebApp
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+
+            app.UseRequestLocalization(app.ApplicationServices
+                .GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
             app.UseCoreAdminCustomUrl("adminpanel");
             app.UseEndpoints(endpoints =>
             {

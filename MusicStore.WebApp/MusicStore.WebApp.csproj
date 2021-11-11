@@ -37,10 +37,287 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Items\AddItem.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Login.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\Register.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Account\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Pages\Shared" />
+      <Folder Include="Resources\Views\Home" />
       <Folder Include="wwwroot\image" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Update="Resources/Resources.resx">
+            <Generator>PublicResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\AnonymousSubmit.en.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>AnonymousSubmit.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\AnonymousSubmit.ru.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>AnonymousSubmit.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\Items.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Items.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\Items.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Items.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_Culture.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Culture.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_Culture.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Culture.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\Cart.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Cart.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\Cart.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Cart.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_Layout.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_Layout.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_Layout.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_LoginPartial.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_LoginPartial.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_LoginPartial.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>_LoginPartial.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Login.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Login.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Login.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Login.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Register.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Register.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Register.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Register.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\Details.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Details.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\Details.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Details.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Items\Items.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Items.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Items\Items.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Items.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Item\AddItem.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AddItem.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Item\AddItem.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AddItem.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Item\EditItem.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>EditItem.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Item\EditItem.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>EditItem.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\ItemType\AddType.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AddType.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\ItemType\AddType.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AddType.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\ItemType\EditType.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>EditType.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\ItemType\EditType.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>EditType.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\ItemType\Types.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Types.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\ItemType\Types.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Types.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources\Views\Cart\AnonymousSubmit.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AnonymousSubmit.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\AnonymousSubmit.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AnonymousSubmit.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\Items.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Items.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\Items.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Items.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\Cart.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Cart.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\Cart.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Cart.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_Layout.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_Layout.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_Layout.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_Layout.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_LoginPartial.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_LoginPartial.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Shared\_LoginPartial.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>_LoginPartial.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Areas\Identity\Pages\Account\Login.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Login.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Areas\Identity\Pages\Account\Login.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Login.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Areas\Identity\Pages\Account\Register.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Register.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Areas\Identity\Pages\Account\Register.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Register.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\Details.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Details.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\Details.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Details.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Items\Items.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Items.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Items\Items.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Items.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Item\AddItem.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AddItem.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Item\AddItem.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AddItem.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Item\EditItem.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>EditItem.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Item\EditItem.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>EditItem.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\ItemType\AddType.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AddType.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\ItemType\AddType.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AddType.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\ItemType\EditType.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>EditType.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\ItemType\EditType.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>EditType.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\ItemType\Types.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Types.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\ItemType\Types.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Types.en.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

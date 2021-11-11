@@ -1,12 +1,12 @@
 ﻿@model MusicStore.WebApp.Models.ItemTypeViewModel
- 
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 
  
 <form asp-action="AddType" method="post">
     <div class="form-group">
-        <label for="Type">New Type</label>
-        <input name="Type" id="Type" class="form-control" asp-for="Type"/>
+        <label for="Type">@Localizer["New Type"]</label>
+        <input name="Type" id="Type" class="form-control" asp-for="Type" placeholder="@Localizer["Enter type"]"/>
          <span asp-validation-for="Type"></span> 
     </div>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary">@Localizer["Add"]</button>
 </form>

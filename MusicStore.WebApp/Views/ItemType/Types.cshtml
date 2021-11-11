@@ -3,18 +3,16 @@
 }
 
 @model IndexViewModel
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <form >
-    <h2>List of items</h2>
+    <h2>@Localizer["List of items"]</h2>
 
     <table class="table">
 
         <tr>
             <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Edit</th>
-            <th scope="col"> Delete</th>
-   
+            <th scope="col">@Localizer["Name"]</th>
+
         </tr>
         @foreach (var item in Model.Types)
         {
@@ -22,8 +20,8 @@
                 <td>@item.Id</td>
                 <td>@item.Type</td>
                 
-                <td>@Html.ActionLink("Edit", "EditType", "ItemType", new { typeId = item.Id }, new { })</td>
-                <td>@Html.ActionLink("Delete", "DeleteType", "ItemType", new { typeId = item.Id  }, new { })</td>
+                <td>@Html.ActionLink(Localizer.GetString("Edit"), "EditType", "ItemType", new { typeId = item.Id }, new { })</td>
+                <td>@Html.ActionLink(Localizer.GetString("Delete"), "DeleteType", "ItemType", new { typeId = item.Id  }, new { })</td>
             </tr>
         }
 
@@ -35,11 +33,11 @@
     }
     <a asp-action="Types"
        asp-route-pageNumber="@(Model.Types.PageIndex - 1)"
-       class="btn btn-default @prevDisabled">Previous
+       class="btn btn-default @prevDisabled">@Localizer["Previous"]
     </a>
      <a asp-action="Types"
            asp-route-pageNumber="@(Model.Types.PageIndex + 1)"
-           class="btn btn-default @nextDisabled">Next
+           class="btn btn-default @nextDisabled">@Localizer["Next"]
             </a>
   
 </form>

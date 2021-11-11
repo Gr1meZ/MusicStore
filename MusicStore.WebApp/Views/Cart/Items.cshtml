@@ -1,15 +1,19 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model IndexViewModel
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@{
+    var details = @Localizer["Details"];
+    var all = Localizer["All"];
+}
 @using (Html.BeginForm("Items", "Cart", FormMethod.Get, new {@class="form-inline"}))
     {
         <div class="mx-auto p-4">
-            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class="form-control"})
-            <input type="submit" value="Search" class="btn btn-primary btn-sm"/>
+            @Localizer["Find"]: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class="form-control"})
+            <input type="submit" value=@Localizer["Search"] class="btn btn-primary btn-sm"/>
         
-        @Html.DropDownList("type", ViewBag.Types as SelectList, "All",new {@class = "form-control"})
-            <input type="submit" value="Search" class="btn btn-primary btn-sm"/>
+        @Html.DropDownList("type", ViewBag.Types as SelectList, all.Value,new {@class = "form-control"})
+            <input type="submit" value=@Localizer["Search"] class="btn btn-primary btn-sm"/>
             </div>
     }
     <div id="modDialog" class="modal fade" >
@@ -26,8 +30,10 @@
                                             <div class="clearfix mb-3"> <span class="float-start badge rounded-pill bg-primary">@item.Name</span> <br/>
                                                 <span class="float-end price-hp">@item.Price₽</span> </div>
                                             <p class="card-title">@item.Type.Type </p>
-                                            <div class="text-center my-4"> <a class="btn btn-warning"  asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id"  >Add to cart</a> </div>
-                                            @Html.ActionLink("Details", "Details", 
+                                            <div class="text-center my-4"> <a class="btn btn-warning" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M21 4H2v2h2.3l3.521 9.683A2.004 2.004 0 0 0 9.7 17H18v-2H9.7l-.728-2H18c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 4z"></path><circle cx="10.5" cy="19.5" r="1.5"></circle><circle cx="16.5" cy="19.5" r="1.5"></circle></svg>
+                                            </a> </div>
+                                            @Html.ActionLink(details.Value, "Details", 
                                                             new { id = item.Id }, new { @class = "compItem" })
                                         </div>
                                     </div>
@@ -56,7 +62,7 @@
 
 }
 
-Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
+@Localizer["Page"] @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) @Localizer["of"] @Model.Items.PageCount
     
 @Html.PagedListPager(Model.Items, page => Url.Action("Items", 
     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)

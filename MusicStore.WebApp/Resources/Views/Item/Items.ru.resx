@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Add item" xml:space="preserve">
+        <value>Добавить товар</value>
+    </data>
+    <data name="Types" xml:space="preserve">
+        <value>Типы</value>
+    </data>
+    <data name="Add type" xml:space="preserve">
+        <value>Добавить тип</value>
+    </data>
+    <data name="List of items" xml:space="preserve">
+        <value>Список товаров</value>
+    </data>
+    <data name="Find" xml:space="preserve">
+        <value>Найти</value>
+    </data>
+    <data name="Name" xml:space="preserve">
+        <value>Товар</value>
+    </data>
+    <data name="Price" xml:space="preserve">
+        <value>Цена</value>
+    </data>
+    <data name="Description" xml:space="preserve">
+        <value>Описание</value>
+    </data>
+    <data name="Search" xml:space="preserve">
+        <value>Поиск</value>
+    </data>
+    <data name="Page" xml:space="preserve">
+        <value>Страница</value>
+    </data>
+    <data name="of" xml:space="preserve">
+        <value>из</value>
+    </data>
+    <data name="Edit" xml:space="preserve">
+        <value>Изменить</value>
+    </data>
+    <data name="Delete" xml:space="preserve">
+        <value>Удалить</value>
+    </data>
+    <data name="Type" xml:space="preserve">
+        <value>Тип</value>
+    </data>
+</root>

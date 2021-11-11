@@ -1,48 +1,50 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @model IndexViewModel
 @{
     ViewBag.Title = "DisplayItems";
 }
-
+@{
+    var search = Localizer["Search"];
+}
 <form>
       <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                     <div class="container">
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
-                                   <a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="AddItem">Add Item</a>
+                                   <a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="AddItem">@Localizer["Add item"]</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="ItemType" asp-action="Types">Types</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ItemType" asp-action="Types">@Localizer["Types"]</a>
                                 </li>
                                  <li class="nav-item">
-                                     <a class="nav-link text-dark" asp-area="" asp-controller="ItemType" asp-action="AddType">Add type</a>
+                                     <a class="nav-link text-dark" asp-area="" asp-controller="ItemType" asp-action="AddType">@Localizer["Add type"]</a>
                                      </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
    
-    <h2>List of items</h2>
+    <h2>@Localizer["List of items"]</h2>
 
     @using (Html.BeginForm("Items", "Item", FormMethod.Get))
     {
         <p>
-            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
+            @Localizer["Find"]: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value=@search>
         </p>
     }
     <table class="table">
 
         <tr>
-            <th scope="col">@Html.ActionLink("ID", "Items", new { sortOrder = ViewBag.IdParam, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">  @Html.ActionLink("Name", "Items", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">@Html.ActionLink("Price", "Items", new { sortOrder = ViewBag.PriceSortParam, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col"> @Html.ActionLink("Description", "Items", new { sortOrder = ViewBag.DescriptionParam,currentFilter=ViewBag.CurrentFilter })</th>
-              <th scope="col"> @Html.ActionLink("Type", "Items", new { sortOrder = ViewBag.TypeParam, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">Edit</th>
-            <th scope="col"> Delete</th>
+            <th scope="col">@Html.ActionLink(Localizer["ID"].Value, "Items", new { sortOrder = ViewBag.IdParam, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">  @Html.ActionLink(Localizer["Name"].Value, "Items", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col">@Html.ActionLink(Localizer["Price"].Value, "Items", new { sortOrder = ViewBag.PriceSortParam, currentFilter=ViewBag.CurrentFilter })</th>
+            <th scope="col"> @Html.ActionLink(Localizer["Description"].Value, "Items", new { sortOrder = ViewBag.DescriptionParam,currentFilter=ViewBag.CurrentFilter })</th>
+              <th scope="col"> @Html.ActionLink(Localizer["Type"].Value, "Items", new { sortOrder = ViewBag.TypeParam, currentFilter=ViewBag.CurrentFilter })</th>
+         
 
         </tr>
         @foreach (var item in Model.Items)
@@ -53,15 +55,15 @@
                 <td>@item.Price</td>
                 <td>@item.Description</td>
                 <td>@item.Type.Type</td>
-                <td>@Html.ActionLink("Edit", "EditItem", "Item", new {itemId = item.Id}, new {})</td>
-                <td>@Html.ActionLink("Delete", "DeleteItem", "Item", new {itemId = item.Id}, new {})</td>
+                <td>@Html.ActionLink(Localizer["Edit"].Value, "EditItem", "Item", new {itemId = item.Id}, new {})</td>
+                <td>@Html.ActionLink(Localizer["Delete"].Value, "DeleteItem", "Item", new {itemId = item.Id}, new {})</td>
             </tr>
         }
 
 
     </table>
     <br />
-   Page @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) of @Model.Items.PageCount
+   @Localizer["Page"] @(Model.Items.PageCount < Model.Items.PageNumber ? 0 : Model.Items.PageNumber) @Localizer["of"] @Model.Items.PageCount
     
    @Html.PagedListPager(Model.Items, page => Url.Action("Items", 
        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)
