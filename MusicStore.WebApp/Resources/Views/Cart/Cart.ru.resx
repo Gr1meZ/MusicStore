@@ -39,4 +39,7 @@
     <data name="Continue shopping" xml:space="preserve">
         <value>Продолжить покупку</value>
     </data>
+    <data name="Your cart is empty. Choose any item " xml:space="preserve">
+        <value>Ваша корзина пуста. Выберите товар</value>
+    </data>
 </root>

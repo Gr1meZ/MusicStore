@@ -1,27 +1,36 @@
 ﻿@model IndexViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @using (Html.BeginForm("GetOrders", "Order", FormMethod.Get, new {enctype = "multipart/form-data"}))
 {
     <div id="modDialog" class="modal fade" >
         <div id="dialogContent" class="modal-dialog"></div>
     </div>
     <section class="container py-5">
-        <div class="row pt-3">
-        <!-- Author-->
-        @foreach (var item in Model.UsersOrders)
+        @if (@Model.UsersOrders.Count == 0)
         {
-            <div class="col-lg-3 col-sm-6 mb-30 pb-2">
-                <div class="team-card-style-3 mx-auto">
-                    <h4 class="team-name">Order №@item.OrderId</h4>
-                    <div>Status : @item.Status</div>
-                    <div>Date : @item.Date</div>
-                      @Html.ActionLink("Details", "Details", 
-                          new { id = item.OrderId }, new { @class = "compItem" })
-
-                </div>
+            <div>
+                   @Localizer["Your order list is empty"]
             </div>
         }
-   
-    </div>
+        else
+        {
+            <div class="row pt-3">
+                <!-- Author-->
+                @foreach (var item in Model.UsersOrders)
+                {
+                    <div class="col-lg-3 col-sm-6 mb-30 pb-2">
+                        <div class="team-card-style-3 mx-auto">
+                            <h4 class="team-name">@Localizer["Order"] №@item.OrderId</h4>
+                            <div>@Localizer["Status"] : @item.Status</div>
+                            <div>@Localizer["Date"] : @item.Date</div>
+                            @Html.ActionLink(Localizer.GetString("Details"), "Details",
+                                new {id = item.OrderId}, new {@class = "compItem"})
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     </section>
     
 }
@@ -31,11 +40,11 @@
     }
     <a asp-action="GetOrders"
        asp-route-pageNumber="@(Model.UsersOrders.PageIndex - 1)"
-       class="btn btn-default @prevDisabled">Previous
+       class="btn btn-default @prevDisabled">@Localizer["Previous"]
     </a>
      <a asp-action="GetOrders"
            asp-route-pageNumber="@(Model.UsersOrders.PageIndex + 1)"
-           class="btn btn-default @nextDisabled">Next
+           class="btn btn-default @nextDisabled">@Localizer["Next"]
             </a>
 @section scripts
 {

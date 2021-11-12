@@ -36,4 +36,7 @@
     <data name="Delete" xml:space="preserve">
         <value>Delete</value>
     </data>
+    <data name="Types list is empty" xml:space="preserve">
+        <value>Types list is empty</value>
+    </data>
 </root>

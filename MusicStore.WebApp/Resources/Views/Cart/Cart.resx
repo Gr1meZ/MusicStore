@@ -17,4 +17,7 @@
     <data name="Checkout" xml:space="preserve">
         <value />
     </data>
+    <data name="Your cart is empty. Choose any item " xml:space="preserve">
+        <value />
+    </data>
 </root>

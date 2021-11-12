@@ -60,4 +60,7 @@
     <data name="Type" xml:space="preserve">
         <value>Тип</value>
     </data>
+    <data name="Items list is empty" xml:space="preserve">
+        <value>Список товаров пуст</value>
+    </data>
 </root>

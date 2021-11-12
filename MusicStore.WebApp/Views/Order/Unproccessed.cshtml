@@ -1,49 +1,59 @@
 ﻿@using X.PagedList.Mvc.Core;
 @using X.PagedList.Mvc.Bootstrap4.Core
 @model IndexViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
     ViewBag.Title = "GetUnproccessed";
 }
 
 <form >
     
-    <h2>Unproccessed orders</h2>
+    <h2>@Localizer["Unproccessed orders"]</h2>
 
     @using (Html.BeginForm("GetUnproccessed", "Order", FormMethod.Get))
     {
         <p>
-            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
+            @Localizer["Find"]: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="@Localizer["Search"]" />
         </p>
-        <a   asp-controller="Order" asp-action="GetUnproccessedAnonymous">Anonymous orders</a>
+        <a   asp-controller="Order" asp-action="GetUnproccessedAnonymous">@Localizer["Anonymous orders"]</a>
     }
-    <table class="table">
+    @if (Model.BootstrapUsersOrders.Count == 0)
+    {
+        <div>
+            @Localizer["Orders list is empty"]
+        </div>
+    }
+    else
+    {
+        <table class="table">
 
-        <tr>
-            <th scope="col">@Html.ActionLink("ID", "GetUnproccessed", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">  @Html.ActionLink("User", "GetUnproccessed", new { sortOrder = ViewBag.UserId, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">@Html.ActionLink("Order", "GetUnproccessed", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col"> @Html.ActionLink("Status", "GetUnproccessed", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
-              <th scope="col"> @Html.ActionLink("Date", "GetUnproccessed", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">Edit</th>
-
-        </tr>
-        @foreach (var item in Model.BootstrapUsersOrders)
-        {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.User.Email</td>
-                <td>@item.OrderId</td>
-                <td>@item.Status</td>
-                <td>@item.Date</td>
-                <td>@Html.ActionLink("Status", "ChangeStatus", "Order", new {itemId = item.Id, type = OrderType.Authorized}, new {})</td>
+                <th scope="col">@Html.ActionLink("ID", "GetUnproccessed", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col">  @Html.ActionLink(Localizer.GetString("User"), "GetUnproccessed", new { sortOrder = ViewBag.UserId, currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col">@Html.ActionLink(Localizer.GetString("Order"), "GetUnproccessed", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col"> @Html.ActionLink(Localizer.GetString("Status"), "GetUnproccessed", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col"> @Html.ActionLink(Localizer.GetString("Date"), "GetUnproccessed", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
+            
+
             </tr>
-        }
+            @foreach (var item in Model.BootstrapUsersOrders)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.User.Email</td>
+                    <td>@item.OrderId</td>
+                    <td>@item.Status</td>
+                    <td>@item.Date</td>
+                    <td>@Html.ActionLink(Localizer.GetString("Status"), "ChangeStatus", "Order", new {itemId = item.Id, type = OrderType.Authorized}, new {})</td>
+                </tr>
+            }
 
 
-    </table>
+        </table>  
+    }
     <br />
-   Page @(Model.BootstrapUsersOrders.PageCount < Model.BootstrapUsersOrders.PageNumber ? 0 : Model.BootstrapUsersOrders.PageNumber) of @Model.BootstrapUsersOrders.PageCount
+   @Localizer["Page"] @(Model.BootstrapUsersOrders.PageCount < Model.BootstrapUsersOrders.PageNumber ? 0 : Model.BootstrapUsersOrders.PageNumber) @Localizer["of"] @Model.BootstrapUsersOrders.PageCount
     
    @Html.PagedListPager(Model.BootstrapUsersOrders, page => Url.Action("GetUnproccessed", 
        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }), Bootstrap4PagedListRenderOptions.ClassicPlusFirstAndLast)

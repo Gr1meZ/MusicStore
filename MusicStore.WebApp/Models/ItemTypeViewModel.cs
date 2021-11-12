@@ -6,7 +6,7 @@ namespace MusicStore.WebApp.Models
     {
         [Required]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "TypeReqired")]
         public string Type { get; set; }
     }
 }

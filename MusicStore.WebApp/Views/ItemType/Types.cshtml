@@ -6,27 +6,36 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <form >
     <h2>@Localizer["List of items"]</h2>
+    @if (Model.Types.Count == 0)
+    {
+        <div>
+              @Localizer["Types list is empty"]
+        </div>
+    }
+    else
+    {
+        <table class="table">
 
-    <table class="table">
-
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">@Localizer["Name"]</th>
-
-        </tr>
-        @foreach (var item in Model.Types)
-        {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Type</td>
-                
-                <td>@Html.ActionLink(Localizer.GetString("Edit"), "EditType", "ItemType", new { typeId = item.Id }, new { })</td>
-                <td>@Html.ActionLink(Localizer.GetString("Delete"), "DeleteType", "ItemType", new { typeId = item.Id  }, new { })</td>
+                <th scope="col">ID</th>
+                <th scope="col">@Localizer["Name"]</th>
+
             </tr>
-        }
+            @foreach (var item in Model.Types)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Type</td>
+                
+                    <td>@Html.ActionLink(Localizer.GetString("Edit"), "EditType", "ItemType", new { typeId = item.Id }, new { })</td>
+                    <td>@Html.ActionLink(Localizer.GetString("Delete"), "DeleteType", "ItemType", new { typeId = item.Id  }, new { })</td>
+                </tr>
+            }
 
 
-    </table>
+        </table> 
+    }
+   
     @{
         var prevDisabled = !Model.Types.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.Types.HasNextPage ? "disabled" : "";

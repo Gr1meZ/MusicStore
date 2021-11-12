@@ -28,7 +28,7 @@ namespace MusicStore.Data.Repositories
             usersOrders.OrderId = order.Id;
             usersOrders.UserId = userId;
             usersOrders.Status = OrderStatus.Sended;
-            usersOrders.Date = Convert.ToDateTime(date);
+            usersOrders.Date = DateTime.ParseExact(date, "MM/dd/yyyy HH:mm:ss", null);
             await _context.UsersOrders.AddAsync(usersOrders);
             await _context.SaveChangesAsync();
         }
@@ -47,7 +47,7 @@ namespace MusicStore.Data.Repositories
             anonymousOrders.OrderId = order.Id;
             anonymousOrders.Email = email;
             anonymousOrders.Status = OrderStatus.Sended;
-            anonymousOrders.Date = Convert.ToDateTime(date);
+            anonymousOrders.Date = DateTime.ParseExact(date, "MM/dd/yyyy HH:mm:ss", null);
             await _context.AnonymousOrders.AddAsync(anonymousOrders);
             await _context.SaveChangesAsync();
             return order.Id;

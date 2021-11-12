@@ -1,5 +1,5 @@
 ﻿@model OrderViewModel
-
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <div class="modal-content">
     <div class="modal-header">
         <button class="close" data-dismiss="modal" area-hidden="true">X</button>
@@ -7,18 +7,18 @@
     <div class="modal-body">
         <dl class="dl-horizontal">
             @{
-                decimal total = 0;
+                decimal? total = 0;
             }
             @foreach (var item in Model.Orders)
             {
                 {
                     total += item.Price.Price * item.Count;
                 }
-                <dt>Model: @item.Item.Name</dt>
-                <dd>Price: @item.Item.Price</dd>
-                <dd>Quantity: @item.Count</dd>
+                <dt>@Localizer["Model"]: @item.Item.Name</dt>
+                <dd>@Localizer["Price"]: @item.Item.Price</dd>
+                <dd>@Localizer["Quantity"]: @item.Count</dd>
             }
-              <dt>Total price: @total</dt>
+              <dt>@Localizer["Total price"]: @total</dt>
         </dl>
     </div>
 </div>

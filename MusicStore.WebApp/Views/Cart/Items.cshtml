@@ -10,9 +10,8 @@
     {
         <div class="mx-auto p-4">
             @Localizer["Find"]: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string, new {@class="form-control"})
-            <input type="submit" value=@Localizer["Search"] class="btn btn-primary btn-sm"/>
-        
-        @Html.DropDownList("type", ViewBag.Types as SelectList, all.Value,new {@class = "form-control"})
+
+            @Html.DropDownList("type", ViewBag.Types as SelectList, all.Value,new {@class = "form-control"})
             <input type="submit" value=@Localizer["Search"] class="btn btn-primary btn-sm"/>
             </div>
     }

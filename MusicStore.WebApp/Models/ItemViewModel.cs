@@ -9,11 +9,12 @@ namespace MusicStore.WebApp.Models
     {
         [Required]
         public int  Id { get; set; }
-        [Required]
+        [Required(ErrorMessage="NameRequired")]
         public string  Name { get; set; }
-        [Required]
-        public decimal  Price { get; set; }
-        [Required]
+    
+        [Required( ErrorMessage = "PriceRequired")]
+        public decimal?  Price { get; set; }
+        [Required(ErrorMessage="DescriptionRequired")]
         public string Description { get; set; }
         [Required]
         public int TypeId { get; set; }

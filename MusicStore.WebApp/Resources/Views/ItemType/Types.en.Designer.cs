@@ -113,5 +113,14 @@ namespace MusicStore.WebApp.Resources.Views.ItemType {
                 return ResourceManager.GetString("Previous", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Types list is empty.
+        /// </summary>
+        internal static string Types_list_is_empty {
+            get {
+                return ResourceManager.GetString("Types list is empty", resourceCulture);
+            }
+        }
     }
 }

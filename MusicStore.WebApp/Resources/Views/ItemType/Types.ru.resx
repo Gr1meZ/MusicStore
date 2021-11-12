@@ -36,4 +36,7 @@
     <data name="Delete" xml:space="preserve">
         <value>Удалить</value>
     </data>
+    <data name="Types list is empty" xml:space="preserve">
+        <value>Список типов пуст</value>
+    </data>
 </root>

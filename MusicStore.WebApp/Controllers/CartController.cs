@@ -44,15 +44,20 @@ namespace MusicStore.WebApp.Controllers
             }
 
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString) && !String.IsNullOrEmpty(type))
+            {
+                items = items.Where(s => (s.Name.Contains(searchString)
+                                               || s.Price.ToString().Contains(searchString))
+                                               && s.TypeId.ToString() == type);
+            }
+            if (string.IsNullOrEmpty(type) && !string.IsNullOrEmpty(searchString))
             {
                 items = items.Where(s => s.Name.Contains(searchString)
-                                               || s.Price.ToString().Contains(searchString)
-                                               || s.Type.Type.Contains(searchString));
+                                          || s.Price.ToString().Contains(searchString));
             }
-            if (!string.IsNullOrEmpty(type))
+            else if (!string.IsNullOrEmpty(type) && string.IsNullOrEmpty(searchString))
             {
-                items = items.Where(x => x.TypeId.ToString() == type);
+                items = items.Where(s => s.TypeId.ToString() == type);
             }
 
             int pageSize = 5;
@@ -172,7 +177,7 @@ namespace MusicStore.WebApp.Controllers
                  HttpContext.Session.Clear();
                  await SendEmail.Send(model.Email, "Order",
                      $"Your order №{orderId} has been submitted. Wait for status change in few days");
-                 return Redirect("/");
+                 return View("OrderInfo", model);
              }
 
              return View("AnonymousSubmit");

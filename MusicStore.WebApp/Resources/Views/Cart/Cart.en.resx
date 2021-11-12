@@ -39,4 +39,7 @@
     <data name="Continue shopping" xml:space="preserve">
         <value>Continue shopping</value>
     </data>
+    <data name="Your cart is empty. Choose any item " xml:space="preserve">
+        <value>Your cart is empty. Choose any item </value>
+    </data>
 </root>

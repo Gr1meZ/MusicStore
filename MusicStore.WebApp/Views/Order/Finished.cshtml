@@ -1,44 +1,52 @@
 ﻿@model IndexViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{
     ViewBag.Title = "Finished";
 }
 
 <form >
     
-    <h2>Unproccessed orders</h2>
+    <h2>@Localizer["Unproccessed orders"]</h2>
 
     @using (Html.BeginForm("Finished", "Order", FormMethod.Get))
     {
         <p>
-            Find: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
-            <input type="submit" value="Search" />
+            @Localizer["Find"]: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="@Localizer["Search"]" />
         </p>
-        <a   asp-controller="Order" asp-action="FinishedAnonymous">Anonymous orders logs</a>
+        <a   asp-controller="Order" asp-action="FinishedAnonymous">@Localizer["Anonymous orders logs"]</a>
     }
-    <table class="table">
+    @if (Model.UsersOrders.Count == 0)
+    {
+        <div>
+             @Localizer["Orders list is empty"]
+        </div>
+    }
+    else
+    {
+        <table class="table">
 
-        <tr>
-            <th scope="col">@Html.ActionLink("ID", "Finished", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">  @Html.ActionLink("User", "Finished", new { sortOrder = ViewBag.UserId, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col">@Html.ActionLink("Order", "Finished", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
-            <th scope="col"> @Html.ActionLink("Status", "Finished", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
-              <th scope="col"> @Html.ActionLink("Date", "Finished", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
-       
-
-        </tr>
-        @foreach (var item in Model.UsersOrders)
-        {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.User.Email</td>
-                <td>@item.OrderId</td>
-                <td>@item.Status</td>
-                <td>@item.Date</td>
+                <th scope="col">@Html.ActionLink("ID", "Finished", new { sortOrder = ViewBag.Id, currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col">  @Html.ActionLink(Localizer.GetString("User"), "Finished", new { sortOrder = ViewBag.UserId, currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col">@Html.ActionLink(Localizer.GetString("Order"), "Finished", new { sortOrder = ViewBag.OrderId, currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col"> @Html.ActionLink(Localizer.GetString("Status"), "Finished", new { sortOrder = ViewBag.Status,currentFilter=ViewBag.CurrentFilter })</th>
+                <th scope="col"> @Html.ActionLink(Localizer.GetString("Date"), "Finished", new { sortOrder = ViewBag.Date, currentFilter=ViewBag.CurrentFilter })</th>
             </tr>
-        }
-
-
-    </table>
+            @foreach (var item in Model.UsersOrders)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.User.Email</td>
+                    <td>@item.OrderId</td>
+                    <td>@item.Status</td>
+                    <td>@item.Date</td>
+                </tr>
+            }
+            
+        </table>
+    }
+   
     <br />
    @{
           var prevDisabled = !Model.UsersOrders.HasPreviousPage ? "disabled" : "";
@@ -46,11 +54,11 @@
       }
       <a asp-action="Finished"
          asp-route-pageNumber="@(Model.UsersOrders.PageIndex - 1)"
-         class="btn btn-default @prevDisabled">Previous
+         class="btn btn-default @prevDisabled">@Localizer["Previous"]
       </a>
        <a asp-action="Finished"
              asp-route-pageNumber="@(Model.UsersOrders.PageIndex + 1)"
-             class="btn btn-default @nextDisabled">Next
+             class="btn btn-default @nextDisabled">@Localizer["Next"]
               </a>
 
 </form>

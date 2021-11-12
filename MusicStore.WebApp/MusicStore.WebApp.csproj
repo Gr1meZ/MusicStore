@@ -175,6 +175,114 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Types.en.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\Create.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\Create.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\Edit.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Edit.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\Edit.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Edit.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\Index.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\Index.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\UserList.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UserList.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Role\UserList.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UserList.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Details.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Details.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Details.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Details.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Finished.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Finished.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Finished.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Finished.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\FinishedAnonymous.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>FinishedAnonymous.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\FinishedAnonymous.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>FinishedAnonymous.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\MyOrders.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MyOrders.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\MyOrders.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>MyOrders.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Status.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Status.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Status.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Status.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Unproccessed.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Unproccessed.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\Unproccessed.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Unproccessed.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\UnproccessedAnonymous.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UnproccessedAnonymous.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Order\UnproccessedAnonymous.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>UnproccessedAnonymous.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Models\ItemViewModel.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ItemViewModel.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Models\ItemViewModel.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ItemViewModel.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Models\ItemTypeViewModel.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ItemTypeViewModel.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\OrderInfo.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>OrderInfo.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Cart\OrderInfo.ru.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>OrderInfo.ru.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -317,6 +425,141 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>Types.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\Create.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Create.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\Create.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Create.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\Edit.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Edit.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\Edit.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Edit.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\Index.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Index.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\Index.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Index.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\UserList.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UserList.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Role\UserList.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UserList.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Details.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Details.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Details.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Details.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Finished.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Finished.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Finished.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Finished.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\FinishedAnonymous.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>FinishedAnonymous.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\FinishedAnonymous.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>FinishedAnonymous.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\MyOrders.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>MyOrders.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\MyOrders.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>MyOrders.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Status.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Status.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Status.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Status.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Unproccessed.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Unproccessed.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\Unproccessed.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Unproccessed.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\UnproccessedAnonymous.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UnproccessedAnonymous.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Order\UnproccessedAnonymous.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>UnproccessedAnonymous.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Models\ItemViewModel.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ItemViewModel.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Models\ItemViewModel.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ItemViewModel.ru.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Models\ItemTypeViewModel.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ItemTypeViewModel.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\OrderInfo.en.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>OrderInfo.en.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Resources\Views\Cart\OrderInfo.ru.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>OrderInfo.ru.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 

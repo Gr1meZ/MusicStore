@@ -1,4 +1,5 @@
 ﻿@model OrderViewModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 @{ 
     ViewData["Title"] = "Status";
 }
@@ -7,11 +8,11 @@
     
     <form method="post" asp-action="ChangeStatus">
          <div class="form-group">
-                    <label>Type</label>
+                    <label>@Localizer["Type"]</label>
                       @Html.DropDownListFor(m => m.Status, Model.Status.ToSelectList(), new {@class = "form-control"})
                    
                 </div>
-        <button type="submit"class="btn btn-primary" id="btnSave"> Submit </button>
+        <button type="submit"class="btn btn-primary" id="btnSave"> @Localizer["Submit"] </button>
          @Html.HiddenFor(model => model.Id)
          @Html.HiddenFor(model => model.UserId)
          @Html.HiddenFor(model => model.Type)

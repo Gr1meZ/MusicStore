@@ -122,5 +122,14 @@ namespace MusicStore.WebApp.Resources.Views.Cart {
                 return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your cart is empty. Choose any item .
+        /// </summary>
+        internal static string Your_cart_is_empty__Choose_any_item_ {
+            get {
+                return ResourceManager.GetString("Your cart is empty. Choose any item ", resourceCulture);
+            }
+        }
     }
 }

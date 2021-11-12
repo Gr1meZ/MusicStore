@@ -1,15 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using MusicStore.Data;
 using MusicStore.Data.Data;
@@ -17,6 +20,7 @@ using MusicStore.Data.Interfaces;
 using MusicStore.Data.Repositories;
 using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Middlewares;
+using MusicStore.WebApp.Resources;
 
 namespace MusicStore.WebApp
 {
@@ -37,8 +41,10 @@ namespace MusicStore.WebApp
             {
                 options.ResourcesPath = "Resources";
             });
-            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+            services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
                 .AddDataAnnotationsLocalization();
+             
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 var supportedCultures = new List<CultureInfo>
@@ -53,7 +59,6 @@ namespace MusicStore.WebApp
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddCoreAdmin("Admin");
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
@@ -84,12 +89,19 @@ namespace MusicStore.WebApp
                 services
                     .AddRazorPages()
                     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
-
+              
         }
 
       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider )
         {
+            var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("ru") };
+            app.UseRequestLocalization(new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("en")),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -114,7 +126,6 @@ namespace MusicStore.WebApp
 
             app.UseRequestLocalization(app.ApplicationServices
                 .GetRequiredService<IOptions<RequestLocalizationOptions>>().Value);
-            app.UseCoreAdminCustomUrl("adminpanel");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
