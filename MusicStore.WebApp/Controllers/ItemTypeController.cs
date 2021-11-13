@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MusicStore.Data.Interfaces;
+using MusicStore.Business.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Models;
 
@@ -10,18 +10,18 @@ namespace MusicStore.WebApp.Controllers
 {
     public class ItemTypeController : Controller
     {
-        private readonly IItemTypeRepository _type;
+        private readonly IItemTypeService _typeService;
 
-        public ItemTypeController(IItemTypeRepository type)
+        public ItemTypeController(IItemTypeService typeService)
         {
-            _type = type;
+            _typeService = typeService;
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Types(int pageNumber=1)
         {
 
-            var types =  _type.GetAll();
+            var types =  _typeService.GetAllTypes();
             var pagedList = new IndexViewModel();
             pagedList.Types = await PaginatedList<ItemType>.CreateAsync(types, pageNumber, 5);
             return View(pagedList);
@@ -44,7 +44,7 @@ namespace MusicStore.WebApp.Controllers
                 {
                     Type = typeDto.Type
                 };
-                await _type.Create(type);
+                await _typeService.CreateType(type);
                 return Redirect("/ItemType/Types");
                 
             }
@@ -54,7 +54,7 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditType(int typeId)
         {
-            var type = await _type.Get(typeId);
+            var type = await _typeService.GetType(typeId);
             var itemView = new ItemTypeViewModel()
             {
                 Id = type.Id,
@@ -74,7 +74,7 @@ namespace MusicStore.WebApp.Controllers
                     Id = typeDto.Id,
                     Type = typeDto.Type
                 };
-                await _type.Update(type);
+                await _typeService.UpdateType(type);
                 return Redirect("/ItemType/Types");
             }
             ViewBag.Message = string.Format("Input error!");
@@ -84,7 +84,7 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteType(int typeId, int pageNumber=1)
         {
-            await _type.Remove(typeId);
+            await _typeService.RemoveType(typeId);
             return Redirect("/ItemType/Types");
         }
     }

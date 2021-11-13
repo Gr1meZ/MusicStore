@@ -5,7 +5,6 @@ namespace MusicStore.Data.Interfaces
 {
     public interface IItemsRepository : IRepository<Item> 
     {
-        IQueryable<ItemType> GetTypes();
-       IQueryable<Item> GetBind();
+        IQueryable<Item> GetBind();
     }
 }

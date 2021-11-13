@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicStore.Business.Interfaces;
+using MusicStore.Business.Service_Models;
 using MusicStore.Data;
-using MusicStore.Data.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Models;
 using X.PagedList;
@@ -15,15 +16,13 @@ namespace MusicStore.WebApp.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrderRepository _order;
-        private readonly ICartRepository _cart;
+        private readonly IOrderService _orderService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderController(IOrderRepository order, ICartRepository cart, UserManager<ApplicationUser> userManager)
+        public OrderController(UserManager<ApplicationUser> userManager, IOrderService orderService)
         {
-            _order = order;
-            _cart = cart;
             _userManager = userManager;
+            _orderService = orderService;
         }
     
         [HttpGet]
@@ -31,7 +30,7 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> GetOrders(int pageNumber=1)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var orders = _order.GetUsersOrders(userId);
+            var orders = _orderService.GetUsersOrders(userId);
             var pagedList = new IndexViewModel();
             pagedList.UsersOrders = await PaginatedList<UsersOrders>.CreateAsync(orders, pageNumber, 5);
             return View("MyOrders",pagedList);
@@ -42,19 +41,20 @@ namespace MusicStore.WebApp.Controllers
         public IActionResult Details(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userOrder = _order.GetUsersOrders(userId).FirstOrDefault(i => i.OrderId == id);
-            var orderIdKey = _order.GetOrderId(userOrder.OrderId);
-            var items = _order.OrderDetails(orderIdKey);
+            var userOrder = _orderService.GetUsersOrders(userId).FirstOrDefault(i => i.OrderId == id);
+            var orderIdKey = _orderService.GetUniqueOrderId(userOrder.OrderId);
+            var items = _orderService.GetOrderDetails(orderIdKey);
             return PartialView(new OrderViewModel
             {
                 Orders = items
             });
         }
+        
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult GetUnproccessedAnonymous(string sortOrder,string searchString,string currentFilter, int? page)
         {
-            var orders =   _order.GetUnproccessedAnonymous();
+            
             ViewBag.CurrentSort = sortOrder;
             ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewBag.Status = sortOrder == "Status" ? "StatusDesc" : "Status";
@@ -69,46 +69,8 @@ namespace MusicStore.WebApp.Controllers
             {
                 searchString = currentFilter;
             }
-            
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                orders = orders.Where(s => s.Date.ToString().Contains(searchString)
-                                           || s.OrderId.ToString().Contains(searchString)
-                                           || s.Email.Contains(searchString)
-                                           || s.Id.ToString().Contains(searchString));
-                
-            }
-            switch (sortOrder)
-            {
-                case "IdDesc":
-                    orders = orders.OrderByDescending(s => s.Id);
-                    break;
-                case "Id":
-                    orders = orders.OrderBy(s => s.Id);
-                    break;
-                case "EmailDesc":
-                    orders = orders.OrderByDescending(s => s.Email);
-                    break;
-                case "Email":
-                    orders = orders.OrderBy(s => s.Email);
-                    break;
-                case "OrderIdDesc":
-                    orders = orders.OrderByDescending(s => s.OrderId);
-                    break;
-                case "OrderId":
-                    orders = orders.OrderBy(s => s.OrderId);
-                    break;
-                case "StatusDesc":
-                    orders = orders.OrderByDescending(s => s.Status);
-                    break;
-                case "Status":
-                    orders = orders.OrderBy(s => s.Status);
-                    break;
-                default:
-                    orders = orders.OrderBy(s => s.Date);
-                    break;
-            }
+            var orders = _orderService.FiltrateAnonymousOrders( sortOrder, searchString, OrderFilterType.Unproccessed);
             int pageSize = 8;
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
@@ -119,7 +81,6 @@ namespace MusicStore.WebApp.Controllers
         [HttpGet]
         public IActionResult GetUnproccessed(string sortOrder,string searchString,string currentFilter, int? page)
         {
-            var orders =   _order.GetUnproccessed();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewBag.Status = sortOrder == "Status" ? "StatusDesc" : "Status";
@@ -136,44 +97,7 @@ namespace MusicStore.WebApp.Controllers
             }
             
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                orders = orders.Where(s => s.Date.ToString().Contains(searchString)
-                                           || s.OrderId.ToString().Contains(searchString)
-                                           || s.User.Email.Contains(searchString)
-                                           || s.Id.ToString().Contains(searchString));
-                
-            }
-            switch (sortOrder)
-            {
-                case "IdDesc":
-                    orders = orders.OrderByDescending(s => s.Id);
-                    break;
-                case "Id":
-                    orders = orders.OrderBy(s => s.Id);
-                    break;
-                case "UserIdDesc":
-                    orders = orders.OrderByDescending(s => s.UserId);
-                    break;
-                case "UserId":
-                    orders = orders.OrderBy(s => s.UserId);
-                    break;
-                case "OrderIdDesc":
-                    orders = orders.OrderByDescending(s => s.OrderId);
-                    break;
-                case "OrderId":
-                    orders = orders.OrderBy(s => s.OrderId);
-                    break;
-                case "StatusDesc":
-                    orders = orders.OrderByDescending(s => s.Status);
-                    break;
-                case "Status":
-                    orders = orders.OrderBy(s => s.Status);
-                    break;
-                default:
-                    orders = orders.OrderBy(s => s.Date);
-                    break;
-            }
+            var orders = _orderService.FiltrateUsersOrders(sortOrder, searchString, OrderFilterType.Unproccessed);
             int pageSize = 8;
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
@@ -184,7 +108,6 @@ namespace MusicStore.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Finished(string sortOrder,string searchString,string currentFilter, int? page)
         {
-            var orders =   _order.GetLogs();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewBag.Status = sortOrder == "Status" ? "StatusDesc" : "Status";
@@ -201,43 +124,7 @@ namespace MusicStore.WebApp.Controllers
             }
             
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                orders = orders.Where(s => s.Date.ToString().Contains(searchString)
-                                           || s.OrderId.ToString().Contains(searchString) 
-                                           || s.User.Email.Contains(searchString)
-                                           || s.Id.ToString().Contains(searchString));;
-            }
-            switch (sortOrder)
-            {
-                case "IdDesc":
-                    orders = orders.OrderByDescending(s => s.Id);
-                    break;
-                case "Id":
-                    orders = orders.OrderBy(s => s.Id);
-                    break;
-                case "UserIdDesc":
-                    orders = orders.OrderByDescending(s => s.UserId);
-                    break;
-                case "UserId":
-                    orders = orders.OrderBy(s => s.UserId);
-                    break;
-                case "OrderIdDesc":
-                    orders = orders.OrderByDescending(s => s.OrderId);
-                    break;
-                case "OrderId":
-                    orders = orders.OrderBy(s => s.OrderId);
-                    break;
-                case "StatusDesc":
-                    orders = orders.OrderByDescending(s => s.Status);
-                    break;
-                case "Status":
-                    orders = orders.OrderBy(s => s.Status);
-                    break;
-                default:
-                    orders = orders.OrderBy(s => s.Date);
-                    break;
-            }
+            var orders = _orderService.FiltrateUsersOrders(sortOrder, searchString, OrderFilterType.Logs);
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
             pagedList.UsersOrders = await PaginatedList<UsersOrders>.CreateAsync(orders, pageNumber, 5);
@@ -247,7 +134,6 @@ namespace MusicStore.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> FinishedAnonymous(string sortOrder,string searchString,string currentFilter, int? page)
         {
-            var orders =   _order.GetLogsAnonymous();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.Date = String.IsNullOrEmpty(sortOrder) ? "date" : "";
             ViewBag.Status = sortOrder == "Status" ? "StatusDesc" : "Status";
@@ -262,45 +148,8 @@ namespace MusicStore.WebApp.Controllers
             {
                 searchString = currentFilter;
             }
-            
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                orders = orders.Where(s => s.Date.ToString().Contains(searchString)
-                                           || s.OrderId.ToString().Contains(searchString) 
-                                           || s.Email.Contains(searchString)
-                                           || s.Id.ToString().Contains(searchString));;
-            }
-            switch (sortOrder)
-            {
-                case "IdDesc":
-                    orders = orders.OrderByDescending(s => s.Id);
-                    break;
-                case "Id":
-                    orders = orders.OrderBy(s => s.Id);
-                    break;
-                case "EmailDesc":
-                    orders = orders.OrderByDescending(s => s.Email);
-                    break;
-                case "Email":
-                    orders = orders.OrderBy(s => s.Email);
-                    break;
-                case "OrderIdDesc":
-                    orders = orders.OrderByDescending(s => s.OrderId);
-                    break;
-                case "OrderId":
-                    orders = orders.OrderBy(s => s.OrderId);
-                    break;
-                case "StatusDesc":
-                    orders = orders.OrderByDescending(s => s.Status);
-                    break;
-                case "Status":
-                    orders = orders.OrderBy(s => s.Status);
-                    break;
-                default:
-                    orders = orders.OrderBy(s => s.Date);
-                    break;
-            }
+            var orders = _orderService.FiltrateAnonymousOrders(sortOrder, searchString, OrderFilterType.Logs);
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
             pagedList.AnonymousOrders = await PaginatedList<AnonymousOrders>.CreateAsync(orders, pageNumber, 5);
@@ -312,7 +161,7 @@ namespace MusicStore.WebApp.Controllers
         {
             if (type == OrderType.Authorized)
             {
-                var order = await _order.GetOrder(itemId);
+                var order = await _orderService.GetFirstOrder(itemId, type);
                 var orderView = new OrderViewModel()
                 {
                     Id = itemId,
@@ -324,7 +173,7 @@ namespace MusicStore.WebApp.Controllers
             }
             else
             {
-                var order = await _order.GetAnonymousOrder(itemId);
+                var order = await _orderService.GetFirstOrder(itemId, type);
                 var orderView = new OrderViewModel()
                 {
                     Id = itemId,
@@ -350,9 +199,7 @@ namespace MusicStore.WebApp.Controllers
                 };
                 var user = await _userManager.FindByIdAsync(order.UserId);
                 var email = user.Email;
-                await _order.ChangeOrderStatus(order);
-                await SendEmail.Send(email, "Status change",
-                    $"Your order №{order.OrderId} has been changed to status {order.Status}");
+                await _orderService.ChangeUsersOrderStatus(order, email);
                 return Redirect("/Order/GetUnproccessed");
             }
             else
@@ -364,9 +211,8 @@ namespace MusicStore.WebApp.Controllers
                     Email = orderDto.Email
                 };
                 var email = order.Email;
-                await _order.ChangeAnonymousOrderStatus(order);
-                await SendEmail.Send(email, "Status change",
-                    $"Your order №{order.OrderId} has been changed to status {order.Status}");
+                await _orderService.ChangeAnonymousOrderStatus(order, email);
+               
                 return Redirect("/Order/GetUnproccessedAnonymous");
             }
         }

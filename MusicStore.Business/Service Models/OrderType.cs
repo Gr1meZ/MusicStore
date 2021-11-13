@@ -1,4 +1,4 @@
-﻿namespace MusicStore.WebApp.Models
+﻿namespace MusicStore.Business.Service_Models
 {
     public enum OrderType
     {

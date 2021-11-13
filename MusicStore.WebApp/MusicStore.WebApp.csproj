@@ -32,6 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MusicStore.Business\MusicStore.Business.csproj" />
       <ProjectReference Include="..\MusicStore.Data\MusicStore.Data.csproj" />
     </ItemGroup>
 

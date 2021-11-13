@@ -1,13 +1,12 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicStore.Data.Interfaces;
+using MusicStore.Business.Interfaces;
 using MusicStore.Data.Models;
+using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Models;
 using X.PagedList;
 
@@ -16,20 +15,19 @@ namespace MusicStore.WebApp.Controllers
 {
     public class ItemController : Controller
     {
-        private readonly IItemsRepository _item;
+        private readonly IItemService _itemService;
         private readonly IWebHostEnvironment _webHostEnvironment;
    
 
-        public ItemController(IItemsRepository item, IWebHostEnvironment webHostEnvironment)
+        public ItemController(IItemService itemService,  IWebHostEnvironment webHostEnvironment)
         {
-            _item = item;
             _webHostEnvironment = webHostEnvironment;
+            _itemService = itemService;
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public ActionResult Items(string sortOrder,string searchString,string currentFilter, int? page)
         {
-            var items =   _item.GetBind();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.PriceSortParam = sortOrder == "Price" ? "Price_desc" : "Price";
@@ -44,48 +42,8 @@ namespace MusicStore.WebApp.Controllers
             {
                 searchString = currentFilter;
             }
-
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                items = items.Where(s => s.Name.Contains(searchString)
-                                               || s.Price.ToString().Contains(searchString)
-                                               || s.Type.Type.Contains(searchString));
-            }
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    items = items.OrderByDescending(s => s.Name);
-                    break;
-                case "Price":
-                    items = items.OrderBy(s => s.Price);
-                    break;
-                case "Price_desc":
-                    items = items.OrderByDescending(s => s.Price);
-                    break;
-                case "Description":
-                    items = items.OrderBy(s => s.Description);
-                    break;
-                case "Description_desc":
-                    items = items.OrderByDescending(s => s.Description);
-                    break;
-                case "Type":
-                    items = items.OrderBy(s => s.Type.Type);
-                    break;
-                case "Type_desc":
-                    items = items.OrderByDescending(s => s.Type.Type);
-                    break;
-                case "Id":
-                    items = items.OrderBy(s => s.Id);
-                    break;
-                case "Id_desc":
-                    items = items.OrderByDescending(s => s.Id);
-                    break;
-                default:
-                    items = items.OrderBy(s => s.Name);
-                    break;
-            }
-           
+            var items = _itemService.GetAllItems(sortOrder, searchString);
             int pageSize = 4;
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
@@ -97,30 +55,23 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public  IActionResult AddItem()
         {
-           var types =  _item.GetTypes().ToList();
+           var types =  _itemService.GetAllTypes();
            SelectList selectList = new SelectList(types, "Id", "Type");
            ViewBag.Types = selectList;
-            return View();
+           return View();
         }
         
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddItem(ItemViewModel itemDto)
         {
-            var types =  _item.GetTypes().ToList();
+            var types = _itemService.GetAllTypes();
             SelectList selectList = new SelectList(types, "Id", "Type");
             ViewBag.Types = selectList;
             if (ModelState.IsValid)
             {
                 string wwwRoothPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(itemDto.ImageFile.FileName);
-                string extension = Path.GetExtension(itemDto.ImageFile.FileName);
-                itemDto.ImageName = fileName + extension;
-                string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await itemDto.ImageFile.CopyToAsync(fileStream);
-                }
+                await ImageMapper.MapImage(itemDto, wwwRoothPath);
                 var item = new Item
                 {
                     Name = itemDto.Name,
@@ -129,7 +80,7 @@ namespace MusicStore.WebApp.Controllers
                     ImageName = itemDto.ImageName,
                     TypeId = itemDto.TypeId
                 };
-                await _item.Create(item);
+                await _itemService.CreateItem(item);
                 return Redirect("/Item/Items");
             }
             return View();
@@ -138,7 +89,7 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditItem(int itemId)
         {
-            var item = await _item.Get(itemId);
+            var item = await _itemService.GetItem(itemId);
             var itemViewModel = new ItemViewModel()
             {
                 Id = item.Id,
@@ -158,14 +109,7 @@ namespace MusicStore.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 string wwwRoothPath = _webHostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(itemDto.ImageFile.FileName);
-                string extension = Path.GetExtension(itemDto.ImageFile.FileName);
-                itemDto.ImageName = fileName + extension;
-                string path = Path.Combine(wwwRoothPath + "/Image/", fileName + ".jpg");
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await itemDto.ImageFile.CopyToAsync(fileStream);
-                }
+                await ImageMapper.MapImage(itemDto, wwwRoothPath);
                 var item = new Item
                 {
                     Id = itemDto.Id,
@@ -175,7 +119,7 @@ namespace MusicStore.WebApp.Controllers
                     ImageName = itemDto.ImageName,
                     TypeId = itemDto.TypeId
                 };
-                await _item.Update(item);
+                await _itemService.UpdateItem(item);
                 return Redirect("/Item/Items");
             }   
             ViewBag.Message = string.Format("Input error!");
@@ -187,7 +131,7 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteItem(int itemId, int pageNumber=1)
         {
-            await _item.Remove(itemId);
+            await _itemService.RemoveItem(itemId);
             return Redirect("/Item/Items");
         }
     }

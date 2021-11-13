@@ -10,11 +10,11 @@ namespace MusicStore.WebApp.Models
 {
     public class CulturePicker : ViewComponent
     {
-        private readonly IOptions<RequestLocalizationOptions> localizationOptions;
+        private readonly IOptions<RequestLocalizationOptions> _localizationOptions;
 
         public CulturePicker(IOptions<RequestLocalizationOptions> localizationOptions)
         {
-            this.localizationOptions = localizationOptions;
+            _localizationOptions = localizationOptions;
         }
 
         public IViewComponentResult Invoke()
@@ -22,8 +22,8 @@ namespace MusicStore.WebApp.Models
             var cultureFeature = HttpContext.Features.Get<IRequestCultureFeature>();
             var model = new CulturePickerModel
             {
-                SupportedCultures = localizationOptions.Value.SupportedUICultures.ToList(),
-                CurrentUICulture = cultureFeature.RequestCulture.UICulture
+                SupportedCultures = _localizationOptions.Value.SupportedUICultures.ToList(),
+                CurrentUiCulture = cultureFeature.RequestCulture.UICulture
             };
 
             return View(model);
@@ -32,7 +32,7 @@ namespace MusicStore.WebApp.Models
 
     public class CulturePickerModel
     {
-        public CultureInfo CurrentUICulture { get; set; }
+        public CultureInfo CurrentUiCulture { get; set; }
         public List<CultureInfo> SupportedCultures { get; set; }
         
         public string ToFlagEmoji(string country)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MusicStore.Business.Service_Models;
 using MusicStore.Data.Models;
 
 namespace MusicStore.WebApp.Models

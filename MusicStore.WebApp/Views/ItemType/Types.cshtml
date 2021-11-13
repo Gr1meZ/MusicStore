@@ -3,7 +3,6 @@
 }
 
 @model IndexViewModel
-@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
 <form >
     <h2>@Localizer["List of items"]</h2>
     @if (Model.Types.Count == 0)

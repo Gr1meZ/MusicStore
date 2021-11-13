@@ -97,6 +97,15 @@ namespace MusicStore.WebApp.Resources.Views.Cart {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not found.
+        /// </summary>
+        internal static string Not_found {
+            get {
+                return ResourceManager.GetString("Not found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to of.
         /// </summary>
         internal static string of {

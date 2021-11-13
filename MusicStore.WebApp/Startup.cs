@@ -1,26 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using MusicStore.Business.Interfaces;
+using MusicStore.Business.Services;
 using MusicStore.Data;
 using MusicStore.Data.Data;
 using MusicStore.Data.Interfaces;
 using MusicStore.Data.Repositories;
-using MusicStore.WebApp.Helpers;
-using MusicStore.WebApp.Middlewares;
-using MusicStore.WebApp.Resources;
 
 namespace MusicStore.WebApp
 {
@@ -69,6 +65,10 @@ namespace MusicStore.WebApp
             services.AddTransient<ICartRepository, CartRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IItemTypeService, ItemTypeService>();
+            services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddAuthentication()
                 .AddGoogle(options =>
                 { 

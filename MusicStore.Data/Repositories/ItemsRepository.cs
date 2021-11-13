@@ -56,11 +56,6 @@ namespace MusicStore.Data.Repositories
             return  _context.Items;
         }
 
-        public IQueryable<ItemType> GetTypes()
-        {
-            return _context.ItemTypes;
-        }
-
         public IQueryable<Item> GetBind()
         {
             return _context.Items.Include(t => t.Type);

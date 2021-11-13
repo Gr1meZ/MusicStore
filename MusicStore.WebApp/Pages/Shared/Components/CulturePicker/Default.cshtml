@@ -15,7 +15,7 @@
                 {
                     <option
                         value="@culture.Name"
-                        selected="@(Model.CurrentUICulture.Name == culture.Name)">
+                        selected="@(Model.CurrentUiCulture.Name == culture.Name)">
                         <span>@Model.ToFlagEmoji(culture.Name)</span> @culture.DisplayName - @culture.NativeName
                     </option>
                 }

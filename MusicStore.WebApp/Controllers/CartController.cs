@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicStore.Data.Interfaces;
+using MusicStore.Business.Interfaces;
 using MusicStore.Data.Models;
 using MusicStore.WebApp.Helpers;
 using MusicStore.WebApp.Models;
@@ -16,23 +15,21 @@ namespace MusicStore.WebApp.Controllers
 {
     public class CartController : Controller
     {
-        private readonly ICartRepository _cart;
-        private readonly IItemsRepository _item;
-        private readonly IOrderRepository _order;
+    
+        private readonly ICartService _cartService;
+        private readonly IItemService _itemService;
 
-        public CartController(ICartRepository cart ,IItemsRepository items, IOrderRepository order)
+        public CartController(ICartService cartService, IItemService itemService)
         {
-            _cart = cart;
-            _item = items;
-            _order = order;
+            _cartService = cartService;
+            _itemService = itemService;
         }
         [AllowAnonymous]
         [HttpGet]
-         public ActionResult Items(string type, string searchString,string currentFilter, int? page)
-        {
-            var items =   _item.GetBind();
-            var types =  _item.GetTypes().ToList();
-            SelectList selectList = new SelectList(types, "Id", "Type");
+         public async Task<IActionResult> Items(string type, string searchString,string currentFilter, int? page)
+         { 
+             var homeModel = await _cartService.GetItems(type,  searchString);
+            SelectList selectList = new SelectList(homeModel.Types, "Id", "Type");
             ViewBag.Types = selectList;
             if (searchString != null)
             {
@@ -42,28 +39,11 @@ namespace MusicStore.WebApp.Controllers
             {
                 searchString = currentFilter;
             }
-
             ViewBag.CurrentFilter = searchString;
-            if (!String.IsNullOrEmpty(searchString) && !String.IsNullOrEmpty(type))
-            {
-                items = items.Where(s => (s.Name.Contains(searchString)
-                                               || s.Price.ToString().Contains(searchString))
-                                               && s.TypeId.ToString() == type);
-            }
-            if (string.IsNullOrEmpty(type) && !string.IsNullOrEmpty(searchString))
-            {
-                items = items.Where(s => s.Name.Contains(searchString)
-                                          || s.Price.ToString().Contains(searchString));
-            }
-            else if (!string.IsNullOrEmpty(type) && string.IsNullOrEmpty(searchString))
-            {
-                items = items.Where(s => s.TypeId.ToString() == type);
-            }
-
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
-            pagedList.Items = items.ToPagedList(pageNumber, pageSize);
+            pagedList.Items = homeModel.Items.ToPagedList(pageNumber, pageSize);
             return View(pagedList);
             
         }
@@ -71,50 +51,34 @@ namespace MusicStore.WebApp.Controllers
          [AllowAnonymous]
          public async Task<IActionResult> AddToCart(int id)
          {
-
              var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                  if (userId == null)
                  {
-                     var item = await _item.Get(id);
+                     var item = await _itemService.GetItem(id);
                      if (Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart") == null)
                      {
                          List<Cart> cart = new List<Cart>();
-                         cart.Add(new Cart
-                         {
-                             PriceId = id,
-                             ItemId = id,
-                             Item = item,
-                             Price = item,
-                             UserId = null
-                         });
+                         _cartService.AddToAnonymousCart(cart, item, id);
                          Session.SetObjectAsJson(HttpContext.Session, "cart", cart);
                      }
                      else
                      {
                          List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-                         int ind = IsItemExist(id);
+                         int ind = _cartService.CheckItemInCart(cart, id);
                          if (ind != -1)
                          {
                              return Redirect("/Cart/GetCart");
                          }
                          else
                          {
-                             cart.Add(new Cart
-                             {
-                                 PriceId = id,
-                                 ItemId = id,
-                                 Item = item,
-                                 Price = item,
-                                 UserId = null
-                             });
+                             _cartService.AddToAnonymousCart(cart, item, id);
                          }
                          Session.SetObjectAsJson(HttpContext.Session, "cart", cart);
-                         
                      }
                  }
                  else
                  {
-                     var usersCart = await PagedListExtensions.ToListAsync(_cart.GetCart(userId));
+                     var usersCart = await PagedListExtensions.ToListAsync(_cartService.GetUsersCart(userId));
                      var index = usersCart.FindIndex(item => item.ItemId == id);
                      if (index >= 0)
                      {
@@ -122,19 +86,16 @@ namespace MusicStore.WebApp.Controllers
                      }
                      else
                      {
-                         var cartDto = new Cart();
-                         cartDto.PriceId = id;
-                         cartDto.ItemId = id;
-                         cartDto.UserId = userId;
-                         await _cart.AddToCart(cartDto);
+                         await _cartService.AddToCart(id, userId);
                          return Redirect("/Cart/GetCart");
                      }
                  }
                  return Redirect("/Cart/GetCart");
          }
+         
          [AllowAnonymous]
          [HttpGet]
-         public async Task<ActionResult> GetCart(int pageNumber=1)
+         public async Task<ActionResult> GetCart()
         {
             var pagedList = new IndexViewModel();
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -142,28 +103,19 @@ namespace MusicStore.WebApp.Controllers
             {
                 var sessionCart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
                 pagedList.Cart = sessionCart;
-                pagedList.ItemsQuantities = new List<int>();
+               
                 if (sessionCart != null)
                 {
-                    foreach (var item in sessionCart)
-                        pagedList.ItemsQuantities.Add(1);
+                    pagedList.ItemsQuantities = _cartService.SetQuantitiesForAnonymous(sessionCart);
                     return View("Cart", pagedList);
                 }
-                else
-                {
-                    pagedList.Cart = await PagedListExtensions.ToListAsync(_cart.GetCart("0"));
-                    return View("Cart", pagedList);
-                }
-            }
-            else
-            {
-                var cart = _cart.GetCart(userId);
-                pagedList.Cart = await PagedListExtensions.ToListAsync(cart);
-                pagedList.ItemsQuantities = new List<int>();
-                foreach (var item in cart)
-                    pagedList.ItemsQuantities.Add(1);
+                pagedList.Cart = await PagedListExtensions.ToListAsync(_cartService.GetUsersCart("0"));
                 return View("Cart", pagedList);
             }
+            var cart = _cartService.GetUsersCart(userId);
+            pagedList.Cart = await PagedListExtensions.ToListAsync(cart);
+            pagedList.ItemsQuantities = _cartService.SetQuantitiesForUser(cart);
+            return View("Cart", pagedList);
         }
 
          [HttpPost]
@@ -173,64 +125,39 @@ namespace MusicStore.WebApp.Controllers
              if (ModelState.IsValid)
              {
                  List<Order> orders = Session.GetObjectFromJson<List<Order>>(HttpContext.Session, "orders");
-                 var orderId =  await _order.SubmitAnonymousOrder(orders, model.Email);
+                 await _cartService.SubmitForAnonymous(orders, model.Email);
                  HttpContext.Session.Clear();
-                 await SendEmail.Send(model.Email, "Order",
-                     $"Your order №{orderId} has been submitted. Wait for status change in few days");
                  return View("OrderInfo", model);
              }
-
              return View("AnonymousSubmit");
          }
+         
          [HttpGet]
          [AllowAnonymous]
          public async Task<IActionResult> AddOrder(IndexViewModel model)
          {
-             Order Order;
-             var guid = Guid.NewGuid();
+            
              if (ModelState.IsValid)
              {
                  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                  if (userId == null)
                  {
                      List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-                     List<Order> orders = new List<Order>();
-                     foreach (var item in cart)
-                     {
-                         Order = new Order();
-                         Order.Id = item.Id;
-                         Order.ItemId = item.ItemId;
-                         Order.PriceId = item.ItemId;
-                         Order.OrderId = guid;
-                         orders.Add(Order); 
-                     }
-                 
+                     List<Order> orders = _cartService.AddCookieOrder(cart);
                      for (int i = 0; i < orders.Count(); i++)
                          orders[i].Count = model.ItemsQuantities[i];
                      Session.SetObjectAsJson(HttpContext.Session, "orders", orders);
                      return View("AnonymousSubmit");
                  }
                  var userEmail = User.FindFirstValue(ClaimTypes.Email);
-                 var usersCart = _cart.GetCart(userId);
-                 var list = new List<Order>();
+                 var usersCart = await _cartService.GetUsersCart(userId).ToListAsync();
                  var itemsQuantities = model.ItemsQuantities;
-                 foreach (var item in usersCart)
-                 {
-                     Order = new Order();
-                     Order.Id = item.Id;
-                     Order.ItemId = item.ItemId;
-                     Order.PriceId = item.ItemId;
-                     Order.OrderId = guid;
-                     list.Add(Order); 
-                 }
+                 var list = _cartService.AddCookieOrder(usersCart);
                  
                  for (int i = 0; i < list.Count(); i++)
                      list[i].Count = itemsQuantities[i];
-                 
-                 await _order.SubmitOrder(list, userId);
-                 await _cart.RemoveRange(userId);
-                 await SendEmail.Send(userEmail, "Order",
-                     $"Your order №{list.First().Id.ToString()} has been submitted. Wait for status change in few days");
+
+                 await _cartService.SubmitOrder(list, userEmail, userId);
                  return Redirect("/Order/GetOrders");
              }
              return Redirect("/Item/Items");
@@ -239,7 +166,7 @@ namespace MusicStore.WebApp.Controllers
          [HttpGet]
          public IActionResult Details(int id)
          {
-             var cart = _item.GetAll().FirstOrDefault(com => com.Id == id);
+             var cart = _itemService.GetAllItems().FirstOrDefault(com => com.Id == id);
              var itemViewModel = new ItemViewModel()
              {
                  Id = cart.Id,
@@ -260,40 +187,16 @@ namespace MusicStore.WebApp.Controllers
              if (userId == null)
              {
                  List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-                 int index = IsExist(cartId);
+                 int index = _cartService.CheckCartValue(cart, cartId);
                  cart.RemoveAt(index);
                  Session.SetObjectAsJson(HttpContext.Session, "cart", cart);
                  return Redirect("/Cart/GetCart");
              }
              else
              {
-                 await _cart.Remove(cartId);
+                 await _cartService.RemoveCartItem(cartId);
                  return Redirect("/Cart/GetCart");
              }
-         }
-         private int IsExist(int id)
-         {
-             List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-             for (int i = 0; i < cart.Count; i++)
-             {
-                 if (cart[i].Id.Equals(id))
-                 {
-                     return i;
-                 }
-             }
-             return -1;
-         }
-         private int IsItemExist(int id)
-         {
-             List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
-             for (int i = 0; i < cart.Count; i++)
-             {
-                 if (cart[i].ItemId.Equals(id))
-                 {
-                     return i;
-                 }
-             }
-             return -1;
          }
     }
 }

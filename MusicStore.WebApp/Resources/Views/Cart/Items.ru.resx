@@ -39,4 +39,7 @@
     <data name="of" xml:space="preserve">
         <value>из</value>
     </data>
+    <data name="Not found" xml:space="preserve">
+        <value>Не найдено</value>
+    </data>
 </root>

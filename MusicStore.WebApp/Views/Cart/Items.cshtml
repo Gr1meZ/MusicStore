@@ -15,32 +15,42 @@
             <input type="submit" value=@Localizer["Search"] class="btn btn-primary btn-sm"/>
             </div>
     }
-    <div id="modDialog" class="modal fade" >
-        <div id="dialogContent" class="modal-dialog"></div>
+<div id="modDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+@if (Model.Items.Count == 0)
+{
+    <div>
+        @Localizer["Not found"]
     </div>
-<main>
-    <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
-        <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-            @foreach (var item in Model.Items)
-                            {
-                                <div class="col">
-                                    <div class="card h-100 shadow-sm">    <img src="@("~/image/" + @item.ImageName)" asp-append-version="true" style=" max-width: 100%;   height: auto;"  class="card-img-top" alt="..." >
-                                        <div class="card-body">
-                                            <div class="clearfix mb-3"> <span class="float-start badge rounded-pill bg-primary">@item.Name</span> <br/>
-                                                <span class="float-end price-hp">@item.Price₽</span> </div>
-                                            <p class="card-title">@item.Type.Type </p>
-                                            <div class="text-center my-4"> <a class="btn btn-warning" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M21 4H2v2h2.3l3.521 9.683A2.004 2.004 0 0 0 9.7 17H18v-2H9.7l-.728-2H18c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 4z"></path><circle cx="10.5" cy="19.5" r="1.5"></circle><circle cx="16.5" cy="19.5" r="1.5"></circle></svg>
-                                            </a> </div>
-                                            @Html.ActionLink(details.Value, "Details", 
-                                                            new { id = item.Id }, new { @class = "compItem" })
-                                        </div>
-                                    </div>
-                                </div>
-                            }
+}
+else
+{
+    <main>
+        <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
+            <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+                @foreach (var item in Model.Items)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">    <img src="@("~/image/" + @item.ImageName)" asp-append-version="true" style=" max-width: 100%;   height: auto;"  class="card-img-top" alt="..." >
+                            <div class="card-body">
+                                <div class="clearfix mb-3"> <span class="float-start badge rounded-pill bg-primary">@item.Name</span> <br/>
+                                    <span class="float-end price-hp">@item.Price₽</span> </div>
+                                <p class="card-title">@item.Type.Type </p>
+                                <div class="text-center my-4"> <a class="btn btn-warning" asp-controller="Cart" asp-action="AddToCart" asp-route-id="@item.Id">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M21 4H2v2h2.3l3.521 9.683A2.004 2.004 0 0 0 9.7 17H18v-2H9.7l-.728-2H18c.4 0 .762-.238.919-.606l3-7A.998.998 0 0 0 21 4z"></path><circle cx="10.5" cy="19.5" r="1.5"></circle><circle cx="16.5" cy="19.5" r="1.5"></circle></svg>
+                                </a> </div>
+                                @Html.ActionLink(details.Value, "Details", 
+                                    new { id = item.Id }, new { @class = "compItem" })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
         </div>
-    </div>
-</main>
+    </main> 
+}
+
 
 @section scripts
 {

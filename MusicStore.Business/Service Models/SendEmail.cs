@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace MusicStore.WebApp.Models
+namespace MusicStore.Business.Service_Models
 {
     public class SendEmail
     {
