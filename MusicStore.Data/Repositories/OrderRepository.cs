@@ -21,16 +21,19 @@ namespace MusicStore.Data.Repositories
         }
         public async Task SubmitOrder(List<Order> orderList, string userId)
         {
-            orderList.ForEach(i => _context.Orders.AddAsync(i));
-            var order = orderList.First();
-            var usersOrders = new UsersOrders();
-            var date = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
-            usersOrders.OrderId = order.Id;
-            usersOrders.UserId = userId;
-            usersOrders.Status = OrderStatus.Sended;
-            usersOrders.Date = DateTime.ParseExact(date, "MM/dd/yyyy HH:mm:ss", null);
-            await _context.UsersOrders.AddAsync(usersOrders);
-            await _context.SaveChangesAsync();
+                orderList.ForEach(i => _context.Orders.AddAsync(i));
+                await _context.SaveChangesAsync();
+                var orders =  _context.Orders.Where(i => i.OrderId == orderList.First().OrderId);
+                var order = orders.First();
+                var usersOrders = new UsersOrders();
+                var date = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                usersOrders.OrderId = order.Id;
+                usersOrders.UserId = userId;
+                usersOrders.Status = OrderStatus.Sended;
+                usersOrders.Date = DateTime.ParseExact(date, "MM/dd/yyyy HH:mm:ss", null);
+                await _context.UsersOrders.AddAsync(usersOrders);
+                await _context.SaveChangesAsync();
+          
         }
 
         public async Task<Order> GetSessionOrder(List<Order> orderList)

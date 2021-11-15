@@ -133,7 +133,6 @@ namespace MusicStore.Business.Services
             foreach (var item in cart)
             {
                 order = new Order();
-                order.Id = item.Id;
                 order.ItemId = item.ItemId;
                 order.PriceId = item.ItemId;
                 order.OrderId = guid;
