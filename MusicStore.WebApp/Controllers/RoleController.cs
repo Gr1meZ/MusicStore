@@ -55,7 +55,7 @@ namespace MusicStore.WebApp.Controllers
  
         public IActionResult UserList() => View(_userManager.Users.ToList());
  
-        public async Task<IActionResult> Edit(string userId)
+        public async Task<IActionResult> EditRole(string userId)
         {
          
             ApplicationUser user = await _userManager.FindByIdAsync(userId);
@@ -71,13 +71,14 @@ namespace MusicStore.WebApp.Controllers
                     UserRoles = userRoles,
                     AllRoles = allRoles
                 };
-                return View(model);
+                return View("Edit", model);
             }
  
             return NotFound();
         }
+        
         [HttpPost]
-        public async Task<IActionResult> Edit(string userId, List<string> roles)
+        public async Task<IActionResult> EditRole(string userId, List<string> roles)
         {
           
             ApplicationUser user = await _userManager.FindByIdAsync(userId);
