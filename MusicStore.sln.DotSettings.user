@@ -1,0 +1,51 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/Highlighting/SweaWarningsMode/@EntryValue">ShowAndRun</s:String>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="C:\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\5.0.0\ref\net5.0\Microsoft.AspNetCore.SignalR.Protocols.Json.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FAreas_002FIdentity_002FPages_002FAccount_002FLogin/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FAreas_002FIdentity_002FPages_002FAccount_002FRegister/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FModels_002FItemTypeViewModel/@EntryIndexedValue">False</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FModels_002FItemViewModel/@EntryIndexedValue">False</s:Boolean>
+	
+	
+	
+	
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FCart_002FAnonymousSubmit/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FCart_002FCart/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FCart_002FDetails/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FCart_002FItems/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FCart_002FOrderInfo/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FItemType_002FAddType/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FItemType_002FEditType/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FItemType_002FTypes/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FItem_002FAddItem/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FItem_002FEditItem/@EntryIndexedValue">False</s:Boolean>
+	
+	
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FItem_002FItems/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FLogin_002FLogin/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FDetails/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FFinished/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FFinishedAnonymous/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FMyOrders/@EntryIndexedValue">False</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FStatus/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FUnproccessed/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FOrder_002FUnproccessedAnonymous/@EntryIndexedValue">True</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FRole_002FCreate/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FRole_002FEdit/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FRole_002FIndex/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FRole_002FUserList/@EntryIndexedValue">False</s:Boolean>
+	
+	
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FShared_002F_005FCulture/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FShared_002F_005FLayout/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=MusicStore_002EWebApp_002FResources_002FViews_002FShared_002F_005FLoginPartial/@EntryIndexedValue">False</s:Boolean>
+	
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>

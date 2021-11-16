@@ -138,7 +138,7 @@ namespace MusicStore.WebApp.Controllers
                 user.Name = userDto.Name;
                 user.Surname = userDto.Surname;
                 await _userManager.UpdateAsync(user);
-                return View("UserDetails");;
+                return Redirect("/Role/UserList");
             }
             return View("UserDetails");
         }
@@ -166,7 +166,7 @@ namespace MusicStore.WebApp.Controllers
             {
                 Id = user.Id
             };
-            return View(passwordModel);
+            return PartialView(passwordModel);
         }
         public async Task<IActionResult> ChangeAndHashPass(ChangePasswordModel model)
         {

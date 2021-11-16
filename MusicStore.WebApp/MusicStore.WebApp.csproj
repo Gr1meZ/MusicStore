@@ -7,6 +7,7 @@
 
     <ItemGroup>
         <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+        <None Include="wwwroot\css\validation.css" />
     </ItemGroup>
 
     <ItemGroup>

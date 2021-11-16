@@ -1,22 +1,8 @@
 ﻿@model UserViewModel
 <h2>@Localizer["User list"]</h2>
-<form asp-action="EditUser" asp-controller="Role" data-ajax-method="POST" data-ajax="true" data-ajax-update="studentFormDetails" data-ajax-complete="OnComplete">
-    <div id="exampleModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Student Details Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="studentFormDetails">
-                    <partial name="UserDetails" />
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
+<div id="modDialog" class="modal fade" >
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <table class="table">
     <tr>
         <th scope="col">User</th>
@@ -30,10 +16,8 @@
                     new {userId = user.Id}, new {@class = "compItem"})
             </td>
             <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Open Modal</button>
-
                 @Html.ActionLink("Edit user", "EditUser",
-                    new {userId = user.Id}, new {data_toggle="modal", data_target="#exampleModal"})
+                    new {userId = user.Id}, new {@class = "compItem"})
             </td>
             <td>
                 @Html.ActionLink("Remove", "RemoveUser", 
@@ -49,6 +33,19 @@
 </table>
 @section scripts
 {
+    <script>
+     $(function () {
+                $.ajaxSetup({ cache: false });
+               $(".compItem").click(function (e) {
+     
+                    e.preventDefault();
+                    $.get(this.href, function (data) {
+                        $('#dialogContent').html(data);
+                        $('#modDialog').modal('show');
+                    });
+                });
+            })
+    </script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
        <script type="text/javascript">
