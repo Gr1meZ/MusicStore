@@ -1,0 +1,24 @@
+@model UserViewModel
+@{
+    Layout = null;
+}
+<div class="modal-content">
+    <div class="modal-header">
+        <button class="close" data-dismiss="modal" area-hidden="true">X</button>
+    </div>
+    <div class="modal-body">
+        <dl class="dl-horizontal">
+             <dt>Are you sure you want to remove @Model.Name?
+                 </dt>
+        </dl>
+         <div>
+                <form asp-controller="Role" asp-action="RemoveUser" method="post">
+                    <div class="form-group">
+                        <button class="btn btn-default" data-dismiss="modal" area-hidden="true">Cancel</button>
+                        <input type="submit" class="btn btn-default" value="Remove"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+ 
+</div>

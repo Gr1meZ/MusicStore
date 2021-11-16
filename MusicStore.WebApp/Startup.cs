@@ -66,9 +66,11 @@ namespace MusicStore.WebApp
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IItemTypeService, ItemTypeService>();
+            services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddAuthentication()
                 .AddGoogle(options =>
                 { 

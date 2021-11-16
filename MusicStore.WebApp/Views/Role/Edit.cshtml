@@ -10,19 +10,22 @@
      </div>
      <div class="modal-body">
          <dl class="dl-horizontal">
-             <form asp-action="EditRole" method="post">
-                 <h2>@Localizer["Change role to"] @Model.UserEmail</h2>
-                 <input type="hidden" name="userId" value="@Model.UserId"/>
-                 <div class="form-group">
-                     @foreach (IdentityRole role in Model.AllRoles)
-                     {
-                         <input type="checkbox" name="roles" value="@role.Name"
-                                @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "")/>@role.Name
-                         <br/>
-                     }
-                 </div>
-                 <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
-             </form>
+             
+                 <form asp-action="EditRole" method="post">
+                     <h2>@Localizer["Change role to"] @Model.UserEmail</h2>
+                     <input type="hidden" name="userId" value="@Model.UserId"/>
+                     <div class="form-group">
+                         @foreach (IdentityRole role in Model.AllRoles)
+                         {
+                             <input type="checkbox" name="roles" value="@role.Name"
+                                    @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "")/>
+                             @role.Name
+                             <br/>
+                         }
+                     </div>
+                     <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+                 </form>
+             
          </dl>
      </div>
  </div>

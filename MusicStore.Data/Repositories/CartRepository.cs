@@ -27,7 +27,6 @@ namespace MusicStore.Data.Repositories
 
         public  IQueryable<Cart> GetCart(string id)
         {
-            
             return _context.GetCartExtension(id);
         }
 

@@ -49,14 +49,15 @@ namespace MusicStore.WebApp.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
-            [Required]
-            [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            
+            [Required(ErrorMessage = "The Name field is must be required")]
+            [RegularExpression(@"^[a-zA-Zа-яА-ЯàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$", ErrorMessage = "Name field is not match with rules")]
             [DataType(DataType.Text)]
             [Display(Name = "Name")]
             public string Name { get; set; }
             
-            [Required]
-            [StringLength(30, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "The Name field is must be required")]
+            [RegularExpression(@"^[a-zA-Zа-яА-ЯàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$", ErrorMessage = "Surname field is not match with rules")]
             [DataType(DataType.Text)]
             [Display(Name = "Surname")]
             public string Surname { get; set; }
