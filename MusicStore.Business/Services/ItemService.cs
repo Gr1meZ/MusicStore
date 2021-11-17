@@ -18,6 +18,7 @@ namespace MusicStore.Business.Services
             _itemsRepository = item;
             _itemsTypeRepository = itemsTypeRepository;
         }
+        //This method allows to get all items and filters items list by sort orders and search string params
         public IQueryable<Item> GetAllItems(string sortOrder,string searchString)
         {
             var items =   _itemsRepository.GetBind();
@@ -63,7 +64,7 @@ namespace MusicStore.Business.Services
 
             return items;
         }
-
+        //overloading method that returns items with relations to type
         public IQueryable<Item> GetAllItems()
         {
             return _itemsRepository.GetBind();

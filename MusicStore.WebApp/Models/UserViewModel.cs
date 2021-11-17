@@ -13,7 +13,7 @@ namespace MusicStore.WebApp.Models
         [Display(Name = "Name")]
         public string Name { get; set; }
             
-        [Required(ErrorMessage = "The Name field is must be required")]
+        [Required(ErrorMessage = "The Surname field is must be required")]
         [RegularExpression(@"^[a-zA-Zа-яА-ЯàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$", ErrorMessage = "Surname field is not match with rules")]
         [DataType(DataType.Text)]
         [Display(Name = "Surname")]

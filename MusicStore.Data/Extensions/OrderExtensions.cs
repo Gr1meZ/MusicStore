@@ -11,6 +11,7 @@ namespace MusicStore.Data.Extensions
     {
         public static IEnumerable<Order> OrderDetailsExtension(this ApplicationDbContext context, Guid orderIdDto)
         {
+            //returns orders with mapped item table 
             return  context.Orders
                 .Include(i => i.Item)
                 .Include(i => i.Price)

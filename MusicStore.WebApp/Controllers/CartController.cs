@@ -24,11 +24,13 @@ namespace MusicStore.WebApp.Controllers
             _cartService = cartService;
             _itemService = itemService;
         }
+        
         [AllowAnonymous]
         [HttpGet]
-         public async Task<IActionResult> Items(string type, string searchString,string currentFilter, int? page)
+         public async Task<IActionResult> GetItems(string type, string searchString,string currentFilter, int? page)
          { 
              var homeModel = await _cartService.GetItems(type,  searchString);
+             //select list that represents types of items
             SelectList selectList = new SelectList(homeModel.Types, "Id", "Type");
             ViewBag.Types = selectList;
             if (searchString != null)
@@ -44,49 +46,59 @@ namespace MusicStore.WebApp.Controllers
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
             pagedList.Items = homeModel.Items.ToPagedList(pageNumber, pageSize);
-            return View(pagedList);
+            return View("Items", pagedList);
             
         }
          [HttpGet]
          [AllowAnonymous]
          public async Task<IActionResult> AddToCart(int id)
          {
+             //get user by id
              var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+             //if user is not authorized
                  if (userId == null)
                  {
+                     //find item in database by id
                      var item = await _itemService.GetItem(id);
+                     //if cookie session is not created
                      if (Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart") == null)
                      {
+                         //create cart list, it pushed to cookie session and creates this cookie
                          List<Cart> cart = new List<Cart>();
                          _cartService.AddToAnonymousCart(cart, item, id);
                          Session.SetObjectAsJson(HttpContext.Session, "cart", cart);
                      }
+                     //otherwise if cookie cart is already exist
                      else
                      {
+                         //get all object from cookie and push it to list
                          List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
                          int ind = _cartService.CheckItemInCart(cart, id);
-                         if (ind != -1)
+                         //check if item is already in cart
+                         if (ind != -1) // if item is already in list than redirect user to cart page
                          {
                              return Redirect("/Cart/GetCart");
                          }
                          else
                          {
-                             _cartService.AddToAnonymousCart(cart, item, id);
+                             _cartService.AddToAnonymousCart(cart, item, id); // otherwise add it to cart
                          }
-                         Session.SetObjectAsJson(HttpContext.Session, "cart", cart);
+                         Session.SetObjectAsJson(HttpContext.Session, "cart", cart); //update cookie
                      }
                  }
-                 else
+                 else //if user is authorized
                  {
+                     //create paginated list with user's cart in it
                      var usersCart = await PagedListExtensions.ToListAsync(_cartService.GetUsersCart(userId));
                      var index = usersCart.FindIndex(item => item.ItemId == id);
+                     //if item already in cart
                      if (index >= 0)
                      {
-                         return Redirect("/Cart/GetCart");
+                         return Redirect("/Cart/GetCart"); //redirect user to cart page
                      }
                      else
                      {
-                         await _cartService.AddToCart(id, userId);
+                         await _cartService.AddToCart(id, userId); //otherwise add it to database and also redirect
                          return Redirect("/Cart/GetCart");
                      }
                  }
@@ -98,22 +110,29 @@ namespace MusicStore.WebApp.Controllers
          public async Task<ActionResult> GetCart()
         {
             var pagedList = new IndexViewModel();
+            //find user by id
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //if user is not authorized
             if (userId == null)
             {
+                //get cart from cookie
                 var sessionCart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
                 pagedList.Cart = sessionCart;
-               
+                //if cart is not empty
                 if (sessionCart != null)
                 {
-                    pagedList.ItemsQuantities = _cartService.SetQuantitiesForAnonymous(sessionCart);
-                    return View("Cart", pagedList);
+                    pagedList.ItemsQuantities = _cartService.SetQuantitiesForAnonymous(sessionCart); //map item's quantities 
+                    return View("Cart", pagedList); //return cart view
                 }
+                //if cart is empty than return nothing
                 pagedList.Cart = await PagedListExtensions.ToListAsync(_cartService.GetUsersCart("0"));
                 return View("Cart", pagedList);
             }
+            //if user is authorized - get cart from database
             var cart = _cartService.GetUsersCart(userId);
+            //create paginated list
             pagedList.Cart = await PagedListExtensions.ToListAsync(cart);
+            //set default quantities for items
             pagedList.ItemsQuantities = _cartService.SetQuantitiesForUser(cart);
             return View("Cart", pagedList);
         }
@@ -140,31 +159,38 @@ namespace MusicStore.WebApp.Controllers
              if (ModelState.IsValid)
              {
                  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                 //if user is not authorized
                  if (userId == null)
                  {
+                     //get cart from object
                      List<Cart> cart = Session.GetObjectFromJson<List<Cart>>(HttpContext.Session, "cart");
+                     //create order of list
                      List<Order> orders = _cartService.AddCookieOrder(cart);
+                     //map quantities from cart to orders
                      for (int i = 0; i < orders.Count(); i++)
                          orders[i].Count = model.ItemsQuantities[i];
+                     //create cookie that represents list of orders
                      Session.SetObjectAsJson(HttpContext.Session, "orders", orders);
                      return View("AnonymousSubmit");
                  }
-                 var userEmail = User.FindFirstValue(ClaimTypes.Email);
-                 var usersCart = await _cartService.GetUsersCart(userId).ToListAsync();
-                 var itemsQuantities = model.ItemsQuantities;
-                 var list = _cartService.AddCookieOrder(usersCart);
+                 //if user is authorized
+                 var userEmail = User.FindFirstValue(ClaimTypes.Email); //get user's email
+                 var usersCart = await _cartService.GetUsersCart(userId).ToListAsync(); // get cart
+                 var itemsQuantities = model.ItemsQuantities; //again get quantities 
+                 var list = _cartService.AddCookieOrder(usersCart); //create list of orders
                  
-                 for (int i = 0; i < list.Count(); i++)
+                 for (int i = 0; i < list.Count(); i++) //map cart quantities to order's quantities
                      list[i].Count = itemsQuantities[i];
 
-                 await _cartService.SubmitOrder(list, userEmail, userId);
+                 await _cartService.SubmitOrder(list, userEmail, userId); //submit order
                  return Redirect("/Order/GetOrders");
              }
              return Redirect("/Item/Items");
          }
+         
          [AllowAnonymous]
          [HttpGet]
-         public IActionResult Details(int id)
+         public IActionResult GetDetails(int id)
          {
              var cart = _itemService.GetAllItems().FirstOrDefault(com => com.Id == id);
              var itemViewModel = new ItemViewModel()
@@ -176,7 +202,7 @@ namespace MusicStore.WebApp.Controllers
                  ImageName = cart.ImageName,
                  TypeId = cart.TypeId
              };
-             return PartialView(itemViewModel);
+             return PartialView("Details",itemViewModel);
             
          }
          [HttpGet]

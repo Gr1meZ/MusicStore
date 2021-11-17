@@ -52,7 +52,15 @@ namespace MusicStore.WebApp.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+            [Required(ErrorMessage = "The Name field is must be required")]
+            [RegularExpression(@"^[a-zA-Zа-яА-ЯàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$", ErrorMessage = "Surname field is not match with rules")]
+            [DataType(DataType.Text)]
+            [Display(Name = "Name")]
             public string Name { get; set; }
+            [Required(ErrorMessage = "The Surname field is must be required")]
+            [RegularExpression(@"^[a-zA-Zа-яА-ЯàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$", ErrorMessage = "Surname field is not match with rules")]
+            [DataType(DataType.Text)]
+            [Display(Name = "Surname")]
             public string Surname { get; set; }
         }
 
@@ -124,7 +132,7 @@ namespace MusicStore.WebApp.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Name, Email = Input.Email, Name = Input.Name, Surname = Input.Surname };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, Name = Input.Name, Surname = Input.Surname };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)

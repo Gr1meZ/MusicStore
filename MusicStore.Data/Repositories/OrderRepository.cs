@@ -19,8 +19,10 @@ namespace MusicStore.Data.Repositories
             _context = context;
           
         }
+        //submits order for authorized user
         public async Task SubmitOrder(List<Order> orderList, string userId)
         {
+                //add each order of list to database 
                 orderList.ForEach(i => _context.Orders.AddAsync(i));
                 await _context.SaveChangesAsync();
                 var orders =  _context.Orders.Where(i => i.OrderId == orderList.First().OrderId);
@@ -107,7 +109,7 @@ namespace MusicStore.Data.Repositories
             return _context.AnonymousOrders
                 .Where(i => i.Status == OrderStatus.Sended || i.Status == OrderStatus.Accepted);
         }
-
+        //get all authorized orders where status is equal to finish
         public IQueryable<UsersOrders> GetLogs()
         {
             return _context.UsersOrders
@@ -115,6 +117,7 @@ namespace MusicStore.Data.Repositories
                 .Where( i =>
                 i.Status == OrderStatus.Finished);
         }
+        //get all anonymous orders where status is equal to finish
         public IQueryable<AnonymousOrders> GetLogsAnonymous()
         {
             return _context.AnonymousOrders

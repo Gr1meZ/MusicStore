@@ -18,7 +18,7 @@
     {
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Cart" asp-action="Items">@Localizer["Admin mode"]</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Cart" asp-action="GetItems">@Localizer["Admin mode"]</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="Items">@Localizer["Items"]</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Item" asp-action="GetItems">@Localizer["Items"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">@Localizer["Roles"]</a>
@@ -52,7 +52,7 @@
       
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Cart" asp-action="Items">MusicStore</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Cart" asp-action="GetItems">MusicStore</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -60,7 +60,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Items">@Localizer["Home"]</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="GetItems">@Localizer["Home"]</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="GetCart">@Localizer["Cart"]</a>
@@ -91,7 +91,7 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2021 - Music Store - <a asp-area="" asp-controller="Cart" asp-action="Items">Privacy</a>
+        &copy; 2021 - Music Store - <a asp-area="" asp-controller="Cart" asp-action="GetItems">Items</a>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

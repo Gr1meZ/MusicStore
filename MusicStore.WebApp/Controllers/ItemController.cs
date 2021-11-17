@@ -26,7 +26,7 @@ namespace MusicStore.WebApp.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public ActionResult Items(string sortOrder,string searchString,string currentFilter, int? page)
+        public ActionResult GetItems(string sortOrder,string searchString,string currentFilter, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -48,7 +48,7 @@ namespace MusicStore.WebApp.Controllers
             int pageNumber = (page ?? 1);
             var pagedList = new IndexViewModel();
             pagedList.Items = items.ToPagedList(pageNumber, pageSize);
-            return View(pagedList);
+            return View("Items", pagedList);
             
         }
         
@@ -81,7 +81,7 @@ namespace MusicStore.WebApp.Controllers
                     TypeId = itemDto.TypeId
                 };
                 await _itemService.CreateItem(item);
-                return Redirect("/Item/Items");
+                return Redirect("/Item/GetItems");
             }
             return View();
         }
@@ -120,7 +120,7 @@ namespace MusicStore.WebApp.Controllers
                     TypeId = itemDto.TypeId
                 };
                 await _itemService.UpdateItem(item);
-                return Redirect("/Item/Items");
+                return Redirect("/Item/GetItems");
             }   
             ViewBag.Message = string.Format("Input error!");
             return View(itemDto);
@@ -132,7 +132,7 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> DeleteItem(int itemId, int pageNumber=1)
         {
             await _itemService.RemoveItem(itemId);
-            return Redirect("/Item/Items");
+            return Redirect("/Item/GetItems");
         }
     }
 }

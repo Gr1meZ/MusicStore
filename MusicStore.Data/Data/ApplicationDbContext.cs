@@ -21,6 +21,8 @@ namespace MusicStore.Data.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            //Applies configurations for each table. Each configuration describes relations
+            //and default data for items and items type
             modelBuilder.ApplyConfiguration(new ItemTypeEntityConfiguration());
             modelBuilder.ApplyConfiguration(new ItemEntityConfiguration());
             modelBuilder.ApplyConfiguration(new CartEntityConfiguration());

@@ -9,6 +9,7 @@ namespace MusicStore.Data.Extensions
     {
         public static IQueryable<Cart> GetCartExtension(this ApplicationDbContext context, string id)
         {
+            //returns cart with mapped foreign keys to item table and AspNetUsers table
             return context.Cart
                 .Include(i => i.Price)
                 .Include(i => i.Item)

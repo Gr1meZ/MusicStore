@@ -19,14 +19,15 @@ namespace MusicStore.WebApp.Controllers
         
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/");
         }
 
         public IActionResult Privacy()
         {
             return View();
         }
-
+        //this controller method created cookie that contains culture settings
+        //Cookie's life cycle is  30 days
         [HttpPost]
         public IActionResult CultureManagment(string culture, string returnUrl)
         {

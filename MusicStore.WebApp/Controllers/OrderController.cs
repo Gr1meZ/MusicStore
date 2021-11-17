@@ -38,13 +38,14 @@ namespace MusicStore.WebApp.Controllers
         }
         [Authorize]
         [HttpGet]
-        public IActionResult Details(int id)
+        public IActionResult GetDetails(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userOrder = _orderService.GetUsersOrders(userId).FirstOrDefault(i => i.OrderId == id);
+            //get unique order id key for getting other items of user's order
             var orderIdKey = _orderService.GetUniqueOrderId(userOrder.OrderId);
             var items = _orderService.GetOrderDetails(orderIdKey);
-            return PartialView(new OrderViewModel
+            return PartialView("Details", new OrderViewModel
             {
                 Orders = items
             });
@@ -189,8 +190,10 @@ namespace MusicStore.WebApp.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeStatus(OrderViewModel orderDto)
         {
+            //if user is authorized
             if (orderDto.Type == OrderType.Authorized)
             {
+                //than create authorized order
                 var order = new UsersOrders()
                 {
                     Id = orderDto.Id,
@@ -202,6 +205,7 @@ namespace MusicStore.WebApp.Controllers
                 await _orderService.ChangeUsersOrderStatus(order, email);
                 return Redirect("/Order/GetUnproccessed");
             }
+            //otherwise create anonymous order
             else
             {
                 var order = new AnonymousOrders()

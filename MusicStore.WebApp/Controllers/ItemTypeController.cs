@@ -18,13 +18,13 @@ namespace MusicStore.WebApp.Controllers
         }
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public async Task<ActionResult> Types(int pageNumber=1)
+        public async Task<ActionResult> GetTypes(int pageNumber=1)
         {
 
             var types =  _typeService.GetAllTypes();
             var pagedList = new IndexViewModel();
             pagedList.Types = await PaginatedList<ItemType>.CreateAsync(types, pageNumber, 5);
-            return View(pagedList);
+            return View("Types",pagedList);
             
         }
         
@@ -45,7 +45,7 @@ namespace MusicStore.WebApp.Controllers
                     Type = typeDto.Type
                 };
                 await _typeService.CreateType(type);
-                return Redirect("/ItemType/Types");
+                return Redirect("/ItemType/GetTypes");
                 
             }
             return View();
@@ -75,7 +75,7 @@ namespace MusicStore.WebApp.Controllers
                     Type = typeDto.Type
                 };
                 await _typeService.UpdateType(type);
-                return Redirect("/ItemType/Types");
+                return Redirect("/ItemType/GetTypes");
             }
             ViewBag.Message = string.Format("Input error!");
             return View();
@@ -85,7 +85,7 @@ namespace MusicStore.WebApp.Controllers
         public async Task<IActionResult> DeleteType(int typeId, int pageNumber=1)
         {
             await _typeService.RemoveType(typeId);
-            return Redirect("/ItemType/Types");
+            return Redirect("/ItemType/GetTypes");
         }
     }
 }

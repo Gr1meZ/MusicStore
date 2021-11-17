@@ -22,7 +22,7 @@
                             <h4 class="team-name">@Localizer["Order"] №@item.OrderId</h4>
                             <div>@Localizer["Status"] : @item.Status</div>
                             <div>@Localizer["Date"] : @item.Date</div>
-                            @Html.ActionLink(Localizer.GetString("Details"), "Details",
+                            @Html.ActionLink(Localizer.GetString("Details"), "GetDetails",
                                 new {id = item.OrderId}, new {@class = "compItem"})
 
                         </div>

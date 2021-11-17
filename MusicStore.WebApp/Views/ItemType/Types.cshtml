@@ -39,11 +39,11 @@
         var prevDisabled = !Model.Types.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.Types.HasNextPage ? "disabled" : "";
     }
-    <a asp-action="Types"
+    <a asp-action="GetTypes"
        asp-route-pageNumber="@(Model.Types.PageIndex - 1)"
        class="btn btn-default @prevDisabled">@Localizer["Previous"]
     </a>
-     <a asp-action="Types"
+     <a asp-action="GetTypes"
            asp-route-pageNumber="@(Model.Types.PageIndex + 1)"
            class="btn btn-default @nextDisabled">@Localizer["Next"]
             </a>

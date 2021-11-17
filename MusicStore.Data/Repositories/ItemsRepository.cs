@@ -55,7 +55,8 @@ namespace MusicStore.Data.Repositories
         {
             return  _context.Items;
         }
-
+        
+        //get all items with relation to types
         public IQueryable<Item> GetBind()
         {
             return _context.Items.Include(t => t.Type);

@@ -13,19 +13,21 @@ namespace MusicStore.WebApp.Areas
            
             var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            //array of default roles
             string[] roleNames = { "Admin"};
             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
             {
                 var roleExist = await roleManager.RoleExistsAsync(roleName);
-                if (!roleExist)
+                if (!roleExist) // if role is not exist
                 {
+                    //than create it
                     roleResult = await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
             }
 
-            //Here you could create a super user who will maintain the web app
+            //Here described default admin user
             var poweruser = new ApplicationUser
             {
 
@@ -34,7 +36,7 @@ namespace MusicStore.WebApp.Areas
                 EmailConfirmed = true
                 
             };
-            string userPWD = "Admin1*";
+            string userPWD = "Admin1*"; //admin's password
             var user = await userManager.FindByEmailAsync("admin@mail.ru");
 
             if(user == null)

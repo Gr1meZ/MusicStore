@@ -43,7 +43,7 @@ namespace MusicStore.Data.Repositories
             }
         }
 
-
+        //removes all items in user's cart
         public async Task RemoveRange(string userIdDto)
         {
             var list = _context.Cart.Where(i => i.UserId == userIdDto).ToList();

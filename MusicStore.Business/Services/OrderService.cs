@@ -32,7 +32,7 @@ namespace MusicStore.Business.Services
         {
             return _order.OrderDetails(orderId);
         }
-
+        //This method allows to get all anonymous orders and filters list of themselves by sorting and searching
         public IQueryable<AnonymousOrders> FiltrateAnonymousOrders(string sortOrder, string searchString, OrderFilterType type)
         {
             IQueryable<AnonymousOrders> orders = type == OrderFilterType.Logs ? _order.GetLogsAnonymous() : _order.GetUnproccessedAnonymous();
@@ -78,7 +78,8 @@ namespace MusicStore.Business.Services
     
             return orders;
         }
-
+        
+        //This method allows to get all authorized orders and filters list of themselves by sorting and searching
         public IQueryable<UsersOrders> FiltrateUsersOrders(string sortOrder, string searchString, OrderFilterType type)
         {
             var orders =   type == OrderFilterType.Unproccessed ? _order.GetUnproccessed() : _order.GetLogs();
@@ -126,25 +127,27 @@ namespace MusicStore.Business.Services
 
         public async Task<dynamic> GetFirstOrder(int itemId, OrderType type)
         {
+            //If user is authorized than get authorized order 
             if (type == OrderType.Authorized)
             {
                 var order = await _order.GetOrder(itemId);
                 return order;
             }
+            //otherwise get anonymous order
             else
             {
                 var order = await _order.GetAnonymousOrder(itemId);
                 return order;
             }
         }
-
+        //changes status for anonymous order
         public async Task ChangeAnonymousOrderStatus(AnonymousOrders order, string email)
         {
             await _order.ChangeAnonymousOrderStatus(order);
             await SendEmail.Send(email, "Status change",
                 $"Your order №{order.Id} has been changed to status {order.Status}");
         }
-
+        //changes status for authorized order
         public async Task ChangeUsersOrderStatus(UsersOrders order, string email)
         {
             await _order.ChangeOrderStatus(order);

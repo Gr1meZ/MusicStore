@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicStore.Business.Interfaces;
@@ -11,8 +12,8 @@ namespace MusicStore.WebApp.Controllers
 {
     public class RoleController : Controller
     {
-        RoleManager<IdentityRole> _roleManager;
-        UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserService _userService;
        
         public RoleController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IUserService userService)
@@ -21,14 +22,21 @@ namespace MusicStore.WebApp.Controllers
             _userManager = userManager;
             _userService = userService;
         }
+        
+        [Authorize(Roles = "Admin")]
         public IActionResult Index() => View(_roleManager.Roles.ToList());
- 
+        
+        [Authorize(Roles = "Admin")]
         public IActionResult Create() => View();
+        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(string name)
         {
+            //if role is not empty
             if (!string.IsNullOrEmpty(name))
             {
+                //than create it and push to database
                 IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                 {
@@ -44,7 +52,8 @@ namespace MusicStore.WebApp.Controllers
             }
             return View(name);
         }
-         
+        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -55,7 +64,8 @@ namespace MusicStore.WebApp.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        
+        [Authorize(Roles = "Admin")]
         public IActionResult UserList()
         {
             var userModel = new UserViewModel()
@@ -64,7 +74,8 @@ namespace MusicStore.WebApp.Controllers
             };
             return View(userModel);
         } 
- 
+        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditRole(string userId)
         {
          
@@ -87,6 +98,7 @@ namespace MusicStore.WebApp.Controllers
             return NotFound();
         }
         
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditRole(string userId, List<string> roles)
         {
@@ -112,6 +124,8 @@ namespace MusicStore.WebApp.Controllers
  
             return NotFound();
         }
+        
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> EditUser(string userId)
         {
@@ -129,6 +143,7 @@ namespace MusicStore.WebApp.Controllers
             return NotFound();
         }
         
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditUser(ApplicationUser userDto)
         {
@@ -143,6 +158,7 @@ namespace MusicStore.WebApp.Controllers
             return View("UserDetails");
         }
         
+        [Authorize(Roles = "Admin")]
         public  IActionResult RemoveUser(string id, string name)
         {
             var userViewModel = new UserViewModel()
@@ -158,7 +174,8 @@ namespace MusicStore.WebApp.Controllers
             await _userService.RemoveUser(id);
             return Redirect("/Role/UserList");
         }
-
+        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangePassword(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -168,6 +185,8 @@ namespace MusicStore.WebApp.Controllers
             };
             return PartialView(passwordModel);
         }
+        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeAndHashPass(ChangePasswordModel model)
         {
             ApplicationUser user = await _userManager.FindByIdAsync(model.Id);
@@ -175,8 +194,9 @@ namespace MusicStore.WebApp.Controllers
             {
                 return NotFound();
             }
+            //hash user's password
             user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, model.Password);
-            var result = await _userManager.UpdateAsync(user);
+            var result = await _userManager.UpdateAsync(user); //and update it
             if (!result.Succeeded)
             {
                 return BadRequest();
@@ -184,6 +204,7 @@ namespace MusicStore.WebApp.Controllers
             return Ok();
         }
         
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordModel model)
         {

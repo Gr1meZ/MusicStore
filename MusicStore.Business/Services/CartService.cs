@@ -24,7 +24,7 @@ namespace MusicStore.Business.Services
             _order = order;
             _typeRepository = typeRepository;
         }
-
+        //This method allows to get all items and filters items list by sort orders and search string params
         public async Task<HomeItemModel> GetItems(string type, string searchString)
         {
             var items =  _item.GetBind();
@@ -51,7 +51,7 @@ namespace MusicStore.Business.Services
                 Types = types
             };
         }
-
+        //method for adding item to list for cookie cart implementation
         public void AddToAnonymousCart(List<Cart> cart, Item itemDto, int id)
         {
             cart.Add(new Cart
@@ -63,7 +63,7 @@ namespace MusicStore.Business.Services
                 UserId = null
             });
         }
-
+        //creates cart object and pushing this object to database
         public async Task AddToCart(int id, string userId)
         {
             var cartDto = new Cart();
@@ -72,7 +72,7 @@ namespace MusicStore.Business.Services
             cartDto.UserId = userId;
             await _cart.AddToCart(cartDto);
         }
-
+        //checks item in cart 
         public int CheckItemInCart(List<Cart> cart, int id)
         {
             for (int i = 0; i < cart.Count; i++)
@@ -84,7 +84,7 @@ namespace MusicStore.Business.Services
             }
             return -1;
         }
-
+        //check cart object in list
         public int CheckCartValue(List<Cart> cart, int id)
         {
             for (int i = 0; i < cart.Count; i++)
@@ -101,7 +101,7 @@ namespace MusicStore.Business.Services
         {
             return _cart.GetCart(userId);
         }
-
+        //receives cart list and mapping all quantities of items to cart object for anonymous user
         public List<int> SetQuantitiesForAnonymous(List<Cart> cart)
         {
             var quantities = new List<int>();
@@ -109,7 +109,7 @@ namespace MusicStore.Business.Services
                 quantities.Add(1);
             return quantities;
         }
-
+        //receives cart list and mapping all quantities of items to cart object for authorized user
         public List<int> SetQuantitiesForUser(IQueryable<Cart> cart)
         {
             var quantities = new List<int>();
@@ -117,14 +117,14 @@ namespace MusicStore.Business.Services
                 quantities.Add(1);
             return quantities;
         }
-
+        //submits order for anonymous user and sends email to him
         public async Task SubmitForAnonymous(List<Order> orders, string email)
         {
             var orderId =  await _order.SubmitAnonymousOrder(orders, email);
             await SendEmail.Send(email, "Order",
                 $"Your order №{orderId} has been submitted. Wait for status change in few days");
         }
-
+        //method allow to map cart list to order list
         public List<Order> AddCookieOrder(List<Cart> cart)
         {
             Order order;
@@ -141,7 +141,7 @@ namespace MusicStore.Business.Services
 
             return orders;
         }
-
+        //This method submits order for authorized user
         public async Task SubmitOrder(List<Order> orders, string email, string userId)
         {
             await _order.SubmitOrder(orders, userId);
